@@ -1,12 +1,33 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import {Button, Switch, FormControlLabel} from '@material-ui/core';
+import 'typeface-roboto';
 
-ReactDOM.render(<App />, document.getElementById('root'));
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+const App = () => {
+    const [state, setState] = React.useState({
+        checkedA: true,
+        checkedB: true,
+    });
+    const handleChange = name => event => {
+        console.log('Clicked!');
+        setState({ ...state, [name]: event.target.checked });
+    };
+
+    return (
+        <div className="main">
+            <Button variant="contained" color="primary">
+                Hello World
+            </Button>
+            <FormControlLabel
+                control={<Switch checked={state.checkedA} onChange={handleChange('checkedA')} />}
+                label="Test"
+            />
+        </div>
+    );
+};
+
+ReactDOM.render(
+    <App />,
+    document.getElementById('root')
+);
