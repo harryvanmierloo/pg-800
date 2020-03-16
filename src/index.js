@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
-import {Button, Switch, Slider, FormControlLabel} from '@material-ui/core';
+import {Button, Switch, Slider, FormControlLabel, FormLabel} from '@material-ui/core';
 import 'typeface-roboto';
 import Typography from '@material-ui/core/Typography';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -21,15 +21,11 @@ var mks = {
 }
 
 const useStyles = makeStyles(theme => ({
-    container: {
-        backgroundColor: "#afafaf",
-        display: 'grid',
-        gridTemplateColumns: 'repeat(12, 1fr)',
-        gridGap: theme.spacing(1),
+    root: {
+        flexGrow: 1,
     },
     paper: {
         padding: theme.spacing(4),
-        width: "50%",
     },
     control: {
         padding: theme.spacing(2),
@@ -82,7 +78,7 @@ const ParameterSlider = props => {
 
     return (
         <div>
-            <Typography gutterBottom>{param.name}</Typography>
+            <FormLabel>{param.name}</FormLabel>
             <Slider 
                 defaultValue={defaultValue}
                 min={param.min}
@@ -113,20 +109,22 @@ const App = () => {
         console.log(note, "played!");
     };
 
+    const AllSliders = p => <ParameterSlider id="11" />;
+
     return (
         <div>
             <Typography variant="h2" gutterBottom>
                 Roland MKS-70 editor
             </Typography>
-            <Grid container direction="column" className={classes.root} spacing={2}>
-                <Grid item>
+            <Grid container className={classes.root} spacing={2}>
+                <Grid item xs={6}>
                     <Paper className={classes.paper}>
                         <Button variant="contained" color="primary" onClick={playNote(["C4", "E4", "G4"], 1000, 0.5)}>
                             Play chord
                         </Button>
                     </Paper>
                 </Grid>
-                <Grid item>
+                <Grid item xs={6}>
                     <Paper className={classes.paper}>
                         <FormControlLabel
                             control={<Switch checked={state.checkedA} onChange={handleChange('checkedA')} />}
@@ -134,11 +132,39 @@ const App = () => {
                         />
                     </Paper>
                 </Grid>
-                <Grid item>
-                    <Paper className={classes.paper}>           
+            </Grid>
+            <Grid container className={classes.root} spacing={2}>
+                <Grid item xs={3}>
+                    <Paper className={classes.paper}>
+                        <Typography variant="h3" gutterBottom>
+                            DCO-1
+                        </Typography>
                         <ParameterSlider id="11" />
                         <ParameterSlider id="12" />
                         <ParameterSlider id="13" />
+                        <ParameterSlider id="14" />
+                        <ParameterSlider id="15" />
+                    </Paper>
+                </Grid>
+                <Grid item xs={3}>
+                    <Paper className={classes.paper}>
+                        <Typography variant="h3" gutterBottom>
+                            DCO-2
+                        </Typography>
+                        <ParameterSlider id="16" />
+                        <ParameterSlider id="17" />
+                        <ParameterSlider id="18" />
+                        <ParameterSlider id="19" />
+                        <ParameterSlider id="20" />
+                        <ParameterSlider id="21" />
+                        <ParameterSlider id="22" />
+                    </Paper>
+                </Grid>
+                <Grid item xs={3}>
+                    <Paper className={classes.paper}>
+                        <Typography variant="h3" gutterBottom>
+                            VCF
+                        </Typography>
                         <ParameterSlider id="34" />
                         <ParameterSlider id="35" />
                     </Paper>
