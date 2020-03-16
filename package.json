@@ -11,7 +11,8 @@
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-scripts": "3.4.0",
-    "typeface-roboto": "0.0.75"
+    "typeface-roboto": "0.0.75",
+    "webmidi": "^2.5.1"
   },
   "scripts": {
     "start": "react-scripts start",
