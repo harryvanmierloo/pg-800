@@ -109,8 +109,6 @@ const App = () => {
         console.log(note, "played!");
     };
 
-    const AllSliders = p => <ParameterSlider id="11" />;
-
     return (
         <div>
             <Typography variant="h2" gutterBottom>
@@ -163,10 +161,78 @@ const App = () => {
                 <Grid item xs={3}>
                     <Paper className={classes.paper}>
                         <Typography variant="h3" gutterBottom>
+                            DCO & MIXER
+                        </Typography>
+                        <ParameterSlider id="26" />
+                        <ParameterSlider id="27" />
+                        <ParameterSlider id="28" />
+                        <ParameterSlider id="29" />
+                        <ParameterSlider id="30" />
+                        <ParameterSlider id="31" />
+                        <ParameterSlider id="32" />
+                    </Paper>
+                </Grid> 
+            </Grid>
+            <Grid container className={classes.root} spacing={2}>
+                <Grid item xs={3}>
+                    <Paper className={classes.paper}>
+                        <Typography variant="h3" gutterBottom>
                             VCF
                         </Typography>
+                        <ParameterSlider id="33" />
                         <ParameterSlider id="34" />
                         <ParameterSlider id="35" />
+                        <ParameterSlider id="36" />
+                        <ParameterSlider id="38" />
+                        <ParameterSlider id="39" />
+                        <ParameterSlider id="40" />
+                    </Paper>
+                </Grid>
+                <Grid item xs={3}>
+                    <Paper className={classes.paper}>
+                        <Typography variant="h3" gutterBottom>
+                            VCA
+                        </Typography>
+                        <ParameterSlider id="41" />
+                        <ParameterSlider id="42" />
+                        <ParameterSlider id="43" />
+                        <ParameterSlider id="58" />
+                    </Paper>
+                </Grid>
+                <Grid item xs={3}>
+                    <Paper className={classes.paper}>
+                        <Typography variant="h3" gutterBottom>
+                            LFO
+                        </Typography>
+                        <ParameterSlider id="44" />
+                        <ParameterSlider id="45" />
+                        <ParameterSlider id="46" />
+                    </Paper>
+                </Grid> 
+            </Grid>
+            <Grid container className={classes.root} spacing={2}>
+                <Grid item xs={3}>
+                    <Paper className={classes.paper}>
+                        <Typography variant="h3" gutterBottom>
+                            ENV-1
+                        </Typography>
+                        <ParameterSlider id="47" />
+                        <ParameterSlider id="48" />
+                        <ParameterSlider id="49" />
+                        <ParameterSlider id="50" />
+                        <ParameterSlider id="51" />
+                    </Paper>
+                </Grid>
+                <Grid item xs={3}>
+                    <Paper className={classes.paper}>
+                        <Typography variant="h3" gutterBottom>
+                            ENV-2
+                        </Typography>
+                        <ParameterSlider id="52" />
+                        <ParameterSlider id="53" />
+                        <ParameterSlider id="54" />
+                        <ParameterSlider id="55" />
+                        <ParameterSlider id="56" />
                     </Paper>
                 </Grid> 
             </Grid>
