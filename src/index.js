@@ -42,7 +42,7 @@ const App = () => {
             <Grid container className={classes.container} spacing={1}>
                 <Grid item xs={5}>
                     <Paper className={classes.paper}>
-                        <Typography variant="h3">Roland MKS-70 progammer</Typography>
+                        <Typography variant="h3">Roland MKS-70 Programmer</Typography>
                     </Paper>
                 </Grid>
                 <Grid item xs={7}>
@@ -212,20 +212,22 @@ const App = () => {
 };
 
 
-
+document.title = "Roland MKS-70 Programmer";
 WebMidi.enable(function (err) {
     if (err) {
         console.warn(err);
+        alert("Unfortunately Web MIDI is not supported by your browser. Please use Chrome instead.");
     } else {
         console.log("Sysex is enabled!");
+
+        MKS.midiIn = WebMidi.getInputByName("ESI-M4U Port 3");
+        MKS.midiOut = WebMidi.getOutputByName("ESI-M4U Port 1");
+
+        document.body.style = 'background: #efefef;';
+        ReactDOM.render(
+            <App />,
+            document.getElementById('root')
+        );
     }
-    MKS.midiIn = WebMidi.getInputByName("ESI-M4U Port 3");
-    MKS.midiOut = WebMidi.getOutputByName("ESI-M4U Port 1");
+
 }, true); // Sysex flag enabled
-
-
-document.body.style = 'background: #efefef;';
-ReactDOM.render(
-    <App />,
-    document.getElementById('root')
-);
