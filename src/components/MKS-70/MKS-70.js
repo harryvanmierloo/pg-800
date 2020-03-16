@@ -127,10 +127,10 @@ const mks = {
             min: 0,
             max: 127,
             marks: [
-                { value: 0, label: "ENV-2 Inverted" },
-                { value: 32, label: "ENV-2 Normal" },
-                { value: 64, label: "ENV-1 Inverted" },
-                { value: 96, label: "ENV-1 Normal" }
+                { value: 0, label: "ENV-2 INV" },
+                { value: 32, label: "ENV-2" },
+                { value: 64, label: "ENV-1 INV" },
+                { value: 96, label: "ENV-1" }
             ]
         },
         28: {
@@ -169,10 +169,10 @@ const mks = {
             min: 0,
             max: 127,
             marks: [
-                { value: 0, label: "ENV-2 Inverted" },
-                { value: 32, label: "ENV-2 Normal" },
-                { value: 64, label: "ENV-1 Inverted" },
-                { value: 96, label: "ENV-1 Normal" }
+                { value: 0, label: "ENV-2 INV" },
+                { value: 32, label: "ENV-2" },
+                { value: 64, label: "ENV-1 INV" },
+                { value: 96, label: "ENV-1" }
             ]
         },
         33: {
@@ -235,10 +235,10 @@ const mks = {
             min: 0,
             max: 127,
             marks: [
-                { value: 0, label: "ENV-2 Inverted" },
-                { value: 32, label: "ENV-2 Normal" },
-                { value: 64, label: "ENV-1 Inverted" },
-                { value: 96, label: "ENV-1 Normal" }
+                { value: 0, label: "ENV-2 INV" },
+                { value: 32, label: "ENV-2" },
+                { value: 64, label: "ENV-1 INV" },
+                { value: 96, label: "ENV-1" }
             ]
         },
         41: {

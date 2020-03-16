@@ -8,7 +8,7 @@ import mks from '../MKS-70/MKS-70';
 const useStyles = makeStyles(theme => ({
     container: {
         height: 60,
-        marginTop: "1rem"
+        marginTop: ".5rem",
     },
 }));
 
