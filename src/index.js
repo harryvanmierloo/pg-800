@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
         gridGap: theme.spacing(1),
     },
     paper: {
-        padding: theme.spacing(2),
+        padding: theme.spacing(4),
         width: "50%",
     },
     control: {
@@ -53,8 +53,17 @@ ValueLabelComponent.propTypes = {
 };
 
 const ParameterSlider = props => {
+    
+    const param = mks.parameters[props.id];
 
     const [value, setValue] = React.useState(30);
+
+    const defaultValue = param.defaultValue ? param.defaultValue : 64;
+    
+    const marks = param.marks;
+    const step = param.marks ? null : 1;
+    const max = (param.marks !== undefined) ? param.marks[param.marks.length-1].value : param.max;
+
     const handleChange = (event, newValue) => {
         setValue(newValue);
         mks.midiOut.sendSysex(
@@ -73,14 +82,14 @@ const ParameterSlider = props => {
 
     return (
         <div>
-            <Typography gutterBottom>{mks.parameters[props.id].name}</Typography>
+            <Typography gutterBottom>{param.name}</Typography>
             <Slider 
-                value={value}
-                min={mks.parameters[props.id].min}
-                max={mks.parameters[props.id].max}
-                step={1}
+                defaultValue={defaultValue}
+                min={param.min}
+                max={max}
+                step={step}
+                marks={marks}
                 onChange={handleChange}
-                aria-labelledby="control-slider"
                 ValueLabelComponent={ValueLabelComponent}
             />
         </div>
@@ -127,6 +136,7 @@ const App = () => {
                 </Grid>
                 <Grid item>
                     <Paper className={classes.paper}>           
+                        <ParameterSlider id="11" />
                         <ParameterSlider id="12" />
                         <ParameterSlider id="13" />
                         <ParameterSlider id="34" />
