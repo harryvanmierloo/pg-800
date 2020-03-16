@@ -42,7 +42,7 @@ const App = () => {
             <Grid container className={classes.container} spacing={1}>
                 <Grid item xs={5}>
                     <Paper className={classes.paper}>
-                        <Typography variant="h3">Roland MKS-70 editor</Typography>
+                        <Typography variant="h3">Roland MKS-70 progammer</Typography>
                     </Paper>
                 </Grid>
                 <Grid item xs={7}>
