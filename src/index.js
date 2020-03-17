@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import { Paper, Button } from '@material-ui/core';
+import { Paper, Button, Select, MenuItem, InputLabel } from '@material-ui/core';
 import 'typeface-roboto';
 import Typography from '@material-ui/core/Typography';
 import WebMidi from "webmidi";
@@ -20,6 +20,11 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
+const midiPorts = {
+    in: undefined,
+    out: undefined
+}
+
 const App = () => {
     const classes = useStyles();
 
@@ -27,9 +32,19 @@ const App = () => {
         checkedA: true,
         checkedB: true,
     });
+    const [midiIn, midiOut, setAge] = React.useState('');
+
     const handleChange = name => event => {
-        console.log('Clicked!');
         setState({ ...state, [name]: event.target.checked });
+
+        if (name === "midiIn") {
+            MKS.midiIn = WebMidi.getInputById(event.target.value);
+        }
+        if (name ==="midiOut") {
+            MKS.midiOut = WebMidi.getOutputById(event.target.value);
+        }
+
+        console.log(MKS);
     };
 
     const playNote = (note, duration, velocity) => event => {
@@ -45,7 +60,45 @@ const App = () => {
                         <Typography variant="h3">Roland MKS-70 Programmer</Typography>
                     </Paper>
                 </Grid>
-                <Grid item xs={7}>
+                <Grid item xs={5}>
+                    <Paper className={classes.paper}>
+                        <Grid container spacing={1}>
+                            <Grid item>
+                                <InputLabel htmlFor="select-midi-in">Midi In</InputLabel>
+                                <Select
+                                    native
+                                    value={state.midiIn}
+                                    onChange={handleChange('midiIn')}
+                                    inputProps={{
+                                        name: 'midiIn',
+                                        id: 'select-midi-in',
+                                    }}
+                                    >
+                                    {WebMidi.inputs.map((e, key) => {
+                                        return <option key={key} value={e.id}>{e.name}</option>;
+                                    })}
+                                </Select>
+                            </Grid>
+                            <Grid item>
+                                <InputLabel htmlFor="select-midi-out">Midi out</InputLabel>
+                                <Select
+                                    native
+                                    value={state.midiOut}
+                                    onChange={handleChange('midiOut')}
+                                    inputProps={{
+                                        name: 'midiOut',
+                                        id: 'select-midi-out',
+                                    }}
+                                    >
+                                    {WebMidi.outputs.map((e, key) => {
+                                        return <option key={key} value={e.id}>{e.name}</option>;
+                                    })}
+                                </Select>
+                            </Grid>
+                        </Grid>
+                    </Paper>
+                </Grid>
+                <Grid item xs={2}>
                     <Paper className={classes.paper}>
                         <Button variant="contained" color="primary" onClick={playNote(["C5", "E5", "G5"], 1000, 0.5)}>
                             Play chord
@@ -220,8 +273,11 @@ WebMidi.enable(function (err) {
     } else {
         console.log("Sysex is enabled!");
 
-        MKS.midiIn = WebMidi.getInputByName("ESI-M4U Port 3");
-        MKS.midiOut = WebMidi.getOutputByName("ESI-M4U Port 1");
+        MKS.midiIn = WebMidi.inputs[0];
+        MKS.midiOut = WebMidi.outputs[0];
+
+        //MKS.midiIn = WebMidi.getInputByName("ESI-M4U Port 3");
+        //MKS.midiOut = WebMidi.getOutputByName("ESI-M4U Port 1");
 
         document.body.style = 'background: #efefef;';
         ReactDOM.render(
