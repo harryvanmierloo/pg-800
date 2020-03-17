@@ -273,17 +273,23 @@ WebMidi.enable(function (err) {
     } else {
         console.log("Sysex is enabled!");
 
-        MKS.midiIn = WebMidi.inputs[0];
-        MKS.midiOut = WebMidi.outputs[0];
+        if (!WebMidi.inputs.length || !WebMidi.outputs.length) {
+            alert("We couldn't detect any MIDI devices on your system. Please connect a MIDI device and refresh this page.");
+        }
+        else {
 
-        //MKS.midiIn = WebMidi.getInputByName("ESI-M4U Port 3");
-        //MKS.midiOut = WebMidi.getOutputByName("ESI-M4U Port 1");
+            MKS.midiIn = WebMidi.inputs[0];
+            MKS.midiOut = WebMidi.outputs[0];
 
-        document.body.style = 'background: #efefef;';
-        ReactDOM.render(
-            <App />,
-            document.getElementById('root')
-        );
+            //MKS.midiIn = WebMidi.getInputByName("ESI-M4U Port 3");
+            //MKS.midiOut = WebMidi.getOutputByName("ESI-M4U Port 1");
+
+            document.body.style = 'background: #efefef;';
+            ReactDOM.render(
+                <App />,
+                document.getElementById('root')
+            );
+        }
     }
 
 }, true); // Sysex flag enabled
