@@ -43,6 +43,15 @@ const App = () => {
         if (name ==="midiOut") {
             MKS.midiOut = WebMidi.getOutputById(event.target.value);
         }
+        if (name === "midiChannelA") {
+            MKS.midiChannelA = event.target.value;
+        }
+        if (name === "midiChannelB") {
+            MKS.midiChannelB = event.target.value;
+        }
+        if (name === "midiControlChannel") {
+            MKS.midiControlChannel = event.target.value;
+        }
 
         console.log(MKS);
     };
@@ -51,6 +60,14 @@ const App = () => {
         MKS.midiOut.playNote(note, MKS.midiChannelA, {duration: duration, velocity: velocity });
         console.log(note, "played!");
     };
+
+    const createChannelOptions = () => {
+        let options = []
+        for (let i = 1; i <= 16; i++) {
+          options.push(<option key={i} value={i}>{i}</option>)
+        }
+        return options
+    }
 
     return (
         <div>
@@ -62,9 +79,9 @@ const App = () => {
                 </Grid>
                 <Grid item xs={5}>
                     <Paper className={classes.paper}>
-                        <Grid container spacing={1}>
-                            <Grid item>
-                                <InputLabel htmlFor="select-midi-in">Midi In</InputLabel>
+                        <Grid container spacing={4}>
+                            <Grid item xs={3}>
+                                <InputLabel htmlFor="select-midi-in">From synth</InputLabel>
                                 <Select
                                     native
                                     value={state.midiIn}
@@ -79,8 +96,8 @@ const App = () => {
                                     })}
                                 </Select>
                             </Grid>
-                            <Grid item>
-                                <InputLabel htmlFor="select-midi-out">Midi out</InputLabel>
+                            <Grid item xs={3}>
+                                <InputLabel htmlFor="select-midi-out">To synth</InputLabel>
                                 <Select
                                     native
                                     value={state.midiOut}
@@ -93,6 +110,51 @@ const App = () => {
                                     {WebMidi.outputs.map((e, key) => {
                                         return <option key={key} value={e.id}>{e.name}</option>;
                                     })}
+                                </Select>
+                            </Grid>
+                            <Grid item>
+                                <InputLabel htmlFor="select-midi-channel-a">Chan A</InputLabel>
+                                <Select
+                                    native
+                                    value={state.midiInChannel}
+                                    onChange={handleChange('midiChannelA')}
+                                    inputProps={{
+                                        name: 'midiChannelA',
+                                        id: 'select-midi-channel-a',
+                                    }}
+                                    >
+                                    {createChannelOptions()};
+                                    }
+                                </Select>
+                            </Grid>
+                            <Grid item>
+                                <InputLabel htmlFor="select-midi-channel-b">Chan B</InputLabel>
+                                <Select
+                                    native
+                                    value={state.midiInChannel}
+                                    onChange={handleChange('midiChannelB')}
+                                    inputProps={{
+                                        name: 'midiChannelB',
+                                        id: 'select-midi-channel-b',
+                                    }}
+                                    >
+                                    {createChannelOptions()};
+                                    }
+                                </Select>
+                            </Grid>
+                            <Grid item>
+                                <InputLabel htmlFor="select-midi-control-channel">Control</InputLabel>
+                                <Select
+                                    native
+                                    value={state.midiInChannel}
+                                    onChange={handleChange('midiControlChannel')}
+                                    inputProps={{
+                                        name: 'midiControlChannel',
+                                        id: 'select-midi-control-channel',
+                                    }}
+                                    >
+                                    {createChannelOptions()};
+                                    }
                                 </Select>
                             </Grid>
                         </Grid>

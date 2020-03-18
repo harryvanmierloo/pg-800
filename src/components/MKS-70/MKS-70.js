@@ -1,9 +1,9 @@
 const mks = {
-    midiIn: null,
-    midiOut: null,
-    midiChannelA: 15,
-    midiChannelB: 15,
-    midiControlChannelB: 15,
+    midiIn: undefined,
+    midiOut: undefined,
+    midiChannelA: 1,
+    midiChannelB: 1,
+    midiControlChannel: 1,
     parameters: {
         11: {
             name: "DCO-1 RANGE",
