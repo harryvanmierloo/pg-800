@@ -44,13 +44,13 @@ const App = () => {
             MKS.midiOut = WebMidi.getOutputById(event.target.value);
         }
         if (name === "midiChannelA") {
-            MKS.midiChannelA = event.target.value;
+            MKS.midiChannelA = parseInt(event.target.value);
         }
         if (name === "midiChannelB") {
-            MKS.midiChannelB = event.target.value;
+            MKS.midiChannelB = parseInt(event.target.value);
         }
         if (name === "midiControlChannel") {
-            MKS.midiControlChannel = event.target.value;
+            MKS.midiControlChannel = parseInt(event.target.value);
         }
 
         console.log(MKS);
@@ -81,22 +81,6 @@ const App = () => {
                     <Paper className={classes.paper}>
                         <Grid container spacing={4}>
                             <Grid item xs={3}>
-                                <InputLabel htmlFor="select-midi-in">From synth</InputLabel>
-                                <Select
-                                    native
-                                    value={state.midiIn}
-                                    onChange={handleChange('midiIn')}
-                                    inputProps={{
-                                        name: 'midiIn',
-                                        id: 'select-midi-in',
-                                    }}
-                                    >
-                                    {WebMidi.inputs.map((e, key) => {
-                                        return <option key={key} value={e.id}>{e.name}</option>;
-                                    })}
-                                </Select>
-                            </Grid>
-                            <Grid item xs={3}>
                                 <InputLabel htmlFor="select-midi-out">To synth</InputLabel>
                                 <Select
                                     native
@@ -108,6 +92,22 @@ const App = () => {
                                     }}
                                     >
                                     {WebMidi.outputs.map((e, key) => {
+                                        return <option key={key} value={e.id}>{e.name}</option>;
+                                    })}
+                                </Select>
+                            </Grid>
+                            <Grid item xs={3}>
+                                <InputLabel htmlFor="select-midi-in">From synth</InputLabel>
+                                <Select
+                                    native
+                                    value={state.midiIn}
+                                    onChange={handleChange('midiIn')}
+                                    inputProps={{
+                                        name: 'midiIn',
+                                        id: 'select-midi-in',
+                                    }}
+                                    >
+                                    {WebMidi.inputs.map((e, key) => {
                                         return <option key={key} value={e.id}>{e.name}</option>;
                                     })}
                                 </Select>
@@ -326,6 +326,71 @@ const App = () => {
     );
 };
 
+function dec2bin(dec){
+    let bin = (dec >>> 0).toString(2);
+
+    while (bin.length < 8) {
+        bin = "0" + bin;
+    }
+
+    return bin;
+}
+
+const parseSysex = data => {
+    let sysex = Array.from(data);
+
+    let parameters = [];
+
+    if (sysex[0] === 240 && sysex[1] === 65) { // Filter for Roland sysex
+
+        // DERIVED FROM SYSEX SPEC IN ROLAND MKS-70 MANUAL
+
+        // Program Number (PGR) - 00110100 - 52
+        if (sysex[2] === 0b00110100) {
+            if (sysex[5] === 0b00110000) {
+                console.log("PATCH program number (3.1.1)", sysex);
+            } else if (sysex[5] === 0b00100000) {
+                console.log("TONE program number (3.3.1)", sysex);
+            }
+        }
+
+        // All Patch Parameters (APR) - 00110101 - 53
+        if (sysex[2] === 0b00110101) {
+            if (sysex[5] === 0b00110000) {
+                console.log("All PATCH parameters (3.1.2)", sysex);
+            } else if (sysex[5] === 0b00100000) {
+                if (sysex[6] === 1) {
+                    for (let p = 7; p < (sysex.length - 1); p++) {
+                        parameters.push(sysex[p]);
+                        MKS.parameters[p-7].value = sysex[p];
+                        if (MKS.parameters[p-7].slider) {
+                            MKS.parameters[p-7].slider.handleChange(null, sysex[p]);
+                        }
+                    }
+                    console.log("All TONE parameters for TONE A (3.3.2)", parameters);
+                }
+                else if (sysex[6] === 2) {
+                    for (let p = 7; p < (sysex.length - 1); p++) {
+                        parameters.push(sysex[p]);
+                    }
+                    console.log("All TONE parameters for TONE B (3.3.2)", parameters);
+                }
+            }
+        }
+        // Individual Patch Parameter (IPR) - 00110110 - 54
+        if (sysex[2] === 0b00110110) {
+            if (sysex[5] === 0b00110000) {
+                console.log("Individual PATCH Parameter (3.2)", sysex);
+            } else if (sysex[5] === 0b00100000) {
+                console.log("Individual TONE Parameter (3.4)", sysex);
+            }
+        }
+    }
+
+    sysex.map(function(d) {
+        //console.log(dec2bin(d), d);
+    });
+}
 
 document.title = "Roland MKS-70 Programmer";
 WebMidi.enable(function (err) {
@@ -343,8 +408,14 @@ WebMidi.enable(function (err) {
             MKS.midiIn = WebMidi.inputs[0];
             MKS.midiOut = WebMidi.outputs[0];
 
-            //MKS.midiIn = WebMidi.getInputByName("ESI-M4U Port 3");
-            //MKS.midiOut = WebMidi.getOutputByName("ESI-M4U Port 1");
+            MKS.midiIn = WebMidi.getInputByName("ESI-M4U Port 3");
+            MKS.midiOut = WebMidi.getOutputByName("ESI-M4U Port 1");
+
+            MKS.midiIn.addListener("sysex", "all", function (e) {
+                parseSysex(e.data);
+            });
+
+            MKS.midiOut.sendProgramChange(0, 15);
 
             document.body.style = 'background: #efefef;';
             ReactDOM.render(

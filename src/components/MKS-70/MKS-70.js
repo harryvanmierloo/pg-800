@@ -1,10 +1,21 @@
 const mks = {
     midiIn: undefined,
     midiOut: undefined,
-    midiChannelA: 1,
-    midiChannelB: 1,
-    midiControlChannel: 1,
+    midiChannelA: 15,
+    midiChannelB: 15,
+    midiControlChannel: 15,
     parameters: {
+        0: {},
+        1: {},
+        2: {},
+        3: {},
+        4: {},
+        5: {},
+        6: {},
+        7: {},
+        8: {},
+        9: {},
+        10: {},
         11: {
             name: "DCO-1 RANGE",
             label: "RANGE",
@@ -109,6 +120,9 @@ const mks = {
             min: 0,
             max: 127
         },
+        23: {},
+        24: {},
+        25: {},
         26: {
             name: "DCO DYNAMICS",
             label: "DYNAMICS",
@@ -364,6 +378,9 @@ const mks = {
                 { value: 64, label: "2" },
                 { value: 96, label: "3" }
             ]
+        },
+        57: {
+
         },
         58: {
             name: "VCA ENV MODE",

@@ -33,6 +33,10 @@ const ParameterSlider = props => {
     
     const param = MKS.parameters[props.id];
 
+    //this.myRef = React.createRef();
+    //console.log(this.myRef);
+    //MKS.parameters[props.id].slider = this.myRef;
+
     const [value, setValue] = React.useState(30);
 
     const defaultValue = param.defaultValue ? param.defaultValue : 64;
@@ -49,7 +53,7 @@ const ParameterSlider = props => {
                 0b01000001, // Roland ID
                 [
                     0b00110110, // Operation code = IPR (individual parameter)
-                    MKS.midiControlChannel, // Control Channel (1)
+                    MKS.midiControlChannel-1, // Control Channel (Start at 0)
                     0b00100100, // Format type (JX-10)
                     0b00100000, // Level = 1
                     0b00000001, // Group (01 = Tone A, 10 = Tone B)
