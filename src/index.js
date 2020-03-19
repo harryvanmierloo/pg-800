@@ -1,4 +1,4 @@
-import React, { component } from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -403,26 +403,23 @@ const createSliders = () => {
     return sliders
 }
 
-class App extends React.Component {
-    constructor(props) {
-        super(props);
+function App() {
 
-        // Extract default values from MKS spec
-        const defaultParameterValues = [];
-        for (let p = 0; p < 59; p++) {
-            let defaultValue = MKS.parameters[p].defaultValue ? MKS.parameters[p].defaultValue : 0;
-            defaultParameterValues.push(defaultValue);
-        }
-
-        this.state = {
-            parameterValues: defaultParameterValues
-        };
-
-        // This binding is necessary to make `this` work in the callback
-        this.updateParameter = this.updateParameter.bind(this);
+    // Extract default values from MKS spec
+    const defaultParameterValues = [];
+    for (let p = 0; p < 59; p++) {
+        let defaultValue = MKS.parameters[p].defaultValue ? MKS.parameters[p].defaultValue : 0;
+        defaultParameterValues.push(defaultValue);
     }
 
-    componentDidMount() {
+    const [parameterValues, setParameterValues] = useState(defaultParameterValues);
+
+    console.log(parameterValues);
+
+    // This binding is necessary to make `this` work in the callback
+    //const updateParameter = updateParameter.bind(this);
+
+    const componentDidMount = () => {
         console.log ("App initialized!");
         let app = this;
         MKS.midiIn.addListener("sysex", "all", function (e) {
@@ -435,199 +432,198 @@ class App extends React.Component {
         MKS.midiOut.sendProgramChange(0, 15);
     }
 
-    updateParameter(parameter, newValue) {
-        if (this.state.parameterValues[parameter] !== newValue) {
+    function updateParameter(parameter, newValue) {
+        if (parameterValues[parameter] !== newValue) {
+            console.log(parameter, newValue);
+
             // Make copy of array
-            let pvalues = this.state.parameterValues;
+            let pvalues = parameterValues;
             // Store new value
             pvalues[parameter] = newValue;
             // Set copied array as new array
-            this.setState({ parameterValues: pvalues });
+            setParameterValues(pvalues);
         }
     }
 
-    render() {
-        const styles = {
-            paper: {
-                //padding: theme.spacing(4),
-                boxSizing: "border-box",
-                padding: "2rem",
-                height: "100%"
-            },
-        }
-        return (
-            <div>
-                <Grid container spacing={1}>
-                    <Grid item xs={12}>
-                        <Paper style={styles.paper}>
-                            <Typography variant="h3">Roland MKS-70 Programmer</Typography>
-                        </Paper>
-                    </Grid>
-                    <Grid item xs={2}>
-                        <Paper>
-                            {/* <Button variant="contained" color="primary" onClick={playNote(["C5", "E5", "G5"], 1000, 0.5)}>
-                                Play chord
-                            </Button> */}
-                        </Paper>
-                    </Grid>
-                </Grid>
-                <Grid container spacing={1}>
-                    <Grid item xs={2}>
-                        <Paper style={styles.paper}>
-                            <Typography variant="h4" gutterBottom>
-                                DCO-1
-                            </Typography>
-                            <Grid container spacing={4}>
-                                <Grid item xs={6}><ParameterSlider parameter="11" value={this.state.parameterValues[11]} onChange={this.updateParameter} /></Grid>
-                                <Grid item xs={6}><ParameterSlider parameter="12" value={this.state.parameterValues[12]} onChange={this.updateParameter} /></Grid>
-                            </Grid>
-                            <Grid container spacing={4}>
-                                <Grid item xs={12}><ParameterSlider parameter="13" value={this.state.parameterValues[13]} onChange={this.updateParameter} /></Grid>
-                            </Grid>
-                            <Grid container spacing={4}>
-                                <Grid item xs={6}><ParameterSlider parameter="14" value={this.state.parameterValues[14]} onChange={this.updateParameter} /></Grid>
-                                <Grid item xs={6}><ParameterSlider parameter="15" value={this.state.parameterValues[15]} onChange={this.updateParameter} /></Grid>
-                            </Grid>
-                            <Grid container spacing={4}>
-                                <Grid item xs={6}><ParameterSlider parameter="26" value={this.state.parameterValues[26]} onChange={this.updateParameter} /></Grid>
-                                <Grid item xs={6}><ParameterSlider parameter="27" value={this.state.parameterValues[27]} onChange={this.updateParameter} /></Grid>
-                            </Grid>
-                        </Paper>
-                    </Grid>
-                    <Grid item xs={3}>
-                        <Paper style={styles.paper}>
-                            <Typography variant="h4" gutterBottom>
-                                DCO-2
-                            </Typography>
-                            <Grid container spacing={4}>
-                                <Grid item xs={4}><ParameterSlider parameter="16" value={this.state.parameterValues[16]} onChange={this.updateParameter} /></Grid>
-                                <Grid item xs={4}><ParameterSlider parameter="17" value={this.state.parameterValues[17]} onChange={this.updateParameter} /></Grid>
-                                <Grid item xs={4}><ParameterSlider parameter="18" value={this.state.parameterValues[18]} onChange={this.updateParameter} /></Grid>
-                            </Grid>
-                            <Grid container spacing={4}>
-                                <Grid item xs={4}><ParameterSlider parameter="19" value={this.state.parameterValues[19]} onChange={this.updateParameter} /></Grid>
-                                <Grid item xs={4}><ParameterSlider parameter="20" value={this.state.parameterValues[20]} onChange={this.updateParameter} /></Grid>
-                            </Grid>
-                            <Grid container spacing={4}>
-                                <Grid item xs={4}><ParameterSlider parameter="21" value={this.state.parameterValues[21]} onChange={this.updateParameter} /></Grid>
-                                <Grid item xs={2}><ParameterSlider parameter="22" value={this.state.parameterValues[22]} onChange={this.updateParameter} /></Grid>
-                            </Grid>
-                        </Paper>
-                    </Grid>
-                    <Grid item xs={2}>
-                        <Paper style={styles.paper}>
-                            <Typography variant="h4" gutterBottom>
-                                MIXER
-                            </Typography>
-                            <Grid container spacing={4}>
-                                <Grid item xs={6}><ParameterSlider parameter="28" value={this.state.parameterValues[28]} onChange={this.updateParameter} /></Grid>
-                                <Grid item xs={6}><ParameterSlider parameter="29" value={this.state.parameterValues[29]} onChange={this.updateParameter} /></Grid>
-                            </Grid>
-                            <Grid container spacing={4}>
-                                <Grid item xs={12}><ParameterSlider parameter="30" value={this.state.parameterValues[30]} onChange={this.updateParameter} /></Grid>
-                            </Grid>
-                            <Grid container spacing={4}>
-                                <Grid item xs={6}><ParameterSlider parameter="31" value={this.state.parameterValues[31]} onChange={this.updateParameter} /></Grid>
-                                <Grid item xs={6}><ParameterSlider parameter="32" value={this.state.parameterValues[32]} onChange={this.updateParameter} /></Grid>
-                            </Grid>
-                        </Paper>
-                    </Grid>
-                    <Grid item xs={3}>
-                        <Paper style={styles.paper}>
-                            <Typography variant="h4" gutterBottom>
-                                VCF
-                            </Typography>
-                            <Grid container spacing={4}>
-                                <Grid item xs={4}><ParameterSlider parameter="33" value={this.state.parameterValues[33]} onChange={this.updateParameter} /></Grid>
-                                <Grid item xs={4}><ParameterSlider parameter="34" value={this.state.parameterValues[34]} onChange={this.updateParameter} /></Grid>
-                                <Grid item xs={4}><ParameterSlider parameter="35" value={this.state.parameterValues[35]} onChange={this.updateParameter} /></Grid>
-                            </Grid>
-                            <Grid container spacing={4}>
-                                <Grid item xs={4}><ParameterSlider parameter="36" value={this.state.parameterValues[36]} onChange={this.updateParameter} /></Grid>
-                                <Grid item xs={4}><ParameterSlider parameter="37" value={this.state.parameterValues[37]} onChange={this.updateParameter} /></Grid>
-                                <Grid item xs={4}><ParameterSlider parameter="38" value={this.state.parameterValues[38]} onChange={this.updateParameter} /></Grid>
-                            </Grid>
-                            <Grid container spacing={4}>
-                                <Grid item xs={4}><ParameterSlider parameter="39" value={this.state.parameterValues[39]} onChange={this.updateParameter} /></Grid>
-                                <Grid item xs={8}><ParameterSlider parameter="40" value={this.state.parameterValues[40]} onChange={this.updateParameter} /></Grid>
-                            </Grid>
-                        </Paper>
-                    </Grid>
-                    <Grid item xs={1}>
-                        <Paper style={styles.paper}>
-                            <Typography variant="h4" gutterBottom>
-                                VCA
-                            </Typography>
-                            <Grid container spacing={4}>
-                                <Grid item xs={12}><ParameterSlider parameter="41" value={this.state.parameterValues[41]} onChange={this.updateParameter} /></Grid>
-                            </Grid>
-                            <Grid container spacing={4}>
-                                <Grid item xs={12}><ParameterSlider parameter="58" value={this.state.parameterValues[58]} onChange={this.updateParameter} /></Grid>
-                            </Grid>
-                            <Grid container spacing={4}>
-                                <Grid item xs={12}><ParameterSlider parameter="42" value={this.state.parameterValues[42]} onChange={this.updateParameter} /></Grid>
-                            </Grid>
-                        </Paper>
-                    </Grid>
-                    <Grid item xs={1}>
-                        <Paper />
-                    </Grid>
-                </Grid>
-                <Grid container spacing={1}>
-                    <Grid item xs={3}>
-                        <Paper style={styles.paper}>
-                            <Typography variant="h4" gutterBottom>
-                                LFO
-                            </Typography>
-                            <Grid container spacing={4}>
-                                <Grid item xs={4}><ParameterSlider parameter="44" value={this.state.parameterValues[44]} onChange={this.updateParameter} /></Grid>
-                                <Grid item xs={4}><ParameterSlider parameter="45" value={this.state.parameterValues[45]} onChange={this.updateParameter} /></Grid>
-                                <Grid item xs={4}><ParameterSlider parameter="46" value={this.state.parameterValues[46]} onChange={this.updateParameter} /></Grid>
-                            </Grid>
-                        </Paper>
-                    </Grid> 
-                    <Grid item xs={4}>
-                        <Paper style={styles.paper}>
-                            <Typography variant="h4" gutterBottom>
-                                ENV-1
-                            </Typography>
-                            <Grid container spacing={4}>
-                                <Grid item xs={2}><ParameterSlider parameter="47" value={this.state.parameterValues[47]} onChange={this.updateParameter} /></Grid>
-                                <Grid item xs={2}><ParameterSlider parameter="48" value={this.state.parameterValues[48]} onChange={this.updateParameter} /></Grid>
-                                <Grid item xs={2}><ParameterSlider parameter="49" value={this.state.parameterValues[49]} onChange={this.updateParameter} /></Grid>
-                                <Grid item xs={2}><ParameterSlider parameter="50" value={this.state.parameterValues[50]} onChange={this.updateParameter} /></Grid>
-                                <Grid item xs={4}><ParameterSlider parameter="51" value={this.state.parameterValues[51]} onChange={this.updateParameter} /></Grid>
-                            </Grid>
-                        </Paper>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <Paper style={styles.paper}>
-                            <Typography variant="h4" gutterBottom>
-                                ENV-2
-                            </Typography>
-                            <Grid container spacing={4}>
-                                <Grid item xs={2}><ParameterSlider parameter="52" value={this.state.parameterValues[52]} onChange={this.updateParameter} /></Grid>
-                                <Grid item xs={2}><ParameterSlider parameter="53" value={this.state.parameterValues[53]} onChange={this.updateParameter} /></Grid>
-                                <Grid item xs={2}><ParameterSlider parameter="54" value={this.state.parameterValues[54]} onChange={this.updateParameter} /></Grid>
-                                <Grid item xs={2}><ParameterSlider parameter="55" value={this.state.parameterValues[55]} onChange={this.updateParameter} /></Grid>
-                                <Grid item xs={4}><ParameterSlider parameter="56" value={this.state.parameterValues[56]} onChange={this.updateParameter} /></Grid>
-                            </Grid>
-                        </Paper>
-                    </Grid>
-                    <Grid item xs={1}>
-                        <Paper style={styles.paper}>
-                            <Typography variant="h4" gutterBottom>
-                                CHS
-                            </Typography>
-                            <Grid container spacing={4}>
-                                <Grid item xs={12}><ParameterSlider parameter="43" value={this.state.parameterValues[43]} onChange={this.updateParameter} /></Grid>
-                            </Grid>
-                        </Paper>
-                    </Grid>
-                </Grid>
-            </div>
-        )
+    const styles = {
+        paper: {
+            boxSizing: "border-box",
+            padding: "2rem",
+            height: "100%"
+        },
     }
+    return (
+        <div>
+            <Grid container spacing={1}>
+                <Grid item xs={12}>
+                    <Paper style={styles.paper}>
+                        <Typography variant="h3">Roland MKS-70 Programmer</Typography>
+                    </Paper>
+                </Grid>
+                <Grid item xs={2}>
+                    <Paper>
+                        {/* <Button variant="contained" color="primary" onClick={playNote(["C5", "E5", "G5"], 1000, 0.5)}>
+                            Play chord
+                        </Button> */}
+                    </Paper>
+                </Grid>
+            </Grid>
+            <Grid container spacing={1}>
+                <Grid item xs={2}>
+                    <Paper style={styles.paper}>
+                        <Typography variant="h4" gutterBottom>
+                            DCO-1
+                        </Typography>
+                        <Grid container spacing={4}>
+                            <Grid item xs={6}><ParameterSlider parameter="11" value={parameterValues[11]} onChange={updateParameter} /></Grid>
+                            <Grid item xs={6}><ParameterSlider parameter="12" value={parameterValues[12]} onChange={updateParameter} /></Grid>
+                        </Grid>
+                        <Grid container spacing={4}>
+                            <Grid item xs={12}><ParameterSlider parameter="13" value={parameterValues[13]} onChange={updateParameter} /></Grid>
+                        </Grid>
+                        <Grid container spacing={4}>
+                            <Grid item xs={6}><ParameterSlider parameter="14" value={parameterValues[14]} onChange={updateParameter} /></Grid>
+                            <Grid item xs={6}><ParameterSlider parameter="15" value={parameterValues[15]} onChange={updateParameter} /></Grid>
+                        </Grid>
+                        <Grid container spacing={4}>
+                            <Grid item xs={6}><ParameterSlider parameter="26" value={parameterValues[26]} onChange={updateParameter} /></Grid>
+                            <Grid item xs={6}><ParameterSlider parameter="27" value={parameterValues[27]} onChange={updateParameter} /></Grid>
+                        </Grid>
+                    </Paper>
+                </Grid>
+                <Grid item xs={3}>
+                    <Paper style={styles.paper}>
+                        <Typography variant="h4" gutterBottom>
+                            DCO-2
+                        </Typography>
+                        <Grid container spacing={4}>
+                            <Grid item xs={4}><ParameterSlider parameter="16" value={parameterValues[16]} onChange={updateParameter} /></Grid>
+                            <Grid item xs={4}><ParameterSlider parameter="17" value={parameterValues[17]} onChange={updateParameter} /></Grid>
+                            <Grid item xs={4}><ParameterSlider parameter="18" value={parameterValues[18]} onChange={updateParameter} /></Grid>
+                        </Grid>
+                        <Grid container spacing={4}>
+                            <Grid item xs={4}><ParameterSlider parameter="19" value={parameterValues[19]} onChange={updateParameter} /></Grid>
+                            <Grid item xs={4}><ParameterSlider parameter="20" value={parameterValues[20]} onChange={updateParameter} /></Grid>
+                        </Grid>
+                        <Grid container spacing={4}>
+                            <Grid item xs={4}><ParameterSlider parameter="21" value={parameterValues[21]} onChange={updateParameter} /></Grid>
+                            <Grid item xs={2}><ParameterSlider parameter="22" value={parameterValues[22]} onChange={updateParameter} /></Grid>
+                        </Grid>
+                    </Paper>
+                </Grid>
+                <Grid item xs={2}>
+                    <Paper style={styles.paper}>
+                        <Typography variant="h4" gutterBottom>
+                            MIXER
+                        </Typography>
+                        <Grid container spacing={4}>
+                            <Grid item xs={6}><ParameterSlider parameter="28" value={parameterValues[28]} onChange={updateParameter} /></Grid>
+                            <Grid item xs={6}><ParameterSlider parameter="29" value={parameterValues[29]} onChange={updateParameter} /></Grid>
+                        </Grid>
+                        <Grid container spacing={4}>
+                            <Grid item xs={12}><ParameterSlider parameter="30" value={parameterValues[30]} onChange={updateParameter} /></Grid>
+                        </Grid>
+                        <Grid container spacing={4}>
+                            <Grid item xs={6}><ParameterSlider parameter="31" value={parameterValues[31]} onChange={updateParameter} /></Grid>
+                            <Grid item xs={6}><ParameterSlider parameter="32" value={parameterValues[32]} onChange={updateParameter} /></Grid>
+                        </Grid>
+                    </Paper>
+                </Grid>
+                <Grid item xs={3}>
+                    <Paper style={styles.paper}>
+                        <Typography variant="h4" gutterBottom>
+                            VCF
+                        </Typography>
+                        <Grid container spacing={4}>
+                            <Grid item xs={4}><ParameterSlider parameter="33" value={parameterValues[33]} onChange={updateParameter} /></Grid>
+                            <Grid item xs={4}><ParameterSlider parameter="34" value={parameterValues[34]} onChange={updateParameter} /></Grid>
+                            <Grid item xs={4}><ParameterSlider parameter="35" value={parameterValues[35]} onChange={updateParameter} /></Grid>
+                        </Grid>
+                        <Grid container spacing={4}>
+                            <Grid item xs={4}><ParameterSlider parameter="36" value={parameterValues[36]} onChange={updateParameter} /></Grid>
+                            <Grid item xs={4}><ParameterSlider parameter="37" value={parameterValues[37]} onChange={updateParameter} /></Grid>
+                            <Grid item xs={4}><ParameterSlider parameter="38" value={parameterValues[38]} onChange={updateParameter} /></Grid>
+                        </Grid>
+                        <Grid container spacing={4}>
+                            <Grid item xs={4}><ParameterSlider parameter="39" value={parameterValues[39]} onChange={updateParameter} /></Grid>
+                            <Grid item xs={8}><ParameterSlider parameter="40" value={parameterValues[40]} onChange={updateParameter} /></Grid>
+                        </Grid>
+                    </Paper>
+                </Grid>
+                <Grid item xs={1}>
+                    <Paper style={styles.paper}>
+                        <Typography variant="h4" gutterBottom>
+                            VCA
+                        </Typography>
+                        <Grid container spacing={4}>
+                            <Grid item xs={12}><ParameterSlider parameter="41" value={parameterValues[41]} onChange={updateParameter} /></Grid>
+                        </Grid>
+                        <Grid container spacing={4}>
+                            <Grid item xs={12}><ParameterSlider parameter="58" value={parameterValues[58]} onChange={updateParameter} /></Grid>
+                        </Grid>
+                        <Grid container spacing={4}>
+                            <Grid item xs={12}><ParameterSlider parameter="42" value={parameterValues[42]} onChange={updateParameter} /></Grid>
+                        </Grid>
+                    </Paper>
+                </Grid>
+                <Grid item xs={1}>
+                    <Paper />
+                </Grid>
+            </Grid>
+            <Grid container spacing={1}>
+                <Grid item xs={3}>
+                    <Paper style={styles.paper}>
+                        <Typography variant="h4" gutterBottom>
+                            LFO
+                        </Typography>
+                        <Grid container spacing={4}>
+                            <Grid item xs={4}><ParameterSlider parameter="44" value={parameterValues[44]} onChange={updateParameter} /></Grid>
+                            <Grid item xs={4}><ParameterSlider parameter="45" value={parameterValues[45]} onChange={updateParameter} /></Grid>
+                            <Grid item xs={4}><ParameterSlider parameter="46" value={parameterValues[46]} onChange={updateParameter} /></Grid>
+                        </Grid>
+                    </Paper>
+                </Grid> 
+                <Grid item xs={4}>
+                    <Paper style={styles.paper}>
+                        <Typography variant="h4" gutterBottom>
+                            ENV-1
+                        </Typography>
+                        <Grid container spacing={4}>
+                            <Grid item xs={2}><ParameterSlider parameter="47" value={parameterValues[47]} onChange={updateParameter} /></Grid>
+                            <Grid item xs={2}><ParameterSlider parameter="48" value={parameterValues[48]} onChange={updateParameter} /></Grid>
+                            <Grid item xs={2}><ParameterSlider parameter="49" value={parameterValues[49]} onChange={updateParameter} /></Grid>
+                            <Grid item xs={2}><ParameterSlider parameter="50" value={parameterValues[50]} onChange={updateParameter} /></Grid>
+                            <Grid item xs={4}><ParameterSlider parameter="51" value={parameterValues[51]} onChange={updateParameter} /></Grid>
+                        </Grid>
+                    </Paper>
+                </Grid>
+                <Grid item xs={4}>
+                    <Paper style={styles.paper}>
+                        <Typography variant="h4" gutterBottom>
+                            ENV-2
+                        </Typography>
+                        <Grid container spacing={4}>
+                            <Grid item xs={2}><ParameterSlider parameter="52" value={parameterValues[52]} onChange={updateParameter} /></Grid>
+                            <Grid item xs={2}><ParameterSlider parameter="53" value={parameterValues[53]} onChange={updateParameter} /></Grid>
+                            <Grid item xs={2}><ParameterSlider parameter="54" value={parameterValues[54]} onChange={updateParameter} /></Grid>
+                            <Grid item xs={2}><ParameterSlider parameter="55" value={parameterValues[55]} onChange={updateParameter} /></Grid>
+                            <Grid item xs={4}><ParameterSlider parameter="56" value={parameterValues[56]} onChange={updateParameter} /></Grid>
+                        </Grid>
+                    </Paper>
+                </Grid>
+                <Grid item xs={1}>
+                    <Paper style={styles.paper}>
+                        <Typography variant="h4" gutterBottom>
+                            CHS
+                        </Typography>
+                        <Grid container spacing={4}>
+                            <Grid item xs={12}><ParameterSlider parameter="43" value={parameterValues[43]} onChange={updateParameter} /></Grid>
+                        </Grid>
+                    </Paper>
+                </Grid>
+            </Grid>
+        </div>
+    );
 }
 
 document.title = "Roland MKS-70 Programmer";
@@ -653,12 +649,8 @@ WebMidi.enable(function (err) {
 
             ReactDOM.render(
                 <App />,
-            document.getElementById('root'));
-
-            // ReactDOM.render(
-            //     <App />,
-            //     document.getElementById('root')
-            // );
+                document.getElementById('root')
+            );
         }
     }
 

@@ -4,7 +4,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import {Slider, Tooltip} from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import MKS from '../MKS-70/MKS-70';
-import { useRef } from 'react';
 
 const useStyles = makeStyles({
     container: {
@@ -41,11 +40,9 @@ function ParameterSlider(props) {
           max = (parameter.marks !== undefined) ? parameter.marks[parameter.marks.length-1].value : parameter.max,
           min = parameter.min;
 
-    const [value, setValue] = useState(props.value);
-
     const changeHandler = (event, newValue) => {
 
-        if (newValue !== value) {
+        if (newValue !== props.value) {
             props.onChange(parameterId, newValue);
             MKS.midiOut.sendSysex(
                 0b01000001, // Roland ID
@@ -73,7 +70,7 @@ function ParameterSlider(props) {
             <div style={container}>
                 <Slider
                     ValueLabelComponent={ValueLabelComponent}
-                    value={props.value}
+                    defaultValue={props.value}
                     min={min}
                     max={max}
                     marks={marks}
