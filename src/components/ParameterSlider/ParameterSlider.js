@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import {Slider, Tooltip} from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import MKS from '../MKS-70/MKS-70';
+import { render } from '@testing-library/react';
 
 const useStyles = makeStyles({
     container: {
@@ -38,12 +39,16 @@ function ParameterSlider(props) {
           marks = parameter.marks,
           step = parameter.marks ? null : 1,
           max = (parameter.marks !== undefined) ? parameter.marks[parameter.marks.length-1].value : parameter.max,
-          min = parameter.min;
+          min = parameter.min,
+          defaultValue = parameter.defaultValue ? parameter.defaultValue : 0;
+
+    const [value, setValue] = useState(props.value);
 
     const changeHandler = (event, newValue) => {
-
         if (newValue !== props.value) {
+            //setValue(newValue);
             props.onChange(parameterId, newValue);
+            
             MKS.midiOut.sendSysex(
                 0b01000001, // Roland ID
                 [
@@ -56,6 +61,7 @@ function ParameterSlider(props) {
                     newValue, // Value (0-127)
                 ]
             );
+            render();
         }
     }
 
@@ -69,8 +75,8 @@ function ParameterSlider(props) {
             <Typography variant="caption" gutterBottom>{label}</Typography>
             <div style={container}>
                 <Slider
-                    ValueLabelComponent={ValueLabelComponent}
-                    defaultValue={props.value}
+                    defaultValue={defaultValue}
+                    value={props.value}
                     min={min}
                     max={max}
                     marks={marks}
