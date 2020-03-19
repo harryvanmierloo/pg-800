@@ -202,6 +202,7 @@ const mks = {
             ]
         },
         34: {
+            id: 34,
             name: "VCF CUTOFF FREQ",
             label: "CUTOFF",
             min: 0,
