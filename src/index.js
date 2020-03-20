@@ -1,29 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import { Paper, Button, Select, MenuItem, InputLabel } from '@material-ui/core';
+import { Paper, Button, Select, InputLabel } from '@material-ui/core';
 import 'typeface-roboto';
 import Typography from '@material-ui/core/Typography';
 import WebMidi from "webmidi";
 import MKS from './components/MKS-70/MKS-70';
 import ParameterSlider from './components/ParameterSlider/ParameterSlider';
-
-const useStyles = makeStyles(theme => ({
-    container: {
-    },
-    paper: {
-        //padding: theme.spacing(4),
-        boxSizing: "border-box",
-        padding: "2rem",
-        height: "100%"
-    },
-}));
-
-const midiPorts = {
-    in: undefined,
-    out: undefined
-}
 
 function dec2bin(dec){
     let bin = (dec >>> 0).toString(2);
@@ -87,39 +70,30 @@ const parseSysex = data => {
     return;
 }
 
-const createSliders = () => {
-    let sliders = []
-    for (let i = 1; i <= 16; i++) {
-      sliders.push(<option key={i} value={i}>{i}</option>)
-    }
-    return sliders
-}
-
-const createChannelOptions = () => {
-    let options = []
-    for (let i = 1; i <= 16; i++) {
-      options.push(<option key={i} value={i}>{i}</option>)
-    }
-    return options
-}
-
 function App() {
 
     // Extract default values from MKS spec
-    const defaultParameterValues = [];
-    for (let p = 0; p < 59; p++) {
-        let defaultValue = MKS.parameters[p].defaultValue ? MKS.parameters[p].defaultValue : 0;
-        defaultParameterValues.push(defaultValue);
+    function getDefaultParameterValues() {
+        let defaultParameterValues = [];
+        for (let p = 0; p < 59; p++) {
+            let defaultValue = MKS.parameters[p].defaultValue ? MKS.parameters[p].defaultValue : 0;
+            defaultParameterValues.push(defaultValue);
+        }
+        return defaultParameterValues;
     }
-
-    const [parameterValues, setParameterValues] = useState(defaultParameterValues);
+    
+    const [parameterValues, setParameterValues] = useState([
+        0,0,0,0,0,0,0,0,0,0,
+        0,0,0,0,0,0,0,0,0,0,
+        0,0,0,0,0,0,0,0,0,0,
+        0,0,0,0,0,0,0,0,0,0,
+        0,0,0,0,0,0,0,0,0,0,
+        0,0,0,0,0,0,0,0,0
+    ]);
+    const [param34, setParam34] = useState(50);
     const [test, setTest] = useState(50);
 
-    const [midiIn, midiOut, midiChannelA, midiChannelB, midiControlChannel] = useState('');
-
     const handleChange = name => event => {
-        //setState({ ...state, [name]: event.target.checked });
-
         if (name === "midiIn") {
             MKS.midiIn = WebMidi.getInputById(event.target.value);
         }
@@ -139,6 +113,9 @@ function App() {
 
     useEffect(() => {
         console.log ("App initialized!");
+
+        setParameterValues(getDefaultParameterValues());
+
         MKS.midiIn.addListener("sysex", "all", sysexHandler);
         MKS.midiOut.sendProgramChange(0, 15);
     }, []);
@@ -153,7 +130,7 @@ function App() {
         for (let i = 1; i <= 16; i++) {
           options.push(<option key={i} value={i}>{i}</option>)
         }
-        return options
+        return options;
     }
 
     function sysexHandler(e) {
@@ -161,7 +138,7 @@ function App() {
         if (sysex && sysex.tone === "A") {
             setParameterValues(sysex.values);
             
-            console.log("Tone A values: ", sysex.values);
+            console.log("Tone A parameter values: ", sysex.values);
         }
     };
     
@@ -176,6 +153,10 @@ function App() {
             setParameterValues(pvalues);
             //console.log(parameterValues);
         }
+    }
+
+    function updateParam34(parameter, newValue) {
+        setParam34(newValue);
     }
 
     const styles = {

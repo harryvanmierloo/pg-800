@@ -1,23 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
 import {Slider, Tooltip} from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import MKS from '../MKS-70/MKS-70';
 import { render } from '@testing-library/react';
 
-const useStyles = makeStyles({
-    container: {
-        height: 60,
-        marginTop: ".5rem",
-    },
-});
-
-//const classes = useStyles();
-
 function ValueLabelComponent(props) {
     const { children, open, value } = props;
-  
+
     return (
       <Tooltip open={open} enterTouchDelay={0} placement="top" title={value}>
         {children}
@@ -31,7 +21,7 @@ ValueLabelComponent.propTypes = {
     value: PropTypes.number.isRequired,
 };
 
-function ParameterSlider(props) {
+const mySlider = (props) => {
 
     const parameterId = props.parameter;
     const parameter = MKS.parameters[parameterId];
@@ -42,11 +32,8 @@ function ParameterSlider(props) {
           min = parameter.min,
           defaultValue = parameter.defaultValue ? parameter.defaultValue : 0;
 
-    const [value, setValue] = useState(props.value);
-
     const changeHandler = (event, newValue) => {
         if (newValue !== props.value) {
-            //setValue(newValue);
             props.onChange(parameterId, newValue);
             
             MKS.midiOut.sendSysex(
@@ -82,12 +69,14 @@ function ParameterSlider(props) {
                     marks={marks}
                     step={step}
                     orientation="vertical"
-                    ValueLabelComponent={ValueLabelComponent}
+                    //ValueLabelComponent={ValueLabelComponent}
                     onChange={changeHandler}
                 />
             </div>
         </React.Fragment>
     )
 }
+
+const ParameterSlider = React.memo(mySlider)
 
 export default ParameterSlider;

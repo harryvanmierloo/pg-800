@@ -276,7 +276,7 @@ const mks = {
         },
         43: {
             name: "CHORUS",
-            name: "MODE",
+            label: "MODE",
             min: 0,
             max: 127,
             marks: [
