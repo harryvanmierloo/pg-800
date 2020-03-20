@@ -1,41 +1,24 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {Slider, Tooltip} from '@material-ui/core';
-import Typography from '@material-ui/core/Typography';
+import React, { useContext, useCallback } from 'react';
+import update from 'immutability-helper';
 import MKS from '../MKS-70/MKS-70';
-import { render } from '@testing-library/react';
+import { Context } from '../../store.js';
 
-function ValueLabelComponent(props) {
-    const { children, open, value } = props;
+const ParameterSlider = (props) => {
 
-    return (
-      <Tooltip open={open} enterTouchDelay={0} placement="top" title={value}>
-        {children}
-      </Tooltip>
-    );
-}
-
-ValueLabelComponent.propTypes = {
-    children: PropTypes.element.isRequired,
-    open: PropTypes.bool.isRequired,
-    value: PropTypes.number.isRequired,
-};
-
-const mySlider = (props) => {
+    const [state, setState] = useContext(Context);
 
     const parameterId = props.parameter;
     const parameter = MKS.parameters[parameterId];
-    const label = (parameter.label !== undefined) ? parameter.label : parameter.name,
-          marks = parameter.marks,
-          step = parameter.marks ? null : 1,
-          max = (parameter.marks !== undefined) ? parameter.marks[parameter.marks.length-1].value : parameter.max,
-          min = parameter.min,
-          defaultValue = parameter.defaultValue ? parameter.defaultValue : 0;
+    const label = (parameter.label !== undefined) ? parameter.label : parameter.name;
 
-    const changeHandler = (event, newValue) => {
-        if (newValue !== props.value) {
-            props.onChange(parameterId, newValue);
-            
+    const changeHandler = useCallback((event) => {
+        let newValue = event.target.value;
+        if (state.values[parameterId] !== newValue) {
+
+            // Set new value in context
+            setState(update(state, {values: {[parameterId]: {$set: newValue }}}));
+   
+            // Send sysex to synth
             MKS.midiOut.sendSysex(
                 0b01000001, // Roland ID
                 [
@@ -48,35 +31,29 @@ const mySlider = (props) => {
                     newValue, // Value (0-127)
                 ]
             );
-            render();
         }
-    }
+    });
 
-    const container = {
-        height: 60,
-        marginTop: ".5rem",
+    const styles = {
+        container: {
+            display: "inline-block",
+            height: 60, 
+            width: "auto",
+            marginTop: ".5rem",
+        },
+        slider: {
+            display: "block",
+        }
     }
 
     return (
         <React.Fragment>
-            <Typography variant="caption" gutterBottom>{label}</Typography>
-            <div style={container}>
-                <Slider
-                    defaultValue={defaultValue}
-                    value={props.value}
-                    min={min}
-                    max={max}
-                    marks={marks}
-                    step={step}
-                    orientation="vertical"
-                    //ValueLabelComponent={ValueLabelComponent}
-                    onChange={changeHandler}
-                />
-            </div>
+            <label>{label}</label>
+            <input style={styles.slider} type="range" orient="vertical" min="1" max="127"
+                   value={state.values[parameterId]} onChange={changeHandler}></input>
+            
         </React.Fragment>
     )
 }
 
-const ParameterSlider = React.memo(mySlider)
-
-export default ParameterSlider;
+export default React.memo(ParameterSlider);
