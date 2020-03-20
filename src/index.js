@@ -1,9 +1,5 @@
 import React, { useState, useEffect, useCallback, useContext } from 'react';
 import ReactDOM from 'react-dom';
-import Grid from '@material-ui/core/Grid';
-import { Paper, Button, Select, InputLabel, ServerStyleSheets } from '@material-ui/core';
-import 'typeface-roboto';
-import Typography from '@material-ui/core/Typography';
 import WebMidi from "webmidi";
 import MKS from './components/MKS-70/MKS-70';
 import ParameterSlider from './components/ParameterSlider/ParameterSlider';
@@ -86,7 +82,7 @@ function App() {
     
     const [state, setState] = useContext(Context);
 
-    const handleChange = name => event => {
+    const changeMidi = useCallback((name) => event => {
         if (name === "midiIn") {
             MKS.midiIn = WebMidi.getInputById(event.target.value);
         }
@@ -102,7 +98,7 @@ function App() {
         if (name === "midiControlChannel") {
             MKS.midiControlChannel = parseInt(event.target.value);
         }
-    };
+    });
 
     useEffect(() => {
         console.log ("App initialized!");
@@ -116,10 +112,10 @@ function App() {
         MKS.midiOut.sendProgramChange(0, 15);
     }, []);
 
-    const playNote = (note, duration, velocity) => event => {
+    const playNote = useCallback((note, duration, velocity) => event => {
         MKS.midiOut.playNote(note, MKS.midiChannelA, {duration: duration, velocity: velocity });
         console.log(note, "played!");
-    };
+    }, []);
 
     const createChannelOptions = useCallback(() => {
         let options = []
@@ -153,99 +149,44 @@ function App() {
     }
 
     return (
-        <div>
-            <Grid container spacing={1}>
-                <Grid item xs={5}>
-                    <Paper style={styles.paper}>
-                        <Typography variant="h3">Roland MKS-70 Programmer</Typography>
-                    </Paper>
-                </Grid>
-                <Grid item xs={5}>
-                    <Paper style={styles.paper}>
-                        <Grid container spacing={4}>
-                            <Grid item xs={3}>
-                                <InputLabel htmlFor="select-midi-out">To synth</InputLabel>
-                                <Select
-                                    native
-                                    onChange={handleChange('midiOut')}
-                                    inputProps={{
-                                        name: 'midiOut',
-                                        id: 'select-midi-out',
-                                    }}
-                                    >
-                                    {WebMidi.outputs.map((e, key) => {
-                                        return <option key={key} value={e.id}>{e.name}</option>;
-                                    })}
-                                </Select>
-                            </Grid>
-                            <Grid item xs={3}>
-                                <InputLabel htmlFor="select-midi-in">From synth</InputLabel>
-                                <Select
-                                    native
-                                    onChange={handleChange('midiIn')}
-                                    inputProps={{
-                                        name: 'midiIn',
-                                        id: 'select-midi-in',
-                                    }}
-                                    >
-                                    {WebMidi.inputs.map((e, key) => {
-                                        return <option key={key} value={e.id}>{e.name}</option>;
-                                    })}
-                                </Select>
-                            </Grid>
-                            <Grid item>
-                                <InputLabel htmlFor="select-midi-channel-a">Chan A</InputLabel>
-                                <Select
-                                    native
-                                    onChange={handleChange('midiChannelA')}
-                                    inputProps={{
-                                        name: 'midiChannelA',
-                                        id: 'select-midi-channel-a',
-                                    }}
-                                    >
-                                    {createChannelOptions()};
-                                    }
-                                </Select>
-                            </Grid>
-                            <Grid item>
-                                <InputLabel htmlFor="select-midi-channel-b">Chan B</InputLabel>
-                                <Select
-                                    native
-                                    onChange={handleChange('midiChannelB')}
-                                    inputProps={{
-                                        name: 'midiChannelB',
-                                        id: 'select-midi-channel-b',
-                                    }}
-                                    >
-                                    {createChannelOptions()};
-                                    }
-                                </Select>
-                            </Grid>
-                            <Grid item>
-                                <InputLabel htmlFor="select-midi-control-channel">Control</InputLabel>
-                                <Select
-                                    native
-                                    onChange={handleChange('midiControlChannel')}
-                                    inputProps={{
-                                        name: 'midiControlChannel',
-                                        id: 'select-midi-control-channel',
-                                    }}
-                                    >
-                                    {createChannelOptions()};
-                                    }
-                                </Select>
-                            </Grid>
-                        </Grid>
-                    </Paper>
-                </Grid>
-                <Grid item xs={2}>
-                    <Paper style={styles.paper}>
-                        <Button variant="contained" color="primary" onClick={playNote(["C5", "E5", "G5"], 1000, 0.5)}>
-                            Play chord
-                        </Button>
-                    </Paper>
-                </Grid>
-            </Grid>
+        <React.Fragment>
+            <div>
+                <h1>Roland MKS-70 Programmer</h1>
+
+                <label htmlFor="select-midi-out">To synth</label>
+                <select id="select-midi-out" onChange={changeMidi('midiOut')}>
+                    {WebMidi.outputs.map((e, key) => {
+                        return <option key={key} value={e.id}>{e.name}</option>;
+                    })}
+                </select>
+
+                <label htmlFor="select-midi-in">From synth</label>
+                <select id="select-midi-in" onChange={changeMidi('midiIn')}>
+                    {WebMidi.inputs.map((e, key) => {
+                        return <option key={key} value={e.id}>{e.name}</option>;
+                    })}
+                </select>
+                
+                <label htmlFor="select-midi-channel-a">Channel A</label>
+                <select id="select-midi-channel-a" onChange={changeMidi('midiChannelA')}>
+                    {createChannelOptions()}
+                </select>
+
+                <label htmlFor="select-midi-channel-b">Channel B</label>
+                <select id="select-midi-channel-b" onChange={changeMidi('midiChannelB')}>
+                    {createChannelOptions()}
+                </select>
+            
+                <label htmlFor="select-midi-control-channel">Control Channel</label>
+                <select id="select-midi-control-channel" onChange={changeMidi('midiControlChannel')}>
+                    {createChannelOptions()}
+                </select>
+                        
+                <button onClick={playNote(["C5", "E5", "G5"], 1000, 0.5)}>
+                    Play chord
+                </button>
+            </div>
+
             
             <fieldset style={styles.fieldset}>
                 <legend>DCO-1</legend>
@@ -326,7 +267,7 @@ function App() {
                 <legend>Chorus</legend>
                 <ParameterSlider parameter="43" />
             </fieldset>
-        </div>
+        </React.Fragment>
     );
 }
 

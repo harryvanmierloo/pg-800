@@ -46,12 +46,20 @@ const ParameterSlider = (props) => {
         }
     }
 
+    const inputLabel = "slider-" + parameterId;
+
     return (
         <React.Fragment>
-            <label>{label}</label>
-            <input style={styles.slider} type="range" orient="vertical" min="1" max="127"
-                   value={state.values[parameterId]} onChange={changeHandler}></input>
-            
+            <label htmlFor={inputLabel}>{label}</label>
+            <input type="range"
+                   id={inputLabel}
+                   style={styles.slider}
+                   orient="vertical"
+                   min="1"
+                   max="127"
+                   value={state.values[parameterId]}
+                   onChange={changeHandler}>
+            </input>
         </React.Fragment>
     )
 }
