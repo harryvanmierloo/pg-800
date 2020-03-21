@@ -11,7 +11,11 @@ const Slider = (props) => {
 
     const parameterId = props.parameter;
     const parameter = MKS.parameters[parameterId];
-    const label = (parameter.label !== undefined) ? parameter.label : parameter.name;
+    const label = (parameter.label !== undefined) ? parameter.label : parameter.name,
+          marks = parameter.marks,
+          step = parameter.marks ? 128 / parameter.marks.length : 1,
+          max = (parameter.marks !== undefined) ? parameter.marks[parameter.marks.length-1].value : parameter.max,
+          min = parameter.min;
 
     const changeHandler = (event) => {
         let newValue = event.target.value;
@@ -38,17 +42,29 @@ const Slider = (props) => {
 
     const inputLabel = "slider-" + parameterId;
 
+    const getOutputLabel = () => {
+        if (marks !== undefined) {
+            let mark = Math.floor(state.values[parameterId] / step);
+            return marks[mark].label;
+        }
+        else {
+            return state.values[parameterId];
+        }
+    };
+
     return (
         <div className={styles.slider}>
             <label htmlFor={inputLabel}>{label}</label>
             <input type="range"
                    id={inputLabel}
                    orient="vertical"
-                   min="1"
-                   max="127"
+                   min={min}
+                   max={max}
+                   step={step}
                    value={state.values[parameterId]}
                    onChange={changeHandler}>
             </input>
+            <output htmlFor={inputLabel}>{getOutputLabel()}</output>
         </div>
     )
 }

@@ -3,9 +3,14 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
 
 body {
-    background: #efefef;
+    background: $panel;
     font-family: 'Roboto', sans-serif;
     padding: 1rem;
+    
+    > * {
+        color: $panelText;
+        letter-spacing: 1px;
+    }
 }
 
 label {
@@ -18,13 +23,18 @@ button {
 }
 
 fieldset {
-    border: $border;
+    // border: $border;
+    border-color: $grey350;
     display: inline-block;
     margin-top: 2rem;
     margin-right: 1rem;
     padding: .5rem .5rem 0;
     vertical-align: top;
     width: auto;
+
+    > legend {
+        text-transform: uppercase;
+    }
 }
 
 .midiOptions {
@@ -37,3 +47,4 @@ fieldset {
         margin-right: 1rem;
     }
 }
+

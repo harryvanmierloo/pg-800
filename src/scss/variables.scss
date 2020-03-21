@@ -16,8 +16,10 @@ $orange500: #ff6d33;
 $orange900: #fde6cf;
 $brandOrange: $orange500;
 
+$grey50: #141414;
 $grey100: #323142;
 $grey300: #605f72;
+$grey350: #888888;
 $grey400: #a4a1ae;
 $grey500: #ccceee;
 $grey600: #d9d9d9;
@@ -34,7 +36,8 @@ $blue600: #749cd1;
 $blue900: #dbebfc;
 $blue950: #f2f2fa;
 
-$sidebarWidth: 250px;
+$panel: #505050;
+$panelText: #e6e6e6;
 
 /* Fonts */
 
@@ -45,7 +48,7 @@ $fontWeightBold: 700;
 /* Borders */
 
 $border: 1px solid $grey400;
-$borderRadius: .25rem;
+$borderRadius: 2px;
 
 /* Buttons */
 
