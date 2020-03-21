@@ -2,7 +2,8 @@ import React, { useState, useEffect, useCallback, useContext } from 'react';
 import ReactDOM from 'react-dom';
 import WebMidi from "webmidi";
 import MKS from './components/MKS-70/MKS-70';
-import Slider from './components/slider/slider';
+import Slider from './components/slider/slider.js';
+import MultiToggle from './components/multitoggle/multitoggle.js';
 import { Context, Provider } from './components/context/context.js';
 import * as styles from './index.module.scss';
 import update from 'immutability-helper';
@@ -186,20 +187,18 @@ function App() {
             
             <fieldset>
                 <legend>DCO-1</legend>
-                <Slider parameter="11" />
-                <Slider parameter="12" />
+                <MultiToggle parameter="11" />
+                <MultiToggle parameter="12" />
                 <Slider parameter="13" />
                 <Slider parameter="14" />
                 <Slider parameter="15" />
-                <Slider parameter="26" />
-                <Slider parameter="27" />
             </fieldset>
 
             <fieldset>
                 <legend>DCO-2</legend>
-                <Slider parameter="16" />
-                <Slider parameter="17" />
-                <Slider parameter="18" />
+                <MultiToggle parameter="16" />
+                <MultiToggle parameter="17" />
+                <MultiToggle parameter="18" />
                 <Slider parameter="19" />
                 <Slider parameter="20" />
                 <Slider parameter="21" />
@@ -207,36 +206,42 @@ function App() {
             </fieldset>
 
             <fieldset>
+                <legend>DCO-1/2</legend>
+                <MultiToggle parameter="26" />
+                <MultiToggle parameter="27" />
+            </fieldset>
+
+            <fieldset>
                 <legend>Mixer</legend>
                 <Slider parameter="28" />
                 <Slider parameter="29" />
                 <Slider parameter="30" />
-                <Slider parameter="31" />
-                <Slider parameter="32" />
+                <MultiToggle parameter="31" />
+                <MultiToggle parameter="32" />
             </fieldset>
             
             <fieldset>
                 <legend>VCF</legend>
-                <Slider parameter="33" />
+                <MultiToggle parameter="33" />
                 <Slider parameter="34" />
                 <Slider parameter="35" />
                 <Slider parameter="36" />
                 <Slider parameter="37" />
                 <Slider parameter="38" />
-                <Slider parameter="39" />
-                <Slider parameter="40" />     
+                <MultiToggle parameter="39" />
+                <MultiToggle parameter="40" />     
             </fieldset>
 
             <fieldset>
                 <legend>VCA</legend>
                 <Slider parameter="41" />
-                <Slider parameter="58" />
-                <Slider parameter="42" />
+                <MultiToggle parameter="58" />
+                <MultiToggle parameter="42" />
             </fieldset>
         
             <fieldset>
                 <legend>LFO</legend>
-                <Slider parameter="44" />
+                <MultiToggle parameter="44" />
                 <Slider parameter="45" />
                 <Slider parameter="46" />
             </fieldset>
@@ -247,7 +252,7 @@ function App() {
                 <Slider parameter="48" />
                 <Slider parameter="49" />
                 <Slider parameter="50" />
-                <Slider parameter="51" />
+                <MultiToggle parameter="51" />
             </fieldset>
 
             <fieldset>
@@ -256,12 +261,12 @@ function App() {
                 <Slider parameter="53" />
                 <Slider parameter="54" />
                 <Slider parameter="55" />
-                <Slider parameter="56" />
+                <MultiToggle parameter="56" />
             </fieldset>
 
             <fieldset>
                 <legend>Chorus</legend>
-                <Slider parameter="43" />
+                <MultiToggle parameter="43" />
             </fieldset>
 
             <footer>

@@ -1,0 +1,73 @@
+@import '../../scss/variables';
+
+.multiToggle {
+    display: inline-block;
+    padding: .25rem .5rem;
+    margin-bottom: 1rem;
+    vertical-align: top;
+
+    .radioButton {
+
+        input[type="radio"] {
+            display: none;
+
+            &:checked + label:before {
+
+            }
+
+            &:checked + label:after {
+                border-top: 1px solid $grey300;
+                border-right: 1px solid $grey50;
+                border-bottom: 1px solid $grey50;
+                border-left: 1px solid $grey350;
+                border-radius: $borderRadius;
+                background: $panel;
+            }
+        }
+
+        .label {
+            font-size: .5rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            display: inline-block;
+            position: relative;
+            padding: 7px 0 0 2rem;
+            cursor: pointer;
+            vertical-align: bottom;
+
+            &:before, &:after {
+                position: absolute;            
+                content: '';  
+                border-radius: 0;
+            }
+
+            &:before {
+                left: 0;
+                top: 0;
+                width: 24px;
+                height: 25px;
+                border-right: 1px solid $grey350;
+                border-left: 1px solid $grey50;
+                background: #222222;
+            }
+
+            &:after {
+                top: 2px;
+                left: 2px;
+                width: 20px;
+                height: 20px;
+                padding: 0;
+                background: transparent;
+
+            }
+        }
+    }
+
+    .title {
+        font-size: .5rem;
+        padding: 0;
+        margin: 0 0 .25rem;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+}

@@ -3,9 +3,9 @@ import update from 'immutability-helper';
 import MKS from '../MKS-70/MKS-70';
 import { Context } from '../context/context.js';
 import classNames from 'classnames';
-import * as styles from './slider.module.scss';
+import * as styles from './multitoggle.module.scss';
 
-const Slider = (props) => {
+const MultiToggle = (props) => {
 
     const [state, setState] = useContext(Context);
 
@@ -40,7 +40,7 @@ const Slider = (props) => {
         }
     };
 
-    const inputLabel = "slider-" + parameterId;
+    const inputLabel = "multitoggle-" + parameterId;
 
     const getOutputLabel = () => {
         if (marks !== undefined) {
@@ -52,21 +52,33 @@ const Slider = (props) => {
         }
     };
 
+    const getRadioButtons = () => {
+        let radioButtons = [];
+        marks.slice(0).reverse().map((mark, index) => {
+            let key = inputLabel + "-" + index;
+            radioButtons.push(
+                <div className={styles.radioButton}>
+                    <input
+                        type="radio"
+                        name={inputLabel}
+                        id={key}
+                        value={mark.value} // Use value from MKS spec
+                        checked={state.values[parameterId] === mark.value}
+                        onChange={changeHandler}
+                    />
+                    <label className={styles.label} htmlFor={key} key={key}>{mark.label}</label>
+                </div>
+            )
+        });
+        return radioButtons;
+    }
+
     return (
-        <div className={styles.slider}>
-            <label htmlFor={inputLabel}>{label}</label>
-            <input type="range"
-                   id={inputLabel}
-                   orient="vertical"
-                   min={min}
-                   max={max}
-                   step={step}
-                   value={state.values[parameterId]}
-                   onChange={changeHandler}>
-            </input>
-            <output htmlFor={inputLabel}>{getOutputLabel()}</output>
+        <div className={styles.multiToggle}>
+            <label className={styles.title}>{label}</label>
+            {getRadioButtons()}
         </div>
     )
 }
 
-export default React.memo(Slider);
+export default React.memo(MultiToggle);
