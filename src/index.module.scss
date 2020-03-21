@@ -37,6 +37,24 @@ fieldset {
     }
 }
 
+footer {
+    color: $grey350;
+    margin-top: 2rem;
+    font-size: 80%;
+
+    > span {
+        color: red;
+    }
+
+    > a {
+        color: $grey350;
+
+        &:hover {
+            color: $panelText;
+        }
+    }
+}   
+
 .midiOptions {
     border-bottom: $border;
     padding: 1rem 0;

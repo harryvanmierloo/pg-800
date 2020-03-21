@@ -263,6 +263,10 @@ function App() {
                 <legend>Chorus</legend>
                 <Slider parameter="43" />
             </fieldset>
+
+            <footer>
+                Made with <span>♥</span> in The Hague by <a href="https://www.ontwerper.com">Harry van Mierloo</a>.
+            </footer>
         </React.Fragment>
     );
 }
