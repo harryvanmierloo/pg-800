@@ -3,13 +3,14 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
 
 body {
+    background: #efefef;
     font-family: 'Roboto', sans-serif;
     padding: 1rem;
 }
 
 label {
-    font-size: 80%;
     display: block;
+    margin-bottom: .5rem;
 }
 
 button {
@@ -17,15 +18,18 @@ button {
 }
 
 fieldset {
+    border: $border;
     display: inline-block;
     margin-top: 2rem;
     margin-right: 1rem;
+    padding: .5rem .5rem 0;
     vertical-align: top;
     width: auto;
 }
 
 .midiOptions {
-    padding: 0;
+    border-bottom: $border;
+    padding: 0 0 1rem;
 
     > li {
         display: inline-block;

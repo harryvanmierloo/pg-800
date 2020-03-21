@@ -298,7 +298,7 @@ const mks = {
         },
         45: {
             name: "LFO DELAY TIME",
-            label: "DELAY TIME",
+            label: "DELAY",
             min: 0,
             max: 127
         },

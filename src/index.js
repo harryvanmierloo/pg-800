@@ -174,11 +174,13 @@ function App() {
                             {createChannelOptions()}
                         </select>
                     </li>
+                    <li>
+                        <label>Test</label>
+                        <button onClick={playNote(["C5", "E5", "G5"], 1000, 0.5)}>
+                            Play chord
+                        </button>
+                    </li>
                 </ul>
-                        
-                <button onClick={playNote(["C5", "E5", "G5"], 1000, 0.5)}>
-                    Play chord
-                </button>
             </div>
 
             
@@ -283,8 +285,6 @@ WebMidi.enable(function (err) {
 
             MKS.midiIn = WebMidi.getInputByName("ESI-M4U Port 3");
             MKS.midiOut = WebMidi.getOutputByName("ESI-M4U Port 1");
-
-            document.body.style = 'background: #efefef;';
 
             ReactDOM.render(
                 <Provider>

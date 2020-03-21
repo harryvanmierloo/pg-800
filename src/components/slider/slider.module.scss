@@ -1,10 +1,18 @@
 @import '../../scss/variables';
 
-.sliderLabel {
-  
-}
-
 .slider {
-  display: block;
-  margin-bottom: 1rem;
+  display: inline-block;
+  padding: .25rem 0 1rem;
+  text-align: center;
+  width: 4rem;
+
+  > label {
+    font-size: .75rem;
+  }
+
+  > input[type=range][orient=vertical] {
+    -webkit-appearance: slider-vertical; /* WebKit */
+    height: 4rem;
+    width: 1rem;
+  }
 }
