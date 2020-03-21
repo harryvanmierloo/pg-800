@@ -13,8 +13,8 @@ const Slider = (props) => {
     const parameter = MKS.parameters[parameterId];
     const label = (parameter.label !== undefined) ? parameter.label : parameter.name,
           marks = parameter.marks,
-          step = parameter.marks ? 128 / parameter.marks.length : 1,
-          max = (parameter.marks !== undefined) ? parameter.marks[parameter.marks.length-1].value : parameter.max,
+          step = parameter.marks ? parameter.max / (parameter.marks.length-1) : 1,
+          max = parameter.max,
           min = parameter.min;
 
     const changeHandler = (event) => {

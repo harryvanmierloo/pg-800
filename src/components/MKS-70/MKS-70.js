@@ -20,7 +20,7 @@ const mks = {
             name: "DCO-1 RANGE",
             label: "RANGE",
             min: 0,
-            max: 127,
+            max: 96,
             defaultValue: 32,
             marks: [
                 { value: 0, label: "16" },
@@ -33,7 +33,7 @@ const mks = {
             name: "DCO-1 WAVEFORM",
             label: "WAVE",
             min: 0,
-            max: 127,
+            max: 96,
             marks: [
                 { value: 0, label: "Noise" },
                 { value: 32, label: "Saw" },
@@ -63,7 +63,7 @@ const mks = {
             name: "DCO-2 RANGE",
             label: "RANGE",
             min: 0,
-            max: 127,
+            max: 96,
             defaultValue: 32,
             marks: [
                 { value: 0, label: "16" },
@@ -76,7 +76,7 @@ const mks = {
             name: "DCO-2 WAVEFORM",
             label: "WAVE",
             min: 0,
-            max: 127,
+            max: 96,
             marks: [
                 { value: 0, label: "Noise" },
                 { value: 32, label: "Saw" },
@@ -88,7 +88,7 @@ const mks = {
             name: "DCO-2 CROSS MOD",
             label: "XMOD",
             min: 0,
-            max: 127,
+            max: 96,
             marks: [
                 { value: 0, label: "Off" },
                 { value: 32, label: "Sync 1" },
@@ -127,7 +127,7 @@ const mks = {
             name: "DCO DYNAMICS",
             label: "DYNAMICS",
             min: 0,
-            max: 127,
+            max: 96,
             marks: [
                 { value: 0, label: "Off" },
                 { value: 32, label: "1" },
@@ -139,7 +139,7 @@ const mks = {
             name: "DCO ENV MODE",
             label: "MODE",
             min: 0,
-            max: 127,
+            max: 96,
             marks: [
                 { value: 0, label: "ENV-2 INV" },
                 { value: 32, label: "ENV-2" },
@@ -169,7 +169,7 @@ const mks = {
             name: "MIXER DYNAMICS",
             label: "DYNAMICS",
             min: 0,
-            max: 127,
+            max: 96,
             marks: [
                 { value: 0, label: "Off" },
                 { value: 32, label: "1" },
@@ -181,7 +181,7 @@ const mks = {
             name: "MIXER ENV MODE",
             label: "MODE",
             min: 0,
-            max: 127,
+            max: 96,
             marks: [
                 { value: 0, label: "ENV-2 INV" },
                 { value: 32, label: "ENV-2" },
@@ -193,7 +193,7 @@ const mks = {
             name: "HPF CUTOFF FREQ",
             label: "HPF",
             min: 0,
-            max: 127,
+            max: 96,
             marks: [
                 { value: 0, label: "0" },
                 { value: 32, label: "1" },
@@ -236,7 +236,7 @@ const mks = {
             name: "VCF DYNAMICS",
             label: "DYNAMICS",
             min: 0,
-            max: 127,
+            max: 96,
             marks: [
                 { value: 0, label: "Off" },
                 { value: 32, label: "1" },
@@ -248,7 +248,7 @@ const mks = {
             name: "VCF ENV MODE",
             label: "MODE",
             min: 0,
-            max: 127,
+            max: 96,
             marks: [
                 { value: 0, label: "ENV-2 INV" },
                 { value: 32, label: "ENV-2" },
@@ -266,7 +266,7 @@ const mks = {
             name: "VCA DYNAMICS",
             label: "DYNAMICS",
             min: 0,
-            max: 127,
+            max: 96,
             marks: [
                 { value: 0, label: "Off" },
                 { value: 32, label: "1" },
@@ -278,7 +278,7 @@ const mks = {
             name: "CHORUS",
             label: "MODE",
             min: 0,
-            max: 127,
+            max: 64,
             marks: [
                 { value: 0, label: "Off" },
                 { value: 32, label: "1" },
@@ -289,7 +289,7 @@ const mks = {
             name: "LFO WAVEFORM",
             label: "WAVE",
             min: 0,
-            max: 127,
+            max: 64,
             marks: [
                 { value: 0, label: "Random" },
                 { value: 32, label: "Square" },
@@ -336,7 +336,7 @@ const mks = {
             name: "ENV-1 KEY FOLLOW",
             label: "KYBD",
             min: 0,
-            max: 127,
+            max: 96,
             marks: [
                 { value: 0, label: "Off" },
                 { value: 32, label: "1" },
@@ -372,7 +372,7 @@ const mks = {
             name: "ENV-2 KEY FOLLOW",
             label: "KYBD",
             min: 0,
-            max: 127,
+            max: 96,
             marks: [
                 { value: 0, label: "Off" },
                 { value: 32, label: "1" },
@@ -387,7 +387,7 @@ const mks = {
             name: "VCA ENV MODE",
             label: "MODE",
             min: 0,
-            max: 127,
+            max: 64,
             marks: [
                 { value: 0, label: "Gate" },
                 { value: 64, label: "ENV-2" }
