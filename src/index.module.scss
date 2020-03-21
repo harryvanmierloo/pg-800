@@ -1,0 +1,35 @@
+@import-normalize;
+@import './scss/variables';
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif;
+    padding: 1rem;
+}
+
+label {
+    font-size: 80%;
+    display: block;
+}
+
+button {
+    display: block;
+}
+
+fieldset {
+    display: inline-block;
+    margin-top: 2rem;
+    margin-right: 1rem;
+    vertical-align: top;
+    width: auto;
+}
+
+.midiOptions {
+    padding: 0;
+
+    > li {
+        display: inline-block;
+        list-style-type: none;
+        margin-right: 1rem;
+    }
+}

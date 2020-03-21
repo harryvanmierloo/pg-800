@@ -1,9 +1,11 @@
-import React, { useContext, useCallback } from 'react';
+import React, { useContext } from 'react';
 import update from 'immutability-helper';
 import MKS from '../MKS-70/MKS-70';
-import { Context } from '../../store.js';
+import { Context } from '../context/context.js';
+import classNames from 'classnames';
+import * as styles from './slider.module.scss';
 
-const ParameterSlider = (props) => {
+const Slider = (props) => {
 
     const [state, setState] = useContext(Context);
 
@@ -11,7 +13,7 @@ const ParameterSlider = (props) => {
     const parameter = MKS.parameters[parameterId];
     const label = (parameter.label !== undefined) ? parameter.label : parameter.name;
 
-    const changeHandler = useCallback((event) => {
+    const changeHandler = (event) => {
         let newValue = event.target.value;
         if (state.values[parameterId] !== newValue) {
 
@@ -32,28 +34,16 @@ const ParameterSlider = (props) => {
                 ]
             );
         }
-    });
-
-    const styles = {
-        container: {
-            display: "inline-block",
-            height: 60, 
-            width: "auto",
-            marginTop: ".5rem",
-        },
-        slider: {
-            display: "block",
-        }
-    }
+    };
 
     const inputLabel = "slider-" + parameterId;
 
     return (
         <React.Fragment>
-            <label htmlFor={inputLabel}>{label}</label>
+            <label className={styles.sliderLabel} htmlFor={inputLabel}>{label}</label>
             <input type="range"
                    id={inputLabel}
-                   style={styles.slider}
+                   className={styles.slider}
                    orient="vertical"
                    min="1"
                    max="127"
@@ -64,4 +54,4 @@ const ParameterSlider = (props) => {
     )
 }
 
-export default React.memo(ParameterSlider);
+export default React.memo(Slider);

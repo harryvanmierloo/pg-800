@@ -2,8 +2,9 @@ import React, { useState, useEffect, useCallback, useContext } from 'react';
 import ReactDOM from 'react-dom';
 import WebMidi from "webmidi";
 import MKS from './components/MKS-70/MKS-70';
-import ParameterSlider from './components/ParameterSlider/ParameterSlider';
-import { Context, Provider } from './store.js';
+import Slider from './components/slider/slider';
+import { Context, Provider } from './components/context/context.js';
+import * as styles from './index.module.scss';
 import update from 'immutability-helper';
 
 function dec2bin(dec){
@@ -82,7 +83,7 @@ function App() {
     
     const [state, setState] = useContext(Context);
 
-    const changeMidi = useCallback((name) => event => {
+    const changeMidi = (name) => event => {
         if (name === "midiIn") {
             MKS.midiIn = WebMidi.getInputById(event.target.value);
         }
@@ -98,7 +99,7 @@ function App() {
         if (name === "midiControlChannel") {
             MKS.midiControlChannel = parseInt(event.target.value);
         }
-    });
+    };
 
     useEffect(() => {
         console.log ("App initialized!");
@@ -125,62 +126,55 @@ function App() {
         return options;
     }, []);
 
-    const sysexHandler = useCallback((e) => {
+    const sysexHandler = (e) => {
         let sysex = parseSysex(e.data);
         if (sysex && sysex.tone === "A") {
             setState({ values: sysex.values });
 
             console.log("Received TONE A parameter values: ", sysex.values);
         }
-    });
-
-    const styles = {
-        paper: {
-            boxSizing: "border-box",
-            padding: "2rem",
-            height: "100%",
-        },
-        fieldset: {
-            display: "inline-block",
-            marginTop: "1rem",
-            verticalAlign: "top",
-            width: "auto",
-        }
-    }
+    };
 
     return (
         <React.Fragment>
             <div>
                 <h1>Roland MKS-70 Programmer</h1>
-
-                <label htmlFor="select-midi-out">To synth</label>
-                <select id="select-midi-out" onChange={changeMidi('midiOut')}>
-                    {WebMidi.outputs.map((e, key) => {
-                        return <option key={key} value={e.id}>{e.name}</option>;
-                    })}
-                </select>
-
-                <label htmlFor="select-midi-in">From synth</label>
-                <select id="select-midi-in" onChange={changeMidi('midiIn')}>
-                    {WebMidi.inputs.map((e, key) => {
-                        return <option key={key} value={e.id}>{e.name}</option>;
-                    })}
-                </select>
-                
-                <label htmlFor="select-midi-channel-a">Channel A</label>
-                <select id="select-midi-channel-a" onChange={changeMidi('midiChannelA')}>
-                    {createChannelOptions()}
-                </select>
-
-                <label htmlFor="select-midi-channel-b">Channel B</label>
-                <select id="select-midi-channel-b" onChange={changeMidi('midiChannelB')}>
-                    {createChannelOptions()}
-                </select>
-            
-                <label htmlFor="select-midi-control-channel">Control Channel</label>
-                <select id="select-midi-control-channel" onChange={changeMidi('midiControlChannel')}>
-                    {createChannelOptions()}
-                </select>
+                <ul className={styles.midiOptions}>
+                    <li>
+                        <label htmlFor="select-midi-out">To synth</label>
+                        <select id="select-midi-out" onChange={changeMidi('midiOut')}>
+                            {WebMidi.outputs.map((e, key) => {
+                                return <option key={key} value={e.id}>{e.name}</option>;
+                            })}
+                        </select>
+                    </li>
+                    <li>
+                        <label htmlFor="select-midi-in">From synth</label>
+                        <select id="select-midi-in" onChange={changeMidi('midiIn')}>
+                            {WebMidi.inputs.map((e, key) => {
+                                return <option key={key} value={e.id}>{e.name}</option>;
+                            })}
+                        </select>
+                    </li>
+                    <li>
+                        <label htmlFor="select-midi-channel-a">Channel A</label>
+                        <select id="select-midi-channel-a" onChange={changeMidi('midiChannelA')}>
+                            {createChannelOptions()}
+                        </select>
+                    </li>
+                    <li>
+                        <label htmlFor="select-midi-channel-b">Channel B</label>
+                        <select id="select-midi-channel-b" onChange={changeMidi('midiChannelB')}>
+                            {createChannelOptions()}
+                        </select>
+                    </li>
+                    <li>
+                        <label htmlFor="select-midi-control-channel">Control Channel</label>
+                        <select id="select-midi-control-channel" onChange={changeMidi('midiControlChannel')}>
+                            {createChannelOptions()}
+                        </select>
+                    </li>
+                </ul>
                         
                 <button onClick={playNote(["C5", "E5", "G5"], 1000, 0.5)}>
                     Play chord
@@ -188,84 +182,84 @@ function App() {
             </div>
 
             
-            <fieldset style={styles.fieldset}>
+            <fieldset>
                 <legend>DCO-1</legend>
-                <ParameterSlider parameter="11" />
-                <ParameterSlider parameter="12" />
-                <ParameterSlider parameter="13" />
-                <ParameterSlider parameter="14" />
-                <ParameterSlider parameter="15" />
-                <ParameterSlider parameter="26" />
-                <ParameterSlider parameter="27" />
+                <Slider parameter="11" />
+                <Slider parameter="12" />
+                <Slider parameter="13" />
+                <Slider parameter="14" />
+                <Slider parameter="15" />
+                <Slider parameter="26" />
+                <Slider parameter="27" />
             </fieldset>
 
-            <fieldset style={styles.fieldset}>
+            <fieldset>
                 <legend>DCO-2</legend>
-                <ParameterSlider parameter="16" />
-                <ParameterSlider parameter="17" />
-                <ParameterSlider parameter="18" />
-                <ParameterSlider parameter="19" />
-                <ParameterSlider parameter="20" />
-                <ParameterSlider parameter="21" />
-                <ParameterSlider parameter="22" />
+                <Slider parameter="16" />
+                <Slider parameter="17" />
+                <Slider parameter="18" />
+                <Slider parameter="19" />
+                <Slider parameter="20" />
+                <Slider parameter="21" />
+                <Slider parameter="22" />
             </fieldset>
 
-            <fieldset style={styles.fieldset}>
+            <fieldset>
                 <legend>Mixer</legend>
-                <ParameterSlider parameter="28" />
-                <ParameterSlider parameter="29" />
-                <ParameterSlider parameter="30" />
-                <ParameterSlider parameter="31" />
-                <ParameterSlider parameter="32" />
+                <Slider parameter="28" />
+                <Slider parameter="29" />
+                <Slider parameter="30" />
+                <Slider parameter="31" />
+                <Slider parameter="32" />
             </fieldset>
             
-            <fieldset style={styles.fieldset}>
+            <fieldset>
                 <legend>VCF</legend>
-                <ParameterSlider parameter="33" />
-                <ParameterSlider parameter="34" />
-                <ParameterSlider parameter="35" />
-                <ParameterSlider parameter="36" />
-                <ParameterSlider parameter="37" />
-                <ParameterSlider parameter="38" />
-                <ParameterSlider parameter="39" />
-                <ParameterSlider parameter="40" />     
+                <Slider parameter="33" />
+                <Slider parameter="34" />
+                <Slider parameter="35" />
+                <Slider parameter="36" />
+                <Slider parameter="37" />
+                <Slider parameter="38" />
+                <Slider parameter="39" />
+                <Slider parameter="40" />     
             </fieldset>
 
-            <fieldset style={styles.fieldset}>
+            <fieldset>
                 <legend>VCA</legend>
-                <ParameterSlider parameter="41" />
-                <ParameterSlider parameter="58" />
-                <ParameterSlider parameter="42" />
+                <Slider parameter="41" />
+                <Slider parameter="58" />
+                <Slider parameter="42" />
             </fieldset>
         
-            <fieldset style={styles.fieldset}>
+            <fieldset>
                 <legend>LFO</legend>
-                <ParameterSlider parameter="44" />
-                <ParameterSlider parameter="45" />
-                <ParameterSlider parameter="46" />
+                <Slider parameter="44" />
+                <Slider parameter="45" />
+                <Slider parameter="46" />
             </fieldset>
                 
-            <fieldset style={styles.fieldset}>
+            <fieldset>
                 <legend>ENV-1</legend>
-                <ParameterSlider parameter="47" />
-                <ParameterSlider parameter="48" />
-                <ParameterSlider parameter="49" />
-                <ParameterSlider parameter="50" />
-                <ParameterSlider parameter="51" />
+                <Slider parameter="47" />
+                <Slider parameter="48" />
+                <Slider parameter="49" />
+                <Slider parameter="50" />
+                <Slider parameter="51" />
             </fieldset>
 
-            <fieldset style={styles.fieldset}>
+            <fieldset>
                 <legend>ENV-2</legend>
-                <ParameterSlider parameter="52" />
-                <ParameterSlider parameter="53" />
-                <ParameterSlider parameter="54" />
-                <ParameterSlider parameter="55" />
-                <ParameterSlider parameter="56" />
+                <Slider parameter="52" />
+                <Slider parameter="53" />
+                <Slider parameter="54" />
+                <Slider parameter="55" />
+                <Slider parameter="56" />
             </fieldset>
 
-            <fieldset style={styles.fieldset}>
+            <fieldset>
                 <legend>Chorus</legend>
-                <ParameterSlider parameter="43" />
+                <Slider parameter="43" />
             </fieldset>
         </React.Fragment>
     );

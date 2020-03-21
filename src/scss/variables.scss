@@ -1,0 +1,88 @@
+/* Colors */
+
+$green300: #559354;
+$green400: #82b96d;
+$green450: #a4cb94;
+$green500: #94d37c;
+$green900: #e7f1e4;
+
+$red300: #d75051;
+$red400: #e48383;
+$red900: #f8dede;
+
+$orange300: #af4521;
+$orange400: #f06630;
+$orange500: #ff6d33;
+$orange900: #fde6cf;
+$brandOrange: $orange500;
+
+$grey100: #323142;
+$grey300: #605f72;
+$grey400: #a4a1ae;
+$grey500: #ccceee;
+$grey600: #d9d9d9;
+$grey700: #e6e6e6;
+$grey800: #efefef;
+$grey900: #f2f2f2;
+$grey950: #fafafa;
+$grey975: #fdfdfd;
+
+$purple500: #666699;
+
+$blue500: #156f90;
+$blue600: #749cd1;
+$blue900: #dbebfc;
+$blue950: #f2f2fa;
+
+$sidebarWidth: 250px;
+
+/* Fonts */
+
+$fontWeightNormal: 400;
+$fontWeightSemiBold: 600;
+$fontWeightBold: 700;
+
+/* Borders */
+
+$border: $grey700;
+$borderRadius: .25rem;
+
+/* Buttons */
+
+$primaryButton: $grey300;
+$dangerButton: $brandOrange;
+
+/* Links */
+
+$link: $blue500;
+
+/* Interaction */
+
+$hover: $grey700;
+$hoverInverted: $grey100;
+$highlight: $blue950;
+$highlightInverted: $blue500;
+
+/* Shadows */
+
+$defaultShadow: 0 1px 3px 0 rgba(0, 0, 0, 0.15);
+$sidebarShadow: 0 0 20px 0 rgba(0, 0, 0, 0.15);
+$toolbarShadow: 0 10px 40px 0 rgba(0, 0, 0, 0.05);
+$popupShadow: 3px 3px 30px 0px rgba(0, 0, 0, 0.4);
+
+/* Status */
+
+$success: $green500;
+$danger: $brandOrange;
+
+/* Flow editor */
+
+$flowRelation: $grey400;
+$flowInOut: $flowRelation;
+
+/* Bootstrap overrides */
+
+$blue: $blue500;
+
+/* Unknown values */
+$unknown: $grey600
