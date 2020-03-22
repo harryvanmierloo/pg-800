@@ -44,27 +44,51 @@ const Slider = (props) => {
 
     const getOutputLabel = () => {
         if (marks !== undefined) {
-            let mark = Math.floor(state.values[parameterId] / step);
-            return marks[mark].label;
+            // let mark = Math.floor(state.values[parameterId] / step);
+            // return marks[mark].label;
         }
         else {
             return state.values[parameterId];
         }
     };
 
+    const getMarkLabels = () => {
+        if (marks) {
+            let markLabels = [];
+            marks.slice(0).reverse().map((mark, index) => {
+                markLabels.push(
+                    <div className={styles.markLabel}>{mark.label}</div>
+                )
+            });
+            return markLabels;
+        }
+    }
+
     return (
-        <div className={styles.slider}>
-            <label htmlFor={inputLabel}>{label}</label>
-            <input type="range"
-                   id={inputLabel}
-                   orient="vertical"
-                   min={min}
-                   max={max}
-                   step={step}
-                   value={state.values[parameterId]}
-                   onChange={changeHandler}>
-            </input>
-            <output htmlFor={inputLabel}>{getOutputLabel()}</output>
+        <div className={classNames(styles.slider, { [styles.isToggle]: marks } ) } >
+            <div className={classNames(styles.sliderSection, styles.markLabels)}>
+                {getMarkLabels()}
+            </div>
+            <div className={styles.sliderSection}>
+                <label htmlFor={inputLabel}>
+                    {label}
+                </label>
+                <input type="range"
+                    id={inputLabel}
+                    orient="vertical"
+                    min={min}
+                    max={max}
+                    step={step}
+                    value={state.values[parameterId]}
+                    onChange={changeHandler}
+                    style={marks ? { // Calculate correct height, depending on amount of steps
+                        width: 16 * marks.length,
+                        marginTop: 8 * marks.length - 8,
+                        marginBottom: 8 * marks.length
+                        } : {} }>
+                </input>
+                <output htmlFor={inputLabel}>{getOutputLabel()}</output>
+            </div>
         </div>
     )
 }

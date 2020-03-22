@@ -139,7 +139,7 @@ function App() {
     return (
         <React.Fragment>
             <div>
-                <h1>Roland MKS-70 Programmer</h1>
+                <h1>Roland MKS-70 Programmer <span>v0.1</span></h1>
                 <ul className={styles.midiOptions}>
                     <li>
                         <label htmlFor="select-midi-out">To synth</label>
@@ -185,89 +185,114 @@ function App() {
             </div>
 
             
-            <fieldset>
-                <legend>DCO-1</legend>
-                <MultiToggle parameter="11" />
-                <MultiToggle parameter="12" />
-                <Slider parameter="13" />
-                <Slider parameter="14" />
-                <Slider parameter="15" />
-            </fieldset>
+            <div className={styles.sectionGroup}>
+                <section>
+                    <legend>DCO-1</legend>
+                    <div className={styles.subSection}>
+                        <Slider parameter="11" />
+                        <Slider parameter="12" />
+                    </div>
+                    <div className={styles.subSection}>
+                        <Slider parameter="13" />
+                        <Slider parameter="14" />
+                        <Slider parameter="15" />
+                    </div>
+                    <div className={styles.subSection}>
+                        <Slider parameter="26" />
+                        <Slider parameter="27" />
+                    </div>
+                </section>
 
-            <fieldset>
-                <legend>DCO-2</legend>
-                <MultiToggle parameter="16" />
-                <MultiToggle parameter="17" />
-                <MultiToggle parameter="18" />
-                <Slider parameter="19" />
-                <Slider parameter="20" />
-                <Slider parameter="21" />
-                <Slider parameter="22" />
-            </fieldset>
+                <section>
+                    <legend>DCO-2</legend>
+                    <div className={styles.subSection}>
+                        <Slider parameter="16" />
+                        <Slider parameter="17" />
+                        <Slider parameter="18" />
+                    </div>
+                    <div className={styles.subSection}>
+                        <Slider parameter="19" />
+                        <Slider parameter="20" />
+                        <Slider parameter="21" />
+                        <Slider parameter="22" />
+                    </div>
+                </section>
 
-            <fieldset>
-                <legend>DCO-1/2</legend>
-                <MultiToggle parameter="26" />
-                <MultiToggle parameter="27" />
-            </fieldset>
-
-            <fieldset>
-                <legend>Mixer</legend>
-                <Slider parameter="28" />
-                <Slider parameter="29" />
-                <Slider parameter="30" />
-                <MultiToggle parameter="31" />
-                <MultiToggle parameter="32" />
-            </fieldset>
-            
-            <fieldset>
-                <legend>VCF</legend>
-                <MultiToggle parameter="33" />
-                <Slider parameter="34" />
-                <Slider parameter="35" />
-                <Slider parameter="36" />
-                <Slider parameter="37" />
-                <Slider parameter="38" />
-                <MultiToggle parameter="39" />
-                <MultiToggle parameter="40" />     
-            </fieldset>
-
-            <fieldset>
-                <legend>VCA</legend>
-                <Slider parameter="41" />
-                <MultiToggle parameter="58" />
-                <MultiToggle parameter="42" />
-            </fieldset>
-        
-            <fieldset>
-                <legend>LFO</legend>
-                <MultiToggle parameter="44" />
-                <Slider parameter="45" />
-                <Slider parameter="46" />
-            </fieldset>
+                <section>
+                    <legend>Mixer</legend>
+                    <div className={styles.subSection}>
+                        <Slider parameter="28" />
+                        <Slider parameter="29" />
+                        <Slider parameter="30" />
+                    </div>
+                    <div className={styles.subSection}>
+                        <Slider parameter="31" />
+                        <Slider parameter="32" />
+                    </div>
+                </section>
                 
-            <fieldset>
-                <legend>ENV-1</legend>
-                <Slider parameter="47" />
-                <Slider parameter="48" />
-                <Slider parameter="49" />
-                <Slider parameter="50" />
-                <MultiToggle parameter="51" />
-            </fieldset>
+                <section>
+                    <legend>VCF</legend>
+                    <div className={styles.subSection}>
+                        <Slider parameter="33" />
+                        <Slider parameter="34" />
+                        <Slider parameter="35" />
+                    </div>
+                    <div className={styles.subSection}>
+                        <Slider parameter="36" />
+                        <Slider parameter="37" />
+                        <Slider parameter="38" />
+                    </div>
+                    <div className={styles.subSection}>
+                        <Slider parameter="39" />
+                        <Slider parameter="40" />     
+                    </div>
+                </section>
 
-            <fieldset>
-                <legend>ENV-2</legend>
-                <Slider parameter="52" />
-                <Slider parameter="53" />
-                <Slider parameter="54" />
-                <Slider parameter="55" />
-                <MultiToggle parameter="56" />
-            </fieldset>
+                <section>
+                    <legend>VCA</legend>
+                    <div className={styles.subSection}>
+                        <Slider parameter="41" />
+                    </div>
+                    <div className={styles.subSection}>
+                        <Slider parameter="58" />
+                    </div>
+                    <div className={styles.subSection}>
+                        <Slider parameter="42" />
+                    </div>
+                </section>
+            </div>
+            <div className={styles.sectionGroup}>
+                <section>
+                    <legend>LFO</legend>
+                    <Slider parameter="44" />
+                    <Slider parameter="45" />
+                    <Slider parameter="46" />
+                </section>
+                    
+                <section>
+                    <legend>ENVELOPE-1</legend>
+                    <Slider parameter="47" />
+                    <Slider parameter="48" />
+                    <Slider parameter="49" />
+                    <Slider parameter="50" />
+                    <Slider parameter="51" />
+                </section>
 
-            <fieldset>
-                <legend>Chorus</legend>
-                <MultiToggle parameter="43" />
-            </fieldset>
+                <section>
+                    <legend>ENVELOPE-2</legend>
+                    <Slider parameter="52" />
+                    <Slider parameter="53" />
+                    <Slider parameter="54" />
+                    <Slider parameter="55" />
+                    <Slider parameter="56" />
+                </section>
+
+                <section>
+                    <legend>Chorus</legend>
+                    <Slider parameter="43" />
+                </section>
+            </div>
 
             <footer>
                 Made with <span>♥</span> in The Hague by <a href="https://www.ontwerper.com">Harry van Mierloo</a>.

@@ -1,10 +1,11 @@
 @import-normalize;
 @import './scss/variables';
-@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap');
 
 body {
-    background: $panel;
+    background: $grey100;
     font-family: 'Roboto', sans-serif;
+    font-weight: 300;
     padding: 1rem;
     
     > * {
@@ -22,20 +23,45 @@ button {
     display: block;
 }
 
-fieldset {
-    // border: $border;
-    border-color: $grey350;
+h1 {
+    font-weight: 300;
+    span {
+        color: $grey350;
+        font-size: 1rem;
+    }
+}
+
+.sectionGroup {
     display: inline-block;
-    margin-top: 2rem;
-    margin-right: 1rem;
-    padding: .5rem .5rem 0;
+}
+
+section {
+    background: $panel;
+    border-top: 1px solid $grey300;
+    border-right: 1px solid $grey50;
+    border-bottom: 1px solid $grey50;
+    border-left: 1px solid $grey350;
+    border-radius: $borderRadius;
+    display: inline-block;
+    margin: 1rem 0;
+    padding: .5rem 1rem;
+    text-align: center;
     vertical-align: top;
+    height: 30%;
     width: auto;
 
     > legend {
         text-transform: uppercase;
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+
+    > .subSection {
+        display: block;
+        min-height: 11rem;
     }
 }
+
 
 footer {
     color: $grey350;
@@ -62,7 +88,7 @@ footer {
     > li {
         display: inline-block;
         list-style-type: none;
-        margin-right: 1rem;
+        margin-right: 1.5rem;
     }
 }
 
