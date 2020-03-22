@@ -1,9 +1,9 @@
 const mks = {
     midiIn: undefined,
     midiOut: undefined,
-    midiChannelA: 15,
-    midiChannelB: 15,
-    midiControlChannel: 15,
+    midiChannelA: 1,
+    midiChannelB: 1,
+    midiControlChannel: 1,
     parameters: {
         0: {},
         1: {},

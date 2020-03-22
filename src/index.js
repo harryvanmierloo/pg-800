@@ -87,6 +87,7 @@ function App() {
     const changeMidi = (name) => event => {
         if (name === "midiIn") {
             MKS.midiIn = WebMidi.getInputById(event.target.value);
+            MKS.midiIn.addListener("sysex", "all", sysexHandler);
         }
         if (name ==="midiOut") {
             MKS.midiOut = WebMidi.getOutputById(event.target.value);
@@ -100,6 +101,11 @@ function App() {
         if (name === "midiControlChannel") {
             MKS.midiControlChannel = parseInt(event.target.value);
         }
+        if (name === "midiProgram") {
+            if (event.target.value !== "-") {
+                MKS.midiOut.sendProgramChange(parseInt(event.target.value), MKS.midiControlChannel);
+            }
+        }
     };
 
     useEffect(() => {
@@ -107,11 +113,9 @@ function App() {
 
         setState(state => ({ ...state, values: getDefaultParameterValues() }));
 
-        // TEST: Set context parameter directly
-        // setState(update(state, {values: {34: {$set: 100 }}}));
-
+        // Listen for incoming sysex
         MKS.midiIn.addListener("sysex", "all", sysexHandler);
-        MKS.midiOut.sendProgramChange(0, 15);
+
     }, []);
 
     const playNote = useCallback((note, duration, velocity) => event => {
@@ -122,7 +126,29 @@ function App() {
     const createChannelOptions = useCallback(() => {
         let options = []
         for (let i = 1; i <= 16; i++) {
-          options.push(<option key={i} value={i}>{i}</option>)
+          options.push(<option key={i} value={i}>{i}</option>);
+        }
+        return options;
+    }, []);
+
+    const createProgramOptions = useCallback(() => {
+        let options = [];
+        options.push(<option>-</option>);
+        // Internal programs
+        for (var c = 0; c <= 7; c++) {
+            let char = String.fromCharCode(c+65);
+            for (let i = 1; i <= 8; i++) {
+                let program = 8 * c + i - 1;
+                options.push(<option key={program} value={program}>Internal - {char}{i}</option>);
+            }
+        }
+        // Cartridge programs
+        for (var c = 0; c <= 7; c++) {
+            let char = String.fromCharCode(c+65);
+            for (let i = 1; i <= 8; i++) {
+                let program = 63 + 8 * c + i;
+                options.push(<option key={program} value={program}>Cardtridge - {char}{i}</option>);
+            }
         }
         return options;
     }, []);
@@ -173,6 +199,12 @@ function App() {
                         <label htmlFor="select-midi-control-channel">Control Channel</label>
                         <select id="select-midi-control-channel" onChange={changeMidi('midiControlChannel')}>
                             {createChannelOptions()}
+                        </select>
+                    </li>
+                    <li>
+                        <label htmlFor="select-midi-program">Patch</label>
+                        <select id="select-midi-program" onChange={changeMidi('midiProgram')}>
+                            {createProgramOptions()}
                         </select>
                     </li>
                     <li>
@@ -317,8 +349,8 @@ WebMidi.enable(function (err) {
             MKS.midiIn = WebMidi.inputs[0];
             MKS.midiOut = WebMidi.outputs[0];
 
-            MKS.midiIn = WebMidi.getInputByName("ESI-M4U Port 3");
-            MKS.midiOut = WebMidi.getOutputByName("ESI-M4U Port 1");
+            //MKS.midiIn = WebMidi.getInputByName("ESI-M4U Port 3");
+            //MKS.midiOut = WebMidi.getOutputByName("ESI-M4U Port 1");
 
             ReactDOM.render(
                 <Provider>
