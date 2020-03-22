@@ -82,8 +82,8 @@ const Slider = (props) => {
                     value={state.values[parameterId]}
                     onChange={changeHandler}
                     style={marks ? { // Calculate correct height, depending on amount of steps
-                        width: 16 * marks.length,
-                        marginTop: 8 * marks.length - 8,
+                        width: 16 * marks.length + 8,
+                        marginTop: 8 * marks.length - 4,
                         marginBottom: 8 * marks.length
                         } : {} }>
                 </input>

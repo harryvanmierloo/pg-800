@@ -139,7 +139,7 @@ function App() {
     return (
         <React.Fragment>
             <div>
-                <h1>Roland MKS-70 Programmer <span>v0.1</span></h1>
+                <h1>Roland MKS-70 Programmer <span>v0.1 - Alpha</span></h1>
                 <ul className={styles.midiOptions}>
                     <li>
                         <label htmlFor="select-midi-out">To synth</label>
