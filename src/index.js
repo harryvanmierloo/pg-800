@@ -109,6 +109,7 @@ function App() {
     };
 
     useEffect(() => {
+        document.title = "PG-800 Virtual Programmer";
         console.log ("App initialized!");
 
         setState(state => ({ ...state, values: getDefaultParameterValues() }));
@@ -165,7 +166,7 @@ function App() {
     return (
         <React.Fragment>
             <div>
-                <h1>Roland PG-800 Virtual Programmer <span>v0.1 - Alpha</span></h1>
+                <h1>PG-800 Virtual Programmer <span>v0.1 - Alpha</span></h1>
                 <ul className={styles.midiOptions}>
                     <li>
                         <label htmlFor="select-midi-out">To synth</label>
@@ -333,7 +334,6 @@ function App() {
     );
 }
 
-document.title = "Roland MKS-70 Programmer";
 WebMidi.enable(function (err) {
     if (err) {
         console.warn(err);
