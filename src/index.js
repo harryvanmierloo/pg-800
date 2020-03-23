@@ -147,7 +147,7 @@ function App() {
             let char = String.fromCharCode(c+65);
             for (let i = 1; i <= 8; i++) {
                 let program = 63 + 8 * c + i;
-                options.push(<option key={program} value={program}>Cardtridge - {char}{i}</option>);
+                options.push(<option key={program} value={program}>Cartridge - {char}{i}</option>);
             }
         }
         return options;
@@ -165,7 +165,7 @@ function App() {
     return (
         <React.Fragment>
             <div>
-                <h1>Roland MKS-70 Programmer <span>v0.1 - Alpha</span></h1>
+                <h1>Roland PG-800 Virtual Programmer <span>v0.1 - Alpha</span></h1>
                 <ul className={styles.midiOptions}>
                     <li>
                         <label htmlFor="select-midi-out">To synth</label>
