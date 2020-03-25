@@ -8,6 +8,14 @@ import { Context, Provider } from './components/context/context.js';
 import * as styles from './index.module.scss';
 import update from 'immutability-helper';
 
+var lsData = {
+    midiIn: false,
+    midiOut: false,
+    midiChannelA: 1,
+    midiChannelB: 1,
+    midiControlChannel: 1
+};
+
 function dec2bin(dec){
     let bin = (dec >>> 0).toString(2);
 
@@ -98,19 +106,36 @@ function App() {
     const changeMidi = (name) => event => {
         if (name === "midiIn") {
             MKS.midiIn = WebMidi.getInputById(event.target.value);
+            // Put the object into storage
+            lsData.midiIn = MKS.midiIn.name;
+            localStorage.setItem('PG-800', JSON.stringify(lsData));
+            // Add new listener
             MKS.midiIn.addListener("sysex", "all", sysexHandler);
+            // NEEDS CLEAR LISTENER
         }
         if (name ==="midiOut") {
             MKS.midiOut = WebMidi.getOutputById(event.target.value);
+            // Put the object into storage
+            lsData.midiOut = MKS.midiOut.name;
+            localStorage.setItem('PG-800', JSON.stringify(lsData));
         }
         if (name === "midiChannelA") {
             MKS.midiChannelA = parseInt(event.target.value);
+            // Put the object into storage
+            lsData.midiChannelA = MKS.midiChannelA;
+            localStorage.setItem('PG-800', JSON.stringify(lsData));
         }
         if (name === "midiChannelB") {
             MKS.midiChannelB = parseInt(event.target.value);
+            // Put the object into storage
+            lsData.midiChannelB = MKS.midiChannelB;
+            localStorage.setItem('PG-800', JSON.stringify(lsData));
         }
         if (name === "midiControlChannel") {
             MKS.midiControlChannel = parseInt(event.target.value);
+            // Put the object into storage
+            lsData.midiControlChannel = MKS.midiControlChannel;
+            localStorage.setItem('PG-800', JSON.stringify(lsData));
         }
         if (name === "midiProgram") {
             if (event.target.value !== "-") {
@@ -170,7 +195,7 @@ function App() {
                 <ul className={styles.midiOptions}>
                     <li>
                         <label htmlFor="select-midi-out">To synth</label>
-                        <select id="select-midi-out" onChange={changeMidi('midiOut')}>
+                        <select id="select-midi-out" onChange={changeMidi('midiOut')} defaultValue={MKS.midiOut.id}>
                             {WebMidi.outputs.map((e, key) => {
                                 return <option key={key} value={e.id}>{e.name}</option>;
                             })}
@@ -178,7 +203,7 @@ function App() {
                     </li>
                     <li>
                         <label htmlFor="select-midi-in">From synth</label>
-                        <select id="select-midi-in" onChange={changeMidi('midiIn')}>
+                        <select id="select-midi-in" onChange={changeMidi('midiIn')} defaultValue={MKS.midiIn.id}>
                             {WebMidi.inputs.map((e, key) => {
                                 return <option key={key} value={e.id}>{e.name}</option>;
                             })}
@@ -186,19 +211,19 @@ function App() {
                     </li>
                     <li>
                         <label htmlFor="select-midi-channel-a">Channel A</label>
-                        <select id="select-midi-channel-a" onChange={changeMidi('midiChannelA')}>
+                        <select id="select-midi-channel-a" onChange={changeMidi('midiChannelA')} defaultValue={MKS.midiChannelA}>
                             {createChannelOptions()}
                         </select>
                     </li>
                     <li>
                         <label htmlFor="select-midi-channel-b">Channel B</label>
-                        <select id="select-midi-channel-b" onChange={changeMidi('midiChannelB')}>
+                        <select id="select-midi-channel-b" onChange={changeMidi('midiChannelB')} defaultValue={MKS.midiChannelB}>
                             {createChannelOptions()}
                         </select>
                     </li>
                     <li>
                         <label htmlFor="select-midi-control-channel">Control Channel</label>
-                        <select id="select-midi-control-channel" onChange={changeMidi('midiControlChannel')}>
+                        <select id="select-midi-control-channel" onChange={changeMidi('midiControlChannel')} defaultValue={MKS.midiControlChannel}>
                             {createChannelOptions()}
                         </select>
                     </li>
@@ -349,8 +374,23 @@ WebMidi.enable(function (err) {
             MKS.midiIn = WebMidi.inputs[0];
             MKS.midiOut = WebMidi.outputs[0];
 
-            //MKS.midiIn = WebMidi.getInputByName("ESI-M4U Port 3");
-            //MKS.midiOut = WebMidi.getOutputByName("ESI-M4U Port 1");
+            // Retrieve the object from storage
+            var retrievedData = JSON.parse(localStorage.getItem('PG-800'));
+            console.log(retrievedData);
+            
+            if (retrievedData) {
+                if (WebMidi.getInputByName(retrievedData.midiIn) !== false) {
+                    MKS.midiIn = WebMidi.getInputByName(retrievedData.midiIn);   
+                    lsData.midiIn = retrievedData.midiIn;
+                }
+                if (WebMidi.getInputByName(retrievedData.midiOut) !== false) {
+                    MKS.midiOut = WebMidi.getOutputByName(retrievedData.midiOut);        
+                    lsData.midiOut = retrievedData.midiOut;
+                }
+                lsData.midiChannelA = MKS.midiChannelA = retrievedData.midiChannelA;
+                lsData.midiChannelB = MKS.midiChannelB = retrievedData.midiChannelB;
+                lsData.midiControlChannel = MKS.midiControlChannel = retrievedData.midiControlChannel;
+            }
 
             ReactDOM.render(
                 <Provider>
