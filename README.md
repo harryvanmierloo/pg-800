@@ -1,4 +1,4 @@
-# A web-based PG-800 programmer for the Roland MKS-70
+# A web-based PG-800 virtual programmer
 by Harry van Mierloo
 
 ## Available Scripts

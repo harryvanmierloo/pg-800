@@ -84,6 +84,17 @@ function App() {
     
     const [state, setState] = useContext(Context);
 
+    useEffect(() => {
+        document.title = "PG-800 Virtual Programmer";
+        console.log ("App initialized!");
+
+        setState(state => ({ ...state, values: getDefaultParameterValues() }));
+
+        // Listen for incoming sysex
+        MKS.midiIn.addListener("sysex", "all", sysexHandler);
+
+    }, []);
+
     const changeMidi = (name) => event => {
         if (name === "midiIn") {
             MKS.midiIn = WebMidi.getInputById(event.target.value);
@@ -107,17 +118,6 @@ function App() {
             }
         }
     };
-
-    useEffect(() => {
-        document.title = "PG-800 Virtual Programmer";
-        console.log ("App initialized!");
-
-        setState(state => ({ ...state, values: getDefaultParameterValues() }));
-
-        // Listen for incoming sysex
-        MKS.midiIn.addListener("sysex", "all", sysexHandler);
-
-    }, []);
 
     const playNote = useCallback((note, duration, velocity) => event => {
         MKS.midiOut.playNote(note, MKS.midiChannelA, {duration: duration, velocity: velocity });
