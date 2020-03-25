@@ -9,6 +9,7 @@ import * as styles from './index.module.scss';
 import update from 'immutability-helper';
 
 var lsData = {
+    synth: "MKS",
     midiIn: false,
     midiOut: false,
     midiChannelA: 1,
@@ -96,7 +97,9 @@ function App() {
         document.title = "PG-800 Virtual Programmer";
         console.log ("App initialized!");
 
-        setState(state => ({ ...state, values: getDefaultParameterValues() }));
+        // setState(state => ({ ...state, values: getDefaultParameterValues() }));
+        setState(update(state, {values: {$set: getDefaultParameterValues()}}));
+        setState(update(state, {synth: {$set: lsData.synth}}));
 
         // Listen for incoming sysex
         MKS.midiIn.addListener("sysex", "all", sysexHandler);
@@ -106,43 +109,43 @@ function App() {
     const changeMidi = (name) => event => {
         if (name === "midiIn") {
             MKS.midiIn = WebMidi.getInputById(event.target.value);
-            // Put the object into storage
             lsData.midiIn = MKS.midiIn.name;
-            localStorage.setItem('PG-800', JSON.stringify(lsData));
             // Add new listener
             MKS.midiIn.addListener("sysex", "all", sysexHandler);
             // NEEDS CLEAR LISTENER
         }
         if (name ==="midiOut") {
             MKS.midiOut = WebMidi.getOutputById(event.target.value);
-            // Put the object into storage
             lsData.midiOut = MKS.midiOut.name;
-            localStorage.setItem('PG-800', JSON.stringify(lsData));
         }
         if (name === "midiChannelA") {
             MKS.midiChannelA = parseInt(event.target.value);
-            // Put the object into storage
             lsData.midiChannelA = MKS.midiChannelA;
-            localStorage.setItem('PG-800', JSON.stringify(lsData));
         }
         if (name === "midiChannelB") {
             MKS.midiChannelB = parseInt(event.target.value);
-            // Put the object into storage
             lsData.midiChannelB = MKS.midiChannelB;
-            localStorage.setItem('PG-800', JSON.stringify(lsData));
         }
         if (name === "midiControlChannel") {
             MKS.midiControlChannel = parseInt(event.target.value);
-            // Put the object into storage
             lsData.midiControlChannel = MKS.midiControlChannel;
-            localStorage.setItem('PG-800', JSON.stringify(lsData));
         }
         if (name === "midiProgram") {
             if (event.target.value !== "-") {
                 MKS.midiOut.sendProgramChange(parseInt(event.target.value), MKS.midiControlChannel);
             }
         }
+        // Update local storage
+        localStorage.setItem('PG-800', JSON.stringify(lsData));
     };
+
+    const changeSynth = (event) => {
+        let newSynth = event.target.value;
+        setState(update(state, {synth: {$set: newSynth}}));
+        // Update local storage
+        lsData.synth = newSynth;
+        localStorage.setItem('PG-800', JSON.stringify(lsData));
+    }
 
     const playNote = useCallback((note, duration, velocity) => event => {
         MKS.midiOut.playNote(note, MKS.midiChannelA, {duration: duration, velocity: velocity });
@@ -159,7 +162,7 @@ function App() {
 
     const createProgramOptions = useCallback(() => {
         let options = [];
-        options.push(<option>-</option>);
+        options.push(<option key="program-none">-</option>);
         // Internal programs
         for (var c = 0; c <= 7; c++) {
             let char = String.fromCharCode(c+65);
@@ -179,10 +182,10 @@ function App() {
         return options;
     }, []);
 
-    const sysexHandler = (e) => {
-        let sysex = parseSysex(e.data);
+    const sysexHandler = (event) => {
+        let sysex = parseSysex(event.data);
         if (sysex && sysex.tone === "A") {
-            setState({ values: sysex.values });
+            setState(update(state, {values: {$set: sysex.values }}));
 
             console.log("Received TONE A parameter values: ", sysex.values);
         }
@@ -194,17 +197,26 @@ function App() {
                 <h1>PG-800 Virtual Programmer <span>v0.1 - Alpha</span></h1>
                 <ul className={styles.midiOptions}>
                     <li>
-                        <label htmlFor="select-midi-out">To synth</label>
-                        <select id="select-midi-out" onChange={changeMidi('midiOut')} defaultValue={MKS.midiOut.id}>
-                            {WebMidi.outputs.map((e, key) => {
+                        <label htmlFor="select-synth">Connected synth</label>
+                        <select id="select-synth" onChange={changeSynth} defaultValue={lsData.synth}>
+                            <option key="synth-select1" value="MKS">Roland JX-10 / MKS-70 - Original firmware</option>
+                            <option key="synth-select2" value="MKS-VECOVEN3" disabled>Roland JX-10 / MKS-70 - Vecoven firmware 3.x</option>
+                            <option key="synth-select3" value="MKS-VECOVEN4" disabled>Roland JX-10 / MKS-70 - Vecoven firmware 4.x</option>
+                            <option key="synth-select4" value="JX-8P">Roland JX-8P</option>
+                        </select>
+                    </li>
+                    <li>
+                        <label htmlFor="select-midi-in">Midi from synth</label>
+                        <select id="select-midi-in" onChange={changeMidi('midiIn')} defaultValue={MKS.midiIn.id}>
+                            {WebMidi.inputs.map((e, key) => {
                                 return <option key={key} value={e.id}>{e.name}</option>;
                             })}
                         </select>
                     </li>
                     <li>
-                        <label htmlFor="select-midi-in">From synth</label>
-                        <select id="select-midi-in" onChange={changeMidi('midiIn')} defaultValue={MKS.midiIn.id}>
-                            {WebMidi.inputs.map((e, key) => {
+                        <label htmlFor="select-midi-out">Midi to synth</label>
+                        <select id="select-midi-out" onChange={changeMidi('midiOut')} defaultValue={MKS.midiOut.id}>
+                            {WebMidi.outputs.map((e, key) => {
                                 return <option key={key} value={e.id}>{e.name}</option>;
                             })}
                         </select>
@@ -242,115 +254,123 @@ function App() {
                 </ul>
             </div>
 
-            
-            <div className={styles.sectionGroup}>
-                <section>
-                    <h2>DCO-1</h2>
-                    <div className={styles.subSection}>
-                        <Slider parameter="11" />
-                        <Slider parameter="12" />
-                    </div>
-                    <div className={styles.subSection}>
-                        <Slider parameter="13" />
-                        <Slider parameter="14" />
-                        <Slider parameter="15" />
-                    </div>
-                    <div className={styles.subSection}>
-                        <Slider parameter="26" />
-                        <Slider parameter="27" />
-                    </div>
-                </section>
+            {(state.synth === "MKS" || state.synth === "JX-8P" || state.synth === "MKS-VECOVEN3") &&
+                <div className={styles.panel}>
+                    <div className={styles.sectionGroup}>
+                        <section>
+                            <h2>DCO-1</h2>
+                            <div className={styles.subSection}>
+                                <Slider parameter="11" />
+                                <Slider parameter="12" />
+                            </div>
+                            <div className={styles.subSection}>
+                                <Slider parameter="13" />
+                                <Slider parameter="14" />
+                                <Slider parameter="15" />
+                            </div>
+                            <div className={styles.subSection}>
+                                <Slider parameter="26" />
+                                <Slider parameter="27" />
+                            </div>
+                        </section>
 
-                <section>
-                    <h2>DCO-2</h2>
-                    <div className={styles.subSection}>
-                        <Slider parameter="16" />
-                        <Slider parameter="17" />
-                        <Slider parameter="18" />
-                    </div>
-                    <div className={styles.subSection}>
-                        <Slider parameter="19" />
-                        <Slider parameter="20" />
-                        <Slider parameter="21" />
-                        <Slider parameter="22" />
-                    </div>
-                </section>
+                        <section>
+                            <h2>DCO-2</h2>
+                            <div className={styles.subSection}>
+                                <Slider parameter="16" />
+                                <Slider parameter="17" />
+                                <Slider parameter="18" />
+                            </div>
+                            <div className={styles.subSection}>
+                                <Slider parameter="19" />
+                                <Slider parameter="20" />
+                                <Slider parameter="21" />
+                                <Slider parameter="22" />
+                            </div>
+                        </section>
 
-                <section>
-                    <h2>Mixer</h2>
-                    <div className={styles.subSection}>
-                        <Slider parameter="28" />
-                        <Slider parameter="29" />
-                        <Slider parameter="30" />
-                    </div>
-                    <div className={styles.subSection}>
-                        <Slider parameter="31" />
-                        <Slider parameter="32" />
-                    </div>
-                </section>
-                
-                <section>
-                    <h2>VCF</h2>
-                    <div className={styles.subSection}>
-                        <Slider parameter="33" />
-                        <Slider parameter="34" />
-                        <Slider parameter="35" />
-                    </div>
-                    <div className={styles.subSection}>
-                        <Slider parameter="36" />
-                        <Slider parameter="37" />
-                        <Slider parameter="38" />
-                    </div>
-                    <div className={styles.subSection}>
-                        <Slider parameter="39" />
-                        <Slider parameter="40" />     
-                    </div>
-                </section>
+                        <section>
+                            <h2>Mixer</h2>
+                            <div className={styles.subSection}>
+                                <Slider parameter="28" />
+                                <Slider parameter="29" />
+                                <Slider parameter="30" />
+                            </div>
+                            <div className={styles.subSection}>
+                                <Slider parameter="31" />
+                                <Slider parameter="32" />
+                            </div>
+                        </section>
+                        
+                        <section>
+                            <h2>VCF</h2>
+                            <div className={styles.subSection}>
+                                <Slider parameter="33" />
+                                <Slider parameter="34" />
+                                <Slider parameter="35" />
+                            </div>
+                            <div className={styles.subSection}>
+                                <Slider parameter="36" />
+                                <Slider parameter="37" />
+                                <Slider parameter="38" />
+                            </div>
+                            <div className={styles.subSection}>
+                                <Slider parameter="39" />
+                                <Slider parameter="40" />     
+                            </div>
+                        </section>
 
-                <section>
-                    <h2>VCA</h2>
-                    <div className={styles.subSection}>
-                        <Slider parameter="41" />
+                        <section>
+                            <h2>VCA</h2>
+                            <div className={styles.subSection}>
+                                <Slider parameter="41" />
+                            </div>
+                            <div className={styles.subSection}>
+                                <Slider parameter="58" />
+                            </div>
+                            <div className={styles.subSection}>
+                                <Slider parameter="42" />
+                            </div>
+                        </section>
                     </div>
-                    <div className={styles.subSection}>
-                        <Slider parameter="58" />
-                    </div>
-                    <div className={styles.subSection}>
-                        <Slider parameter="42" />
-                    </div>
-                </section>
-            </div>
-            <div className={styles.sectionGroup}>
-                <section>
-                    <h2>LFO</h2>
-                    <Slider parameter="44" />
-                    <Slider parameter="45" />
-                    <Slider parameter="46" />
-                </section>
-                    
-                <section>
-                    <h2>ENVELOPE-1</h2>
-                    <Slider parameter="47" />
-                    <Slider parameter="48" />
-                    <Slider parameter="49" />
-                    <Slider parameter="50" />
-                    <Slider parameter="51" />
-                </section>
+                    <div className={styles.sectionGroup}>
+                        <section>
+                            <h2>LFO</h2>
+                            <Slider parameter="44" />
+                            <Slider parameter="45" />
+                            <Slider parameter="46" />
+                        </section>
+                            
+                        <section>
+                            <h2>ENVELOPE-1</h2>
+                            <Slider parameter="47" />
+                            <Slider parameter="48" />
+                            <Slider parameter="49" />
+                            <Slider parameter="50" />
+                            <Slider parameter="51" />
+                        </section>
 
-                <section>
-                    <h2>ENVELOPE-2</h2>
-                    <Slider parameter="52" />
-                    <Slider parameter="53" />
-                    <Slider parameter="54" />
-                    <Slider parameter="55" />
-                    <Slider parameter="56" />
-                </section>
+                        <section>
+                            <h2>ENVELOPE-2</h2>
+                            <Slider parameter="52" />
+                            <Slider parameter="53" />
+                            <Slider parameter="54" />
+                            <Slider parameter="55" />
+                            <Slider parameter="56" />
+                        </section>
 
-                <section>
-                    <h2>Chorus</h2>
-                    <Slider parameter="43" />
-                </section>
-            </div>
+                        <section>
+                            <h2>Chorus</h2>
+                            <Slider parameter="43" />
+                        </section>
+                    </div>
+                </div>
+            } 
+            {(state.synth === "MKS-VECOVEN4") &&
+                <div className={styles.panel}>
+                    Vecoven-panel coming soon!
+                </div>
+            }
 
             <footer>
                 Made with <span>♥</span> in The Hague by <a href="https://www.ontwerper.com">Harry van Mierloo</a>.
@@ -378,6 +398,7 @@ WebMidi.enable(function (err) {
             var retrievedData = JSON.parse(localStorage.getItem('PG-800'));
             
             if (retrievedData) {
+                lsData.synth = retrievedData.synth;
                 if (WebMidi.getInputByName(retrievedData.midiIn) !== false) {
                     MKS.midiIn = WebMidi.getInputByName(retrievedData.midiIn);   
                     lsData.midiIn = retrievedData.midiIn;

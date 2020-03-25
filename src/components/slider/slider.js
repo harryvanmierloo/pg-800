@@ -23,6 +23,11 @@ const Slider = (props) => {
 
             // Set new value in context
             setState(update(state, {values: {[parameterId]: {$set: parseInt(newValue) }}}));
+
+            let formatType = 0b00100100; // JX-10
+            if (state.synth === "JX-8P") {
+                formatType = 0b0010001;
+            }
    
             // Send sysex to synth
             MKS.midiOut.sendSysex(
@@ -30,7 +35,7 @@ const Slider = (props) => {
                 [
                     0b00110110, // Operation code = IPR (individual parameter)
                     MKS.midiControlChannel-1, // Control Channel (Start at 0)
-                    0b00100100, // Format type (JX-10)
+                    formatType, // Format type (JX-10 or JX-8P)
                     0b00100000, // Level = 1
                     0b00000001, // Group (01 = Tone A, 10 = Tone B)
                     parameterId, // Parameter (0-68)

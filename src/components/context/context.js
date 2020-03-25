@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 
 const initialState = {
+    synth: "MKS",
     values: [ 
         0,0,0,0,0,0,0,0,0,0,
         0,0,0,0,0,0,0,0,0,0,

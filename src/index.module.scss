@@ -38,6 +38,9 @@ h2 {
     margin: 0 0 1rem;
 }
 
+.panel {
+}
+
 .sectionGroup {
     display: inline-block;
 }
@@ -93,7 +96,7 @@ footer {
     > li {
         display: inline-block;
         list-style-type: none;
-        margin-right: 1.5rem;
+        margin: 0 1.5rem 1rem 0;
     }
 }
 
