@@ -376,7 +376,6 @@ WebMidi.enable(function (err) {
 
             // Retrieve the object from storage
             var retrievedData = JSON.parse(localStorage.getItem('PG-800'));
-            console.log(retrievedData);
             
             if (retrievedData) {
                 if (WebMidi.getInputByName(retrievedData.midiIn) !== false) {
