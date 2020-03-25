@@ -245,7 +245,7 @@ function App() {
             
             <div className={styles.sectionGroup}>
                 <section>
-                    <legend>DCO-1</legend>
+                    <h2>DCO-1</h2>
                     <div className={styles.subSection}>
                         <Slider parameter="11" />
                         <Slider parameter="12" />
@@ -262,7 +262,7 @@ function App() {
                 </section>
 
                 <section>
-                    <legend>DCO-2</legend>
+                    <h2>DCO-2</h2>
                     <div className={styles.subSection}>
                         <Slider parameter="16" />
                         <Slider parameter="17" />
@@ -277,7 +277,7 @@ function App() {
                 </section>
 
                 <section>
-                    <legend>Mixer</legend>
+                    <h2>Mixer</h2>
                     <div className={styles.subSection}>
                         <Slider parameter="28" />
                         <Slider parameter="29" />
@@ -290,7 +290,7 @@ function App() {
                 </section>
                 
                 <section>
-                    <legend>VCF</legend>
+                    <h2>VCF</h2>
                     <div className={styles.subSection}>
                         <Slider parameter="33" />
                         <Slider parameter="34" />
@@ -308,7 +308,7 @@ function App() {
                 </section>
 
                 <section>
-                    <legend>VCA</legend>
+                    <h2>VCA</h2>
                     <div className={styles.subSection}>
                         <Slider parameter="41" />
                     </div>
@@ -322,14 +322,14 @@ function App() {
             </div>
             <div className={styles.sectionGroup}>
                 <section>
-                    <legend>LFO</legend>
+                    <h2>LFO</h2>
                     <Slider parameter="44" />
                     <Slider parameter="45" />
                     <Slider parameter="46" />
                 </section>
                     
                 <section>
-                    <legend>ENVELOPE-1</legend>
+                    <h2>ENVELOPE-1</h2>
                     <Slider parameter="47" />
                     <Slider parameter="48" />
                     <Slider parameter="49" />
@@ -338,7 +338,7 @@ function App() {
                 </section>
 
                 <section>
-                    <legend>ENVELOPE-2</legend>
+                    <h2>ENVELOPE-2</h2>
                     <Slider parameter="52" />
                     <Slider parameter="53" />
                     <Slider parameter="54" />
@@ -347,7 +347,7 @@ function App() {
                 </section>
 
                 <section>
-                    <legend>Chorus</legend>
+                    <h2>Chorus</h2>
                     <Slider parameter="43" />
                 </section>
             </div>

@@ -31,6 +31,13 @@ h1 {
     }
 }
 
+h2 {
+    text-transform: uppercase;
+    font-weight: 300;
+    font-size: 1rem;
+    margin: 0 0 1rem;
+}
+
 .sectionGroup {
     display: inline-block;
 }
@@ -50,10 +57,8 @@ section {
     height: 30%;
     width: auto;
 
-    > legend {
-        text-transform: uppercase;
+    > h2 {
         text-align: center;
-        margin-bottom: 1rem;
     }
 
     > .subSection {
