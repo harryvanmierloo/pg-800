@@ -382,10 +382,14 @@ WebMidi.enable(function (err) {
                 if (WebMidi.getInputByName(retrievedData.midiIn) !== false) {
                     MKS.midiIn = WebMidi.getInputByName(retrievedData.midiIn);   
                     lsData.midiIn = retrievedData.midiIn;
+                } else {
+                    lsData.midiIn = MKS.midiIn.name;
                 }
                 if (WebMidi.getInputByName(retrievedData.midiOut) !== false) {
                     MKS.midiOut = WebMidi.getOutputByName(retrievedData.midiOut);        
                     lsData.midiOut = retrievedData.midiOut;
+                } else {
+                    lsData.midiOut = MKS.midiOut.name;
                 }
                 lsData.midiChannelA = MKS.midiChannelA = retrievedData.midiChannelA;
                 lsData.midiChannelB = MKS.midiChannelB = retrievedData.midiChannelB;
