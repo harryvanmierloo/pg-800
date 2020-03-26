@@ -26,7 +26,7 @@ const Slider = (props) => {
 
             let formatType = 0b00100100; // JX-10
             if (state.synth === "JX-8P") {
-                formatType = 0b0010001;
+                formatType = 0b00100001;
             }
    
             // Send sysex to synth
