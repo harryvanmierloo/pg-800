@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useCallback, useContext } from 'react';
+import React, { useEffect, useCallback, useContext } from 'react';
 import ReactDOM from 'react-dom';
 import WebMidi from "webmidi";
 import MKS from './components/MKS-70/MKS-70';
 import Slider from './components/slider/slider.js';
-import MultiToggle from './components/multitoggle/multitoggle.js';
 import { Context, Provider } from './components/context/context.js';
 import * as styles from './index.module.scss';
 import update from 'immutability-helper';
@@ -16,16 +15,6 @@ var lsData = {
     midiChannelB: 1,
     midiControlChannel: 1
 };
-
-function dec2bin(dec){
-    let bin = (dec >>> 0).toString(2);
-
-    while (bin.length < 8) {
-        bin = "0" + bin;
-    }
-
-    return bin;
-}
 
 const parseSysex = data => {
     let sysex = Array.from(data);
@@ -104,7 +93,7 @@ function App() {
         // Listen for incoming sysex
         MKS.midiIn.addListener("sysex", "all", sysexHandler);
 
-    }, []);
+    });
 
     const changeMidi = (name) => event => {
         if (name === "midiIn") {
@@ -172,10 +161,10 @@ function App() {
             }
         }
         // Cartridge programs
-        for (var c = 0; c <= 7; c++) {
+        for (var d = 0; d <= 7; d++) {
             let char = String.fromCharCode(c+65);
             for (let i = 1; i <= 8; i++) {
-                let program = 63 + 8 * c + i;
+                let program = 63 + 8 * d + i;
                 options.push(<option key={program} value={program}>Cartridge - {char}{i}</option>);
             }
         }

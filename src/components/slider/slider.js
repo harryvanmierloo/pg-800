@@ -59,13 +59,9 @@ const Slider = (props) => {
 
     const getMarkLabels = () => {
         if (marks) {
-            let markLabels = [];
-            marks.slice(0).reverse().map((mark, index) => {
-                markLabels.push(
-                    <div className={styles.markLabel}>{mark.label}</div>
-                )
-            });
-            return markLabels;
+            return marks.slice(0).reverse().map((mark, index) =>
+                <div key={inputLabel + '-' + index} className={styles.markLabel}>{mark.label}</div>
+            );
         }
     }
 

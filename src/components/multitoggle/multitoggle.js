@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import update from 'immutability-helper';
 import MKS from '../MKS-70/MKS-70';
 import { Context } from '../context/context.js';
-import classNames from 'classnames';
 import * as styles from './multitoggle.module.scss';
 
 const MultiToggle = (props) => {
@@ -12,11 +11,8 @@ const MultiToggle = (props) => {
     const parameterId = props.parameter;
     const parameter = MKS.parameters[parameterId];
     const label = (parameter.label !== undefined) ? parameter.label : parameter.name,
-          marks = parameter.marks,
-          step = parameter.marks ? parameter.max / (parameter.marks.length-1) : 1,
-          max = parameter.max,
-          min = parameter.min;
-
+          marks = parameter.marks;
+          
     const changeHandler = (event) => {
         let newValue = event.target.value;
         if (state.values[parameterId] !== newValue) {
@@ -41,16 +37,6 @@ const MultiToggle = (props) => {
     };
 
     const inputLabel = "multitoggle-" + parameterId;
-
-    const getOutputLabel = () => {
-        if (marks !== undefined) {
-            let mark = Math.floor(state.values[parameterId] / step);
-            return marks[mark].label;
-        }
-        else {
-            return state.values[parameterId];
-        }
-    };
 
     const getRadioButtons = () => {
         let radioButtons = [];
