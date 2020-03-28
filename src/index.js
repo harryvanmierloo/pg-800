@@ -82,19 +82,6 @@ function App() {
     
     const [state, setState] = useContext(Context);
 
-    useEffect(() => {
-        document.title = "PG-800 Virtual Programmer";
-        console.log ("App initialized!");
-
-        // setState(state => ({ ...state, values: getDefaultParameterValues() }));
-        setState(update(state, {values: {$set: getDefaultParameterValues()}}));
-        setState(update(state, {synth: {$set: lsData.synth}}));
-
-        // Listen for incoming sysex
-        MKS.midiIn.addListener("sysex", "all", sysexHandler);
-
-    });
-
     const changeMidi = (name) => event => {
         if (name === "midiIn") {
             MKS.midiIn = WebMidi.getInputById(event.target.value);
@@ -171,14 +158,26 @@ function App() {
         return options;
     }, []);
 
-    const sysexHandler = (event) => {
+    const sysexHandler = useCallback((event) => {
         let sysex = parseSysex(event.data);
         if (sysex && sysex.tone === "A") {
             setState(update(state, {values: {$set: sysex.values }}));
 
             console.log("Received TONE A parameter values: ", sysex.values);
         }
-    };
+    }, [state, setState]);
+
+    useEffect(() => {
+        document.title = "PG-800 Virtual Programmer";
+        console.log ("App initialized!");
+
+        setState(update(state, {values: {$set: getDefaultParameterValues()}}));
+        setState(update(state, {synth: {$set: lsData.synth}}));
+
+        // Listen for incoming sysex
+        MKS.midiIn.addListener("sysex", "all", sysexHandler);
+
+    }, []);
 
     return (
         <React.Fragment>
