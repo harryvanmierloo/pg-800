@@ -84,11 +84,15 @@ function App() {
 
     const changeMidi = (name) => event => {
         if (name === "midiIn") {
+            // Clear existing listener
+            if (MKS.midiIn.hasListener) {
+                MKS.midiIn.removeListener("sysex","all");
+            }
+            // Set new midiIn port
             MKS.midiIn = WebMidi.getInputById(event.target.value);
             lsData.midiIn = MKS.midiIn.name;
             // Add new listener
             MKS.midiIn.addListener("sysex", "all", sysexHandler);
-            // NEEDS CLEAR LISTENER
         }
         if (name ==="midiOut") {
             MKS.midiOut = WebMidi.getOutputById(event.target.value);
