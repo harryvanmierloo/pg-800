@@ -8,7 +8,7 @@ import * as styles from './slider.module.scss';
 const Slider = (props) => {
 
     const [state, setState] = useContext(StateContext);
-    const [settings, setSettings] = useContext(SettingsContext);
+    const [settings] = useContext(SettingsContext);
 
     const parameterId = props.parameter;
     const parameter = MKS.parameters[parameterId];

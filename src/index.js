@@ -1,7 +1,6 @@
 import React, { useEffect, useCallback, useContext } from 'react';
 import ReactDOM from 'react-dom';
 import WebMidi from "webmidi";
-import MKS from './components/MKS-70/MKS-70';
 import Slider from './components/slider/slider.js';
 import { StateContext, StateProvider, SettingsContext, SettingsProvider } from './components/context/context.js';
 import * as styles from './index.module.scss';
@@ -60,16 +59,6 @@ const parseSysex = data => {
 }
 
 function App() {
-
-    // Extract default values from MKS spec
-    function getDefaultParameterValues() {
-        let defaultParameterValues = [];
-        for (let p = 0; p < 59; p++) {
-            let defaultValue = MKS.parameters[p].defaultValue ? MKS.parameters[p].defaultValue : 0;
-            defaultParameterValues.push(defaultValue);
-        }
-        return defaultParameterValues;
-    }
     
     const [state, setState] = useContext(StateContext);
     const [settings, setSettings] = useContext(SettingsContext);

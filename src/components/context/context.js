@@ -1,16 +1,16 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import WebMidi from "webmidi";
+import MKS from '../MKS-70/MKS-70';
 
-const initialState = {
-    values: [
-        0,0,0,0,0,0,0,0,0,0,
-        0,0,0,0,0,0,0,0,0,0,
-        0,0,0,0,0,0,0,0,0,0,
-        0,0,0,0,0,0,0,0,0,0,
-        0,0,0,0,0,0,0,0,0,0,
-        0,0,0,0,0,0,0,0,0
-    ]
-};
+const initialState = () => {
+  let defaultParameterValues = [];
+  for (let p = 0; p < 59; p++) {
+    // Use defined default parameter value, otherwise 0
+    let defaultValue = MKS.parameters[p].defaultValue ? MKS.parameters[p].defaultValue : 0;
+    defaultParameterValues.push(defaultValue);
+  }
+  return { values: defaultParameterValues };
+}
 
 const StateContext = React.createContext([{}, () => {}]);
 const SettingsContext = React.createContext([{}, () => {}]);
@@ -37,7 +37,7 @@ const SettingsProvider = (props) => {
   }
 
   // Retrieve the local storage object
-  console.log("Reading local storage...");  
+  // NEEDS ATTENTION, BECAUSE GET CALLED DURING EVERY UPDATE
   const retrievedData = JSON.parse(localStorage.getItem('PG-800'));
 
   if (retrievedData) {
@@ -59,8 +59,6 @@ const SettingsProvider = (props) => {
     if (retrievedData.midiControlChannel) {
       initialSettings.midiControlChannel = retrievedData.midiControlChannel;
     }
-
-    console.log("Local storage loaded!"); 
   }
 
   const [settings, setSettings] = useState(initialSettings);
