@@ -38,39 +38,6 @@ h2 {
     margin: 0 0 1rem;
 }
 
-.panel {
-}
-
-.sectionGroup {
-    display: inline-block;
-}
-
-section {
-    background: $panel;
-    border-top: 1px solid $grey300;
-    border-right: 1px solid $grey50;
-    border-bottom: 1px solid $grey50;
-    border-left: 1px solid $grey350;
-    border-radius: $borderRadius;
-    display: inline-block;
-    margin: 1rem 0;
-    padding: .5rem 1rem;
-    text-align: center;
-    vertical-align: top;
-    height: 30%;
-    width: auto;
-
-    > h2 {
-        text-align: center;
-    }
-
-    > .subSection {
-        display: block;
-        min-height: 11rem;
-    }
-}
-
-
 footer {
     color: $grey350;
     margin-top: 2rem;
