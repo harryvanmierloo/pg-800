@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
+import WebMidi from "webmidi";
 
 const initialState = {
-    synth: "MKS",
-    values: [ 
+    values: [
         0,0,0,0,0,0,0,0,0,0,
         0,0,0,0,0,0,0,0,0,0,
         0,0,0,0,0,0,0,0,0,0,
@@ -11,16 +11,65 @@ const initialState = {
         0,0,0,0,0,0,0,0,0
     ]
 };
-const Context = React.createContext([{}, () => {}]);
 
-const Provider = (props) => {
+const StateContext = React.createContext([{}, () => {}]);
+const SettingsContext = React.createContext([{}, () => {}]);
+
+const StateProvider = (props) => {
   const [state, setState] = useState(initialState);
 
   return (
-    <Context.Provider value={[ state, setState ]}>
+    <StateContext.Provider value={[ state, setState ]}>
       { props.children }
-    </Context.Provider>
+    </StateContext.Provider>
   );
 };
 
-export { Context, Provider }
+const SettingsProvider = (props) => {
+
+  let initialSettings = {
+    synth: "MKS",
+    midiIn: WebMidi.inputs[0],
+    midiOut: WebMidi.outputs[0],
+    midiChannelA: 1,
+    midiChannelB: 1,
+    midiControlChannel: 1,
+  }
+
+  // Retrieve the local storage object
+  console.log("Reading local storage...");  
+  const retrievedData = JSON.parse(localStorage.getItem('PG-800'));
+
+  if (retrievedData) {
+    if (retrievedData.synth) {
+      initialSettings.synth = retrievedData.synth;
+    }
+    if (WebMidi.getInputByName(retrievedData.midiIn) !== false) {
+        initialSettings.midiIn = WebMidi.getInputByName(retrievedData.midiIn);
+    }
+    if (WebMidi.getInputByName(retrievedData.midiOut) !== false) {
+        initialSettings.midiOut = WebMidi.getOutputByName(retrievedData.midiOut);        
+    }
+    if (retrievedData.midiChannelA) {
+      initialSettings.midiChannelA = retrievedData.midiChannelA;
+    }
+    if (retrievedData.midiChannelB) {
+      initialSettings.midiChannelB = retrievedData.midiChannelB;
+    }
+    if (retrievedData.midiControlChannel) {
+      initialSettings.midiControlChannel = retrievedData.midiControlChannel;
+    }
+
+    console.log("Local storage loaded!"); 
+  }
+
+  const [settings, setSettings] = useState(initialSettings);
+
+  return (
+    <SettingsContext.Provider value={[ settings, setSettings ]}>
+      { props.children }
+    </SettingsContext.Provider>
+  );
+};
+
+export { StateContext, SettingsContext, StateProvider, SettingsProvider };

@@ -1,13 +1,14 @@
 import React, { useContext } from 'react';
 import update from 'immutability-helper';
 import MKS from '../MKS-70/MKS-70';
-import { Context } from '../context/context.js';
+import { StateContext, SettingsContext } from '../context/context.js';
 import classNames from 'classnames';
 import * as styles from './slider.module.scss';
 
 const Slider = (props) => {
 
-    const [state, setState] = useContext(Context);
+    const [state, setState] = useContext(StateContext);
+    const [settings, setSettings] = useContext(SettingsContext);
 
     const parameterId = props.parameter;
     const parameter = MKS.parameters[parameterId];
@@ -25,16 +26,16 @@ const Slider = (props) => {
             setState(update(state, {values: {[parameterId]: {$set: parseInt(newValue) }}}));
 
             let formatType = 0b00100100; // JX-10
-            if (state.synth === "JX-8P") {
+            if (settings.synth === "JX-8P") {
                 formatType = 0b00100001;
             }
    
             // Send sysex to synth
-            MKS.midiOut.sendSysex(
+            settings.midiOut.sendSysex(
                 0b01000001, // Roland ID
                 [
                     0b00110110, // Operation code = IPR (individual parameter)
-                    MKS.midiControlChannel-1, // Control Channel (Start at 0)
+                    settings.midiControlChannel-1, // Control Channel (Start at 0)
                     formatType, // Format type (JX-10 or JX-8P)
                     0b00100000, // Level = 1
                     0b00000001, // Group (01 = Tone A, 10 = Tone B)

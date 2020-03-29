@@ -3,18 +3,9 @@ import ReactDOM from 'react-dom';
 import WebMidi from "webmidi";
 import MKS from './components/MKS-70/MKS-70';
 import Slider from './components/slider/slider.js';
-import { Context, Provider } from './components/context/context.js';
+import { StateContext, StateProvider, SettingsContext, SettingsProvider } from './components/context/context.js';
 import * as styles from './index.module.scss';
 import update from 'immutability-helper';
-
-var lsData = {
-    synth: "MKS",
-    midiIn: false,
-    midiOut: false,
-    midiChannelA: 1,
-    midiChannelB: 1,
-    midiControlChannel: 1
-};
 
 const parseSysex = data => {
     let sysex = Array.from(data);
@@ -80,57 +71,72 @@ function App() {
         return defaultParameterValues;
     }
     
-    const [state, setState] = useContext(Context);
+    const [state, setState] = useContext(StateContext);
+    const [settings, setSettings] = useContext(SettingsContext);
 
-    const changeMidi = (name) => event => {
+    const changeSettings = (name) => event => {
+        // Update local storage
+        let lsData = {
+            synth: settings.synth,
+            midiIn: settings.midiIn.name,
+            midiOut: settings.midiOut.name,
+            midiChannelA: settings.midiChannelA,
+            midiChannelB: settings.midiChannelB,
+            midiControlChannel: settings.midiControlChannel,
+        };
+
+        if (name === "synth") {
+            let newSynth = event.target.value;
+            setSettings(update(settings, {synth: {$set: newSynth}}));
+            lsData.synth = newSynth;
+        }
         if (name === "midiIn") {
             // Clear existing listener
-            if (MKS.midiIn.hasListener) {
-                MKS.midiIn.removeListener("sysex","all");
+            if (settings.midiIn.hasListener) {
+                settings.midiIn.removeListener("sysex","all");
             }
             // Set new midiIn port
-            MKS.midiIn = WebMidi.getInputById(event.target.value);
-            lsData.midiIn = MKS.midiIn.name;
+            let newMidiIn = WebMidi.getInputById(event.target.value);
+            setSettings(update(settings, {midiIn: {$set: newMidiIn}}));
+            lsData.midiIn = newMidiIn.name; // Use name instead of object ref
             // Add new listener
-            MKS.midiIn.addListener("sysex", "all", sysexHandler);
+            newMidiIn.addListener("sysex", "all", sysexHandler);
         }
         if (name ==="midiOut") {
-            MKS.midiOut = WebMidi.getOutputById(event.target.value);
-            lsData.midiOut = MKS.midiOut.name;
+            let newMidiOut = WebMidi.getOutputById(event.target.value);
+            setSettings(update(settings, {midiOut: {$set: newMidiOut}}));
+            lsData.midiOut = newMidiOut.name; // Use name instead of object ref
         }
         if (name === "midiChannelA") {
-            MKS.midiChannelA = parseInt(event.target.value);
-            lsData.midiChannelA = MKS.midiChannelA;
+            let newMidiChannelA = parseInt(event.target.value);
+            setSettings(update(settings, {midiChannelA: {$set: newMidiChannelA}}));
+            lsData.midiChannelA = newMidiChannelA;
         }
         if (name === "midiChannelB") {
-            MKS.midiChannelB = parseInt(event.target.value);
-            lsData.midiChannelB = MKS.midiChannelB;
+            let newMidiChannelB = parseInt(event.target.value);
+            setSettings(update(settings, {midiChannelB: {$set: newMidiChannelB}}));
+            lsData.midiChannelB = newMidiChannelB;
         }
         if (name === "midiControlChannel") {
-            MKS.midiControlChannel = parseInt(event.target.value);
-            lsData.midiControlChannel = MKS.midiControlChannel;
+            let newMidiControlChannel = parseInt(event.target.value);
+            setSettings(update(settings, {midiControlChannel: {$set: newMidiControlChannel}}));
+            lsData.midiControlChannel = newMidiControlChannel;
         }
         if (name === "midiProgram") {
             if (event.target.value !== "-") {
-                MKS.midiOut.sendProgramChange(parseInt(event.target.value), MKS.midiControlChannel);
+                settings.midiOut.sendProgramChange(parseInt(event.target.value), settings.midiControlChannel);
             }
         }
-        // Update local storage
+
         localStorage.setItem('PG-800', JSON.stringify(lsData));
+
+        console.log("Updated local storage:", lsData);  
     };
 
-    const changeSynth = (event) => {
-        let newSynth = event.target.value;
-        setState(update(state, {synth: {$set: newSynth}}));
-        // Update local storage
-        lsData.synth = newSynth;
-        localStorage.setItem('PG-800', JSON.stringify(lsData));
-    }
-
     const playNote = useCallback((note, duration, velocity) => event => {
-        MKS.midiOut.playNote(note, MKS.midiChannelA, {duration: duration, velocity: velocity });
+        settings.midiOut.playNote(note, settings.midiChannelA, {duration: duration, velocity: velocity });
         console.log(note, "played!");
-    }, []);
+    }, [settings.midiOut, settings.midiChannelA]);
 
     const createChannelOptions = useCallback(() => {
         let options = []
@@ -172,15 +178,9 @@ function App() {
     }, [state, setState]);
 
     useEffect(() => {
-        document.title = "PG-800 Virtual Programmer";
-        console.log ("App initialized!");
-
-        setState(update(state, {values: {$set: getDefaultParameterValues()}}));
-        setState(update(state, {synth: {$set: lsData.synth}}));
-
         // Listen for incoming sysex
-        MKS.midiIn.addListener("sysex", "all", sysexHandler);
-
+        settings.midiIn.addListener("sysex", "all", sysexHandler);
+        console.log ("App initialized!");
     }, []);
 
     return (
@@ -190,7 +190,7 @@ function App() {
                 <ul className={styles.midiOptions}>
                     <li>
                         <label htmlFor="select-synth">Connected synth</label>
-                        <select id="select-synth" onChange={changeSynth} defaultValue={lsData.synth}>
+                        <select id="select-synth" onChange={changeSettings('synth')} defaultValue={settings.synth}>
                             <option key="synth-select1" value="MKS">Roland JX-10 / MKS-70 - Original firmware</option>
                             <option key="synth-select2" value="MKS-VECOVEN3" disabled>Roland JX-10 / MKS-70 - Vecoven firmware 3.x</option>
                             <option key="synth-select3" value="MKS-VECOVEN4" disabled>Roland JX-10 / MKS-70 - Vecoven firmware 4.x</option>
@@ -199,7 +199,7 @@ function App() {
                     </li>
                     <li>
                         <label htmlFor="select-midi-in">Midi from synth</label>
-                        <select id="select-midi-in" onChange={changeMidi('midiIn')} defaultValue={MKS.midiIn.id}>
+                        <select id="select-midi-in" onChange={changeSettings('midiIn')} defaultValue={settings.midiIn.id}>
                             {WebMidi.inputs.map((e, key) => {
                                 return <option key={key} value={e.id}>{e.name}</option>;
                             })}
@@ -207,7 +207,7 @@ function App() {
                     </li>
                     <li>
                         <label htmlFor="select-midi-out">Midi to synth</label>
-                        <select id="select-midi-out" onChange={changeMidi('midiOut')} defaultValue={MKS.midiOut.id}>
+                        <select id="select-midi-out" onChange={changeSettings('midiOut')} defaultValue={settings.midiOut.id}>
                             {WebMidi.outputs.map((e, key) => {
                                 return <option key={key} value={e.id}>{e.name}</option>;
                             })}
@@ -215,25 +215,25 @@ function App() {
                     </li>
                     <li>
                         <label htmlFor="select-midi-channel-a">Channel A</label>
-                        <select id="select-midi-channel-a" onChange={changeMidi('midiChannelA')} defaultValue={MKS.midiChannelA}>
+                        <select id="select-midi-channel-a" onChange={changeSettings('midiChannelA')} defaultValue={settings.midiChannelA}>
                             {createChannelOptions()}
                         </select>
                     </li>
                     <li>
                         <label htmlFor="select-midi-channel-b">Channel B</label>
-                        <select id="select-midi-channel-b" onChange={changeMidi('midiChannelB')} defaultValue={MKS.midiChannelB}>
+                        <select id="select-midi-channel-b" onChange={changeSettings('midiChannelB')} defaultValue={settings.midiChannelB}>
                             {createChannelOptions()}
                         </select>
                     </li>
                     <li>
                         <label htmlFor="select-midi-control-channel">Control Channel</label>
-                        <select id="select-midi-control-channel" onChange={changeMidi('midiControlChannel')} defaultValue={MKS.midiControlChannel}>
+                        <select id="select-midi-control-channel" onChange={changeSettings('midiControlChannel')} defaultValue={settings.midiControlChannel}>
                             {createChannelOptions()}
                         </select>
                     </li>
                     <li>
                         <label htmlFor="select-midi-program">Patch</label>
-                        <select id="select-midi-program" onChange={changeMidi('midiProgram')}>
+                        <select id="select-midi-program" onChange={changeSettings('midiProgram')}>
                             {createProgramOptions()}
                         </select>
                     </li>
@@ -246,7 +246,7 @@ function App() {
                 </ul>
             </div>
 
-            {(state.synth === "MKS" || state.synth === "JX-8P" || state.synth === "MKS-VECOVEN3") &&
+            {(settings.synth === "MKS" || settings.synth === "JX-8P" || settings.synth === "MKS-VECOVEN3") &&
                 <div className={styles.panel}>
                     <div className={styles.sectionGroup}>
                         <section>
@@ -358,7 +358,7 @@ function App() {
                     </div>
                 </div>
             } 
-            {(state.synth === "MKS-VECOVEN4") &&
+            {(settings.synth === "MKS-VECOVEN4") &&
                 <div className={styles.panel}>
                     Vecoven-panel coming soon!
                 </div>
@@ -371,6 +371,7 @@ function App() {
     );
 }
 
+
 WebMidi.enable(function (err) {
     if (err) {
         console.warn(err);
@@ -382,39 +383,14 @@ WebMidi.enable(function (err) {
             alert("We couldn't detect any MIDI devices on your system. Please connect a MIDI device and refresh this page.");
         }
         else {
-
-            MKS.midiIn = WebMidi.inputs[0];
-            MKS.midiOut = WebMidi.outputs[0];
-
-            // Retrieve the object from storage
-            var retrievedData = JSON.parse(localStorage.getItem('PG-800'));
-            
-            if (retrievedData) {
-                lsData.synth = retrievedData.synth;
-                if (WebMidi.getInputByName(retrievedData.midiIn) !== false) {
-                    MKS.midiIn = WebMidi.getInputByName(retrievedData.midiIn);   
-                    lsData.midiIn = retrievedData.midiIn;
-                } else {
-                    lsData.midiIn = MKS.midiIn.name;
-                }
-                if (WebMidi.getInputByName(retrievedData.midiOut) !== false) {
-                    MKS.midiOut = WebMidi.getOutputByName(retrievedData.midiOut);        
-                    lsData.midiOut = retrievedData.midiOut;
-                } else {
-                    lsData.midiOut = MKS.midiOut.name;
-                }
-                lsData.midiChannelA = MKS.midiChannelA = retrievedData.midiChannelA;
-                lsData.midiChannelB = MKS.midiChannelB = retrievedData.midiChannelB;
-                lsData.midiControlChannel = MKS.midiControlChannel = retrievedData.midiControlChannel;
-            }
-
             ReactDOM.render(
-                <Provider>
-                    <App />
-                </Provider>,
+                <SettingsProvider>
+                    <StateProvider>
+                        <App />
+                    </StateProvider>
+                </SettingsProvider>,
                 document.getElementById('root')
             );
         }
-    }
-
-}, true); // Sysex flag enabled
+    } 
+  }, true); // Sysex flag enabled
