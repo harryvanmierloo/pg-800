@@ -4,7 +4,7 @@ import * as styles from './panel.module.scss';
 import update from 'immutability-helper';
 import PanelPG800 from './panel-pg800.js'
 
-const PanelMKS = (props) => {
+const PanelMKSVecoven3 = (props) => {
 
     const [state, setState] = useContext(StateContext);
 
@@ -32,4 +32,4 @@ const PanelMKS = (props) => {
     )
 }
 
-export default React.memo(PanelMKS);
+export default React.memo(PanelMKSVecoven3);

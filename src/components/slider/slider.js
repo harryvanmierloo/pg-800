@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import update from 'immutability-helper';
-import MKS from '../MKS-70/MKS-70';
+import MKS from '../synth/mks';
 import { StateContext, SettingsContext } from '../context/context.js';
 import classNames from 'classnames';
 import * as styles from './slider.module.scss';

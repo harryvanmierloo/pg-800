@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import WebMidi from "webmidi";
-import MKS from '../MKS-70/MKS-70';
+import MKS from '../synth/mks';
 
 const initialState = () => {
   let defaultParameterValues = [];

@@ -2,9 +2,10 @@ import React, { useContext } from 'react';
 import ReactDOM from 'react-dom';
 import WebMidi from "webmidi";
 import Settings from './components/settings/settings.js';
-import PanelMKS from './components/panels/panel-mks.js';
-import PanelMKSVecoven3 from './components/panels/panel-mks-vecoven3.js';
 import PanelJX8P from './components/panels/panel-jx8p.js';
+import PanelJX10 from './components/panels/panel-jx10.js';
+import PanelMKS from './components/panels/panel-mks.js';
+import PanelMKSVecoven4 from './components/panels/panel-mks-vecoven4.js';
 import { SettingsContext, SettingsProvider, StateProvider } from './components/context/context.js';
 import * as styles from './index.module.scss';
 
@@ -18,18 +19,19 @@ function App() {
       
             <Settings />
 
-            {(settings.synth === "MKS") &&
+            {(settings.synth === "JX8P") &&
+                <PanelJX8P />
+            }
+            {(settings.synth === "JX10-VECOVEN3") &&
+                <PanelJX10 />
+            }
+            {(settings.synth === "MKS" || "MKS-VECOVEN3") &&
                 <PanelMKS />
             }
-            {(settings.synth === "MKS-VECOVEN3" || settings.synth === "JX10-VECOVEN3") &&
-                <PanelMKSVecoven3 />
-            }
-            {(settings.synth === "JX8P" &&
-                <PanelJX8P />
-            )}
+
             {(settings.synth === "MKS-VECOVEN4") &&
                 <div className={styles.panel}>
-                    Vecoven-panel coming soon!
+                    Panel for Vecoven firmware 4.x coming soon!
                 </div>
             }
 
