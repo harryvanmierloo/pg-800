@@ -1,5 +1,4 @@
 import React from 'react';
-import Slider from '../slider/slider.js';
 import * as styles from './panel.module.scss';
 import PanelPG800 from './panel-pg800.js';
 

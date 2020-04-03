@@ -135,10 +135,12 @@ const Settings = (props) => {
             <li>
                 <label htmlFor="select-synth">Connected synth</label>
                 <select id="select-synth" onChange={changeSettings('synth')} defaultValue={settings.synth}>
-                    <option key="synth-select1" value="MKS">Roland JX-10 / MKS-70 - Original firmware</option>
-                    <option key="synth-select2" value="MKS-VECOVEN3" disabled>Roland JX-10 / MKS-70 - Vecoven firmware 3.x</option>
-                    <option key="synth-select3" value="MKS-VECOVEN4" disabled>Roland JX-10 / MKS-70 - Vecoven firmware 4.x</option>
-                    <option key="synth-select4" value="JX-8P">Roland JX-8P</option>
+                    <option key="synth-select4" value="JX8P">Roland JX-8P</option>
+                    <option key="synth-select1" value="MKS">Roland MKS-70 - Original firmware</option>
+                    <option key="synth-select2" value="MKS-VECOVEN3" disabled>Roland MKS-70 - Vecoven firmware 3.x</option>
+                    <option key="synth-select3" value="MKS-VECOVEN4" disabled>Roland MKS-70 - Vecoven firmware 4.x</option>
+                    <option key="synth-select1" value="JX10-VECOVEN3" disabled>Roland JX-10 - Vecoven firmware 3.x</option>
+                    <option key="synth-select1" value="JX10-VECOVEN4" disabled>Roland JX-10 - Vecoven firmware 3.x</option>
                 </select>
             </li>
             <li>
