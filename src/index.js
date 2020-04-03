@@ -25,7 +25,7 @@ function App() {
             {(settings.synth === "JX10-VECOVEN3") &&
                 <PanelJX10 />
             }
-            {(settings.synth === "MKS" || "MKS-VECOVEN3") &&
+            {(settings.synth === "MKS" || settings.synth === "MKS-VECOVEN3") &&
                 <PanelMKS />
             }
 
