@@ -94,7 +94,7 @@ const Settings = (props) => {
         }
         // Cartridge programs
         for (var d = 0; d <= 7; d++) {
-            let char = String.fromCharCode(c+65);
+            let char = String.fromCharCode(d+65);
             for (let i = 1; i <= 8; i++) {
                 let program = 63 + 8 * d + i;
                 options.push(<option key={program} value={program}>Cartridge - {char}{i}</option>);
