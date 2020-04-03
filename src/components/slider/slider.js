@@ -39,7 +39,7 @@ const Slider = (props) => {
             }
 
             let formatType = 0b00100100; // JX-10
-            if (settings.synth === "JX-8P") {
+            if (settings.synth === "JX8P") {
                 formatType = 0b00100001;
             }
 
