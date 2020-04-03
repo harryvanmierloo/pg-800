@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom';
 import WebMidi from "webmidi";
 import Settings from './components/settings/settings.js';
 import PanelMKS from './components/panels/panel-mks.js';
+import PanelJX8P from './components/panels/panel-jx8p.js';
 import { SettingsContext, SettingsProvider, StateProvider } from './components/context/context.js';
 import * as styles from './index.module.scss';
-
 
 function App() {
     
@@ -17,9 +17,12 @@ function App() {
       
             <Settings />
 
-            {(settings.synth === "MKS" || settings.synth === "JX-8P" || settings.synth === "MKS-VECOVEN3") &&
+            {(settings.synth === "MKS" || settings.synth === "MKS-VECOVEN3") &&
                 <PanelMKS />
-            } 
+            }
+            {(settings.synth === "JX-8P" &&
+                <PanelJX8P />
+            )}
             {(settings.synth === "MKS-VECOVEN4") &&
                 <div className={styles.panel}>
                     Vecoven-panel coming soon!

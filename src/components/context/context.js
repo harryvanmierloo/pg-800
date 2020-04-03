@@ -9,7 +9,11 @@ const initialState = () => {
     let defaultValue = MKS.parameters[p].defaultValue ? MKS.parameters[p].defaultValue : 0;
     defaultParameterValues.push(defaultValue);
   }
-  return { values: defaultParameterValues };
+  return { 
+    tab: "A",
+    valuesA: defaultParameterValues,
+    valuesB: defaultParameterValues
+  };
 }
 
 const StateContext = React.createContext([{}, () => {}]);

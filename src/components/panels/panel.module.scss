@@ -1,6 +1,37 @@
 @import '../../scss/variables';
 
 .panel {
+
+    .tabs {
+        background: $panel;
+        border-top: 1px solid $grey300;
+        border-right: 1px solid $grey50;
+        border-bottom: 1px solid $grey50;
+        border-left: 1px solid $grey350;
+        border-radius: $borderRadius;
+        padding: 0;
+
+        li {
+            display: inline-block;
+            list-style-type: none;
+            padding: 1rem;
+
+            &:hover {
+                background: $grey300;
+                cursor: pointer;
+            }
+
+            &.active {
+                background: $grey350;
+
+                &:hover {
+                    cursor: default;
+                }
+            }
+        }
+
+    }
+
     .sectionGroup {
         display: inline-block;
     }

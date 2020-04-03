@@ -103,12 +103,25 @@ const Settings = (props) => {
         return options;
     }, []);
 
+    let sysexData = {
+        valuesA: undefined,
+        valuesB: undefined
+    }
     const sysexHandler = useCallback((event) => {
         let sysex = parseSysex(event.data);
-        if (sysex && sysex.tone === "A") {
-            setState(update(state, {values: {$set: sysex.values }}));
-
-            console.log("Received TONE A parameter values: ", sysex.values);
+        if (sysex) {
+            if (sysex.tone === "A") {
+                sysexData.valuesA = sysex.values;
+                console.log("Received TONE A parameter values: ", sysex.values);
+            }
+            if (sysex.tone === "B") {
+                sysexData.valuesB = sysex.values;
+                console.log("Received TONE B parameter values: ", sysex.values);
+            }
+            setState(update(state, {
+                valuesA: {$set: sysexData.valuesA},
+                valuesB: {$set: sysexData.valuesB},
+            }));
         }
     }, [state, setState]);
 

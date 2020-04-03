@@ -10,6 +10,14 @@ const Slider = (props) => {
     const [state, setState] = useContext(StateContext);
     const [settings] = useContext(SettingsContext);
 
+    const tone = props.tone;
+
+    // If slider is linked to Tone B (MKS/JX-10) then use B-values from context
+    let values = state.valuesA;
+    if (tone === "B") {
+        values = state.valuesB;
+    }
+
     const parameterId = props.parameter;
     const parameter = MKS.parameters[parameterId];
     const label = (parameter.label !== undefined) ? parameter.label : parameter.name,
@@ -20,14 +28,25 @@ const Slider = (props) => {
 
     const changeHandler = (event) => {
         let newValue = event.target.value;
-        if (state.values[parameterId] !== newValue) {
+        if (state.valuesA[parameterId] !== newValue) {
 
             // Set new value in context
-            setState(update(state, {values: {[parameterId]: {$set: parseInt(newValue) }}}));
+            if (tone === "B") {
+                setState(update(state, {valuesB: {[parameterId]: {$set: parseInt(newValue) }}}));
+            }
+            else {
+                setState(update(state, {valuesA: {[parameterId]: {$set: parseInt(newValue) }}}));
+            }
 
             let formatType = 0b00100100; // JX-10
             if (settings.synth === "JX-8P") {
                 formatType = 0b00100001;
+            }
+
+            // If slider is linked to Tone B (MKS/JX-10) then use a different group byte
+            let group = 0b00000001;
+            if (tone === "B") {
+                group = 0b00000010;
             }
    
             // Send sysex to synth
@@ -38,7 +57,7 @@ const Slider = (props) => {
                     settings.midiControlChannel-1, // Control Channel (Start at 0)
                     formatType, // Format type (JX-10 or JX-8P)
                     0b00100000, // Level = 1
-                    0b00000001, // Group (01 = Tone A, 10 = Tone B)
+                    group, // Group (01 = Tone A, 10 = Tone B)
                     parameterId, // Parameter (0-68)
                     newValue, // Value (0-127)
                 ]
@@ -54,7 +73,7 @@ const Slider = (props) => {
             // return marks[mark].label;
         }
         else {
-            return state.values[parameterId];
+            return values[parameterId];
         }
     };
 
@@ -81,7 +100,7 @@ const Slider = (props) => {
                     min={min}
                     max={max}
                     step={step}
-                    value={state.values[parameterId]}
+                    value={values[parameterId]}
                     onChange={changeHandler}
                     style={marks ? { // Calculate correct height, depending on amount of steps
                         width: 16 * marks.length + 8,
