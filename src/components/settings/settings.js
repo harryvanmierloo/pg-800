@@ -203,8 +203,6 @@ const parseSysex = data => {
 
     if (sysex[0] === 240 && sysex[1] === 65) { // Filter for Roland sysex
 
-        console.log(sysex[4]);
-
         // DERIVED FROM SYSEX SPEC IN ROLAND MKS-70 MANUAL
 
         // Program Number (PGR) - 00110100 - 52
