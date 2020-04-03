@@ -118,9 +118,10 @@ const Settings = (props) => {
                 sysexData.valuesB = sysex.values;
                 console.log("Received TONE B parameter values: ", sysex.values);
             }
+
             setState(update(state, {
                 valuesA: {$set: sysexData.valuesA},
-                valuesB: {$set: sysexData.valuesB},
+                valuesB: {$set: sysexData.valuesB}
             }));
         }
     }, [state, setState]);

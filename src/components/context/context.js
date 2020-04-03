@@ -10,7 +10,6 @@ const initialState = () => {
     defaultParameterValues.push(defaultValue);
   }
   return { 
-    tab: "A",
     valuesA: defaultParameterValues,
     valuesB: defaultParameterValues
   };
