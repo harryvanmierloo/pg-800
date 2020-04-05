@@ -1,13 +1,15 @@
 import React, { useContext, useCallback, useEffect } from 'react';
 import update from 'immutability-helper';
 import WebMidi from "webmidi";
-import { StateContext, SettingsContext } from '../context/context.js';
+import { SettingsContext } from '../context/settingsContext.js';
+import { usePanelDispatch } from '../context/panelContext.js';
 import * as styles from './settings.module.scss';
 
 const Settings = (props) => {
 
-    const [state, setState] = useContext(StateContext);
     const [settings, setSettings] = useContext(SettingsContext);
+
+    const dispatch = usePanelDispatch();
 
     const changeSettings = (name) => event => {
         // Update local storage
@@ -105,7 +107,7 @@ const Settings = (props) => {
 
     let sysexData = {
         valuesA: undefined,
-        valuesB: undefined
+        valuesB: undefined,
     }
     const sysexHandler = useCallback((event) => {
         let sysex = parseSysex(event.data);
@@ -118,18 +120,14 @@ const Settings = (props) => {
                 sysexData.valuesB = sysex.values;
                 console.log("Received TONE B parameter values: ", sysex.values);
             }
-
-            setState(update(state, {
-                valuesA: {$set: sysexData.valuesA},
-                valuesB: {$set: sysexData.valuesB}
-            }));
+            dispatch({ type: 'setAll', tone: sysex.tone, values: sysex.values });
         }
-    }, [state, setState]);
+    }, [sysexData, dispatch]);
 
     useEffect((event) => {
         // Listen for incoming sysex
         settings.midiIn.addListener("sysex", "all", sysexHandler);
-    }, []);
+    }, [sysexHandler, settings.midiIn]);
 
     return (
         <ul className={styles.settings}>

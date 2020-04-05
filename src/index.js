@@ -5,8 +5,9 @@ import Settings from './components/settings/settings.js';
 import PanelJX8P from './components/panels/panel-jx8p.js';
 import PanelJX10 from './components/panels/panel-jx10.js';
 import PanelMKS from './components/panels/panel-mks.js';
-import PanelMKSVecoven4 from './components/panels/panel-mks-vecoven4.js';
-import { SettingsContext, SettingsProvider, StateProvider } from './components/context/context.js';
+//import PanelMKSVecoven4 from './components/panels/panel-mks-vecoven4.js';
+import { SettingsContext, SettingsProvider } from './components/context/settingsContext.js';
+import { PanelProvider } from './components/context/panelContext.js';
 import * as styles from './index.module.scss';
 
 function App() {
@@ -28,7 +29,6 @@ function App() {
             {(settings.synth === "MKS" || settings.synth === "MKS-VECOVEN3") &&
                 <PanelMKS />
             }
-
             {(settings.synth === "MKS-VECOVEN4") &&
                 <div className={styles.panel}>
                     Panel for Vecoven firmware 4.x coming soon!
@@ -55,11 +55,11 @@ WebMidi.enable(function (err) {
         }
         else {
             ReactDOM.render(
-                <SettingsProvider>
-                    <StateProvider>
+                <PanelProvider>
+                    <SettingsProvider>
                         <App />
-                    </StateProvider>
-                </SettingsProvider>,
+                    </SettingsProvider>
+                </PanelProvider>,
                 document.getElementById('root')
             );
             console.log ("App initialized!");

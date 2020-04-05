@@ -20,13 +20,15 @@ const PanelMKS = (props) => {
                 {/* <li onClick={changeTab("AB")} className={tab === "AB" ? styles.active : null}>Both</li> */}
                 {/* <li onClick={changeTab("Patch")} className={tab === "Patch" ? styles.active : null}>Patch Settings</li> */}
             </ul>
-            {(tab === "A") &&
+
+            {/* Need style hide/show to prevent that state is lost in hidden (unmounted) tabs */}
+            <div style={{ display: (tab === "A") ? null : 'none' }}>
                 <PanelPG800 tone="A" />
-            }
-            {(tab === "B") &&
+            </div>
+            <div style={{ display: (tab === "B") ? null : 'none' }}>
                 <PanelPG800 tone="B" />
-            }
-            {(tab === "AB") &&
+            </div>
+            <div style={{ display: (tab === "AB") ? null : 'none' }}>
                 <React.Fragment>
                     <div>
                         <h3>Channel A</h3>
@@ -37,10 +39,10 @@ const PanelMKS = (props) => {
                         <PanelPG800 tone="B" />
                     </div>
                 </React.Fragment>
-            }
-            {(tab === "Patch") &&
+            </div>
+            <div style={{ display: (tab === "Patch") ? null : 'none' }}>
                 <h2>Patch settings</h2>
-            }
+            </div>
         </div>
     )
 }

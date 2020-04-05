@@ -1,24 +1,21 @@
-import React, { useContext } from 'react';
-import update from 'immutability-helper';
+import React, { useState, useEffect, useContext } from 'react';
 import MKS from '../synth/mks';
-import { StateContext, SettingsContext } from '../context/context.js';
+import { SettingsContext } from '../context/settingsContext.js';
+import { usePanelState } from '../context/panelContext.js';
 import classNames from 'classnames';
 import * as styles from './slider.module.scss';
 
 const Slider = (props) => {
 
-    const [state, setState] = useContext(StateContext);
-    const [settings] = useContext(SettingsContext);
-
     const tone = props.tone;
+    const parameterId = parseInt(props.parameter);
+    const parameterStateId = (tone === "B") ? parameterId + 100 : parameterId; // Offset for Tone B parameters in state
 
-    // If slider is linked to Tone B (MKS/JX-10) then use B-values from context
-    let values = state.valuesA;
-    if (tone === "B") {
-        values = state.valuesB;
-    }
+    const state = usePanelState();
+    const [settings] = useContext(SettingsContext);
+    const [value, setValue] = useState(0);
+    
 
-    const parameterId = props.parameter;
     const parameter = MKS.parameters[parameterId];
     const label = (parameter.label !== undefined) ? parameter.label : parameter.name,
           marks = parameter.marks,
@@ -28,15 +25,11 @@ const Slider = (props) => {
 
     const changeHandler = (event) => {
         let newValue = event.target.value;
-        if (state.valuesA[parameterId] !== newValue) {
 
-            // Set new value in context
-            if (tone === "B") {
-                setState(update(state, {valuesB: {[parameterId]: {$set: parseInt(newValue) }}}));
-            }
-            else {
-                setState(update(state, {valuesA: {[parameterId]: {$set: parseInt(newValue) }}}));
-            }
+        if (value !== newValue) {
+
+            // Set new value
+            setValue(newValue);
 
             let formatType = 0b00100100; // JX-10
             if (settings.synth === "JX8P") {
@@ -73,7 +66,7 @@ const Slider = (props) => {
             // return marks[mark].label;
         }
         else {
-            return values[parameterId];
+            return value;
         }
     };
 
@@ -85,8 +78,13 @@ const Slider = (props) => {
         }
     }
 
+    useEffect(() => {
+        setValue(state.values[parameterStateId]);
+        //console.log('UseEffect: Value set from context: ', tone, parameterId, value);
+    }, [state, parameterStateId]);
+
     return (
-        <div className={classNames(styles.slider, { [styles.isToggle]: marks } ) } >
+        <div className={classNames(styles.slider, { [styles.isToggle]: marks }, styles.soloslider ) } >
             <div className={classNames(styles.sliderSection, styles.markLabels)}>
                 {getMarkLabels()}
             </div>
@@ -100,8 +98,8 @@ const Slider = (props) => {
                     min={min}
                     max={max}
                     step={step}
-                    value={values[parameterId]}
                     onChange={changeHandler}
+                    value={value}
                     style={marks ? { // Calculate correct height, depending on amount of steps
                         width: 16 * marks.length + 8,
                         marginTop: 8 * marks.length - 4,

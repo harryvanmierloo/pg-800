@@ -1,33 +1,7 @@
 import React, {useState} from 'react';
 import WebMidi from "webmidi";
-import MKS from '../synth/mks';
 
-const initialState = () => {
-  let defaultParameterValues = [];
-  for (let p = 0; p < 59; p++) {
-    // Use defined default parameter value, otherwise 0
-    let defaultValue = MKS.parameters[p].defaultValue ? MKS.parameters[p].defaultValue : 0;
-    defaultParameterValues.push(defaultValue);
-  }
-  return { 
-    valuesA: defaultParameterValues,
-    valuesB: defaultParameterValues
-  };
-}
-
-const StateContext = React.createContext([{}, () => {}]);
 const SettingsContext = React.createContext([{}, () => {}]);
-
-const StateProvider = (props) => {
-  const [state, setState] = useState(initialState);
-
-  return (
-    <StateContext.Provider value={[ state, setState ]}>
-      { props.children }
-    </StateContext.Provider>
-  );
-};
-
 const SettingsProvider = (props) => {
 
   let initialSettings = {
@@ -73,4 +47,4 @@ const SettingsProvider = (props) => {
   );
 };
 
-export { StateContext, SettingsContext, StateProvider, SettingsProvider };
+export { SettingsContext, SettingsProvider };
