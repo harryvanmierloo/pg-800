@@ -44,7 +44,7 @@
         border-left: 1px solid $grey350;
         border-radius: $borderRadius;
         display: inline-block;
-        margin: 1rem 0;
+        margin-bottom: 1rem;
         padding: .5rem 1rem;
         text-align: center;
         vertical-align: top;
@@ -57,7 +57,17 @@
     
         > .subSection {
             display: block;
-            min-height: 11rem;
+            height: 6rem;
+        }
+
+        > .subSectionFull {
+            display: block;
+            height: 12rem;
+        }
+
+        > .subSectionExtra {
+            display: block;
+            height: 18rem;
         }
     }    
 }

@@ -39,6 +39,7 @@ const mks = {
         13: {
             name: "DCO-1 TUNE",
             label: "TUNE",
+            defaultValue: 64,
             min: 0,
             max: 127
         },
@@ -94,12 +95,14 @@ const mks = {
         19: {
             name: "DCO-2 TUNE",
             label: "TUNE",
+            defaultValue: 64,
             min: 0,
             max: 127
         },
         20: {
             name: "DCO-2 FINE TUNE",
             label: "FINE",
+            defaultValue: 64,
             min: 0,
             max: 127
         },
@@ -136,10 +139,10 @@ const mks = {
             min: 0,
             max: 96,
             marks: [
-                { value: 0, label: "ENV-2 INV" },
-                { value: 32, label: "ENV-2" },
-                { value: 64, label: "ENV-1 INV" },
-                { value: 96, label: "ENV-1" }
+                { value: 0, label: "ENV2-" },
+                { value: 32, label: "ENV2+" },
+                { value: 64, label: "ENV1-" },
+                { value: 96, label: "ENV1+" }
             ]
         },
         28: {
@@ -178,10 +181,10 @@ const mks = {
             min: 0,
             max: 96,
             marks: [
-                { value: 0, label: "ENV-2 INV" },
-                { value: 32, label: "ENV-2" },
-                { value: 64, label: "ENV-1 INV" },
-                { value: 96, label: "ENV-1" }
+                { value: 0, label: "ENV2-" },
+                { value: 32, label: "ENV2+" },
+                { value: 64, label: "ENV1-" },
+                { value: 96, label: "ENV1+" }
             ]
         },
         33: {
@@ -245,10 +248,10 @@ const mks = {
             min: 0,
             max: 96,
             marks: [
-                { value: 0, label: "ENV-2 INV" },
-                { value: 32, label: "ENV-2" },
-                { value: 64, label: "ENV-1 INV" },
-                { value: 96, label: "ENV-1" }
+                { value: 0, label: "ENV2-" },
+                { value: 32, label: "ENV2+" },
+                { value: 64, label: "ENV1-" },
+                { value: 96, label: "ENV1+" }
             ]
         },
         41: {

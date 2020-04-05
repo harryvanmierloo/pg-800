@@ -1,7 +1,33 @@
 @import '../../scss/variables';
 
 .knob {
-  svg {
-    z-index: 999
-  }
+    display: inline-block;
+    padding: .75rem .5rem 0;
+    text-align: center;
+    vertical-align: top;
+
+    label {
+        font-size: .5rem;
+        letter-spacing: 1px;
+        margin-bottom: 0;
+    }
+    
+    .knobControl {
+        height: 3rem !important; // needed to override inline styling from library
+        width: 3rem !important; // needed to override inline styling from library
+    
+        margin: 0 auto;
+    
+        text-align: center;
+    }
+
+    output {
+        display: block;
+        font-size: .5rem;
+        letter-spacing: 1px;
+        margin-top: .25rem;
+      }
+    
 }
+
+

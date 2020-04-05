@@ -14,7 +14,6 @@ const Slider = (props) => {
     const state = usePanelState();
     const [settings] = useContext(SettingsContext);
     const [value, setValue] = useState(0);
-    
 
     const parameter = MKS.parameters[parameterId];
     const label = (parameter.label !== undefined) ? parameter.label : parameter.name,
@@ -76,7 +75,7 @@ const Slider = (props) => {
                 <div key={inputLabel + '-' + index} className={styles.markLabel}>{mark.label}</div>
             );
         }
-    }
+    };
 
     useEffect(() => {
         setValue(state.values[parameterStateId]);

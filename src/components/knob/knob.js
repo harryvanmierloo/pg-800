@@ -1,44 +1,33 @@
-import React, { useState, useContext } from 'react';
-import update from 'immutability-helper';
+import React, { useState, useEffect, useContext } from 'react';
 import MKS from '../synth/mks';
-import { Knob, Arc, Pointer, Value } from 'rc-knob'
-import { StateContext, SettingsContext } from '../context/context.js';
-import classNames from 'classnames';
+import { Knob } from 'react-rotary-knob'
+import { SettingsContext } from '../context/settingsContext.js';
+import { usePanelState } from '../context/panelContext.js';
 import * as styles from './knob.module.scss';
 
 const KnobControl = (props) => {
 
-    const [state, setState] = useContext(StateContext);
-    const [settings] = useContext(SettingsContext);
-
-    const [value, setValue] = useState(0);
-
     const tone = props.tone;
+    const parameterId = parseInt(props.parameter);
+    const parameterStateId = (tone === "B") ? parameterId + 100 : parameterId; // Offset for Tone B parameters in state
 
-    // If slider is linked to Tone B (MKS/JX-10) then use B-values from context
-    let values = state.valuesA;
-    if (tone === "B") {
-        values = state.valuesB;
-    }
+    const state = usePanelState();
+    const [settings] = useContext(SettingsContext);
+    const [value, setValue] = useState(0);
+    let loadValue = undefined;
 
-    const parameterId = props.parameter;
     const parameter = MKS.parameters[parameterId];
     const label = (parameter.label !== undefined) ? parameter.label : parameter.name,
-          marks = parameter.marks,
-          step = parameter.marks ? parameter.max / (parameter.marks.length-1) : 1,
-          max = parameter.max,
-          min = parameter.min;
+          marks = parameter.marks;
 
-    const changeHandler = (newValue) => {
-        if (state.valuesA[parameterId] !== newValue) {
+    const changeHandler = (event) => {
+        let newValue = event;
 
-            // Set new value in context
-            if (tone === "B") {
-                setState(update(state, {valuesB: {[parameterId]: {$set: parseInt(newValue) }}}));
-            }
-            else {
-                setState(update(state, {valuesA: {[parameterId]: {$set: parseInt(newValue) }}}));
-            }
+        if (value !== newValue) {
+
+            // Set new value
+            loadValue = newValue;
+            setValue(newValue);
 
             let formatType = 0b00100100; // JX-10
             if (settings.synth === "JX8P") {
@@ -50,7 +39,7 @@ const KnobControl = (props) => {
             if (tone === "B") {
                 group = 0b00000010;
             }
-   
+
             // Send sysex to synth
             settings.midiOut.sendSysex(
                 0b01000001, // Roland ID
@@ -67,69 +56,44 @@ const KnobControl = (props) => {
         }
     };
 
-    const inputLabel = "slider-" + parameterId;
-
     const getOutputLabel = () => {
         if (marks !== undefined) {
             // let mark = Math.floor(state.values[parameterId] / step);
             // return marks[mark].label;
         }
         else {
-        return values[parameterId];
+            return parseInt(value);
         }
     };
 
-    const getMarkLabels = () => {
-        if (marks) {
-            return marks.slice(0).reverse().map((mark, index) =>
-                <div key={inputLabel + '-' + index} className={styles.markLabel}>{mark.label}</div>
-            );
-        }
-    }
+    const inputLabel = "knob-" + parameterId;
+
+    useEffect(() => {
+        setValue(loadValue);
+        setValue(state.values[parameterStateId]);
+        //console.log('UseEffect: Value set from context: ', tone, parameterId, value);
+    }, [loadValue, state, parameterStateId]);
 
     return (
-        <Knob 
-            size={100}  
-            angleOffset={220} 
-            angleRange={280}
-            min={0}
-            max={100}
-            //onChange={value => console.log(value)}
-            onChange={changeHandler}
-            >
-            <Value />
-            <Pointer 
-                width={3} 
-                radius={40}
-                type="circle"
-                color="#FC5A96"
-            />
-        </Knob>
-        // <div className={classNames(styles.slider, { [styles.isToggle]: marks } ) } >
-        //     <div className={classNames(styles.sliderSection, styles.markLabels)}>
-        //         {getMarkLabels()}
-        //     </div>
-        //     <div className={styles.sliderSection}>
-        //         <label htmlFor={inputLabel}>
-        //             {label}
-        //         </label>
-        //         <input type="range"
-        //             id={inputLabel}
-        //             orient="vertical"
-        //             min={min}
-        //             max={max}
-        //             step={step}
-        //             value={values[parameterId]}
-        //             onChange={changeHandler}
-        //             style={marks ? { // Calculate correct height, depending on amount of steps
-        //                 width: 16 * marks.length + 8,
-        //                 marginTop: 8 * marks.length - 4,
-        //                 marginBottom: 8 * marks.length
-        //                 } : {} }>
-        //         </input>
-        //         <output htmlFor={inputLabel}>{getOutputLabel()}</output>
-        //     </div>
-        // </div>
+        <div className={styles.knob}>
+            <label htmlFor={inputLabel}>
+                {label}
+            </label>
+            <Knob
+                preciseMode={false}
+                unlockDistance={25}
+                clampMin={30}
+                clampMax={330}
+                rotateDegrees={180}
+                min={0}
+                max={127}
+                value={value}
+                onChange={value => changeHandler(value)}
+                className={styles.knobControl}
+                >
+            </Knob>
+            <output htmlFor={inputLabel}>{getOutputLabel()}</output>
+        </div>
     )
 }
 
