@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import MKS from '../synth/mks';
-import { Knob } from 'react-rotary-knob'
+import { Knob } from 'react-rotary-knob';
 import { SettingsContext } from '../context/settingsContext.js';
 import { usePanelState } from '../context/panelContext.js';
+import knobSkin from './knobSkin';
 import * as styles from './knob.module.scss';
 
 const KnobControl = (props) => {
@@ -90,7 +91,8 @@ const KnobControl = (props) => {
                 value={value}
                 onChange={value => changeHandler(value)}
                 className={styles.knobControl}
-                >
+                skin={knobSkin}
+            >
             </Knob>
             <output htmlFor={inputLabel}>{getOutputLabel()}</output>
         </div>
