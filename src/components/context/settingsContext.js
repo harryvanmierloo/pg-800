@@ -19,7 +19,20 @@ const SettingsProvider = (props) => {
 
   if (retrievedData) {
     if (retrievedData.synth) {
-      initialSettings.synth = retrievedData.synth;
+      switch (retrievedData.synth) {
+        case "JX-8P" || "JX8P": // Backwards compatibility with older local storage value
+          initialSettings.synth = "JX8P";
+          break;
+        case "JX-10" || "JX10": // Backwards compatibility with older local storage value
+          initialSettings.synth = "JX10";
+          break;
+        case "MKS-70" || "MKS70" || "MKS": // Backwards compatibility with older local storage value
+          initialSettings.synth = "MKS";
+          break;
+        default: 
+          initialSettings.synth = retrievedData.synth;
+          break;;
+      }
     }
     if (WebMidi.getInputByName(retrievedData.midiIn) !== false) {
         initialSettings.midiIn = WebMidi.getInputByName(retrievedData.midiIn);
