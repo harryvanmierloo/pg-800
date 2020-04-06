@@ -63,7 +63,7 @@ const KnobControl = (props) => {
             // return marks[mark].label;
         }
         else {
-            return parseInt(value);
+            return parseInt(value - 64);
         }
     };
 

@@ -51,34 +51,3 @@ export default  {
 </svg>
 `
 }
-
-
-
-{/* <svg width="204px" height="204px" viewBox="0 0 204 204" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <style type="text/css">
-        .st0{fill:url(#SVGID_1_);}
-        .st1{fill:url(#SVGID_2_);}
-        .st2{fill:#505050;}
-        .st3{fill:#E7B791;}
-    </style>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="container">
-            <g id="knob-bg">
-                <linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="29.8751" y1="29.8751" x2="174.1249" y2="174.1249" gradientTransform="matrix(-1 0 0 -1 204 204)">
-                    <stop offset="0" style="stop-color:#888888"/>
-                    <stop offset="1" style="stop-color:#141414"/>
-                </linearGradient>
-                <circle class="st0" cx="102" cy="102" r="102"/>
-                <linearGradient id="SVGID_2_" gradientUnits="userSpaceOnUse" x1="32.7035" y1="32.7035" x2="171.2965" y2="171.2965">
-                    <stop offset="0" style="stop-color:#888888"/>
-                    <stop offset="1" style="stop-color:#141414"/>
-                </linearGradient>
-                <circle class="st1" cx="102" cy="102" r="94"/>
-            </g>
-            <g id="knob" transform="translate(27.431373, 27.431373)">
-                <circle class="st2" cx="71" cy="71" r="74"/>
-                <circle class="st3" cx="71" cy="16" r="8"/>
-            </g>
-        </g>
-    </g>
-</svg> */}
