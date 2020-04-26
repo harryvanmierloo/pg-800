@@ -125,7 +125,7 @@ const Settings = (props) => {
                 sysexData.patch = sysex.values;
                 // console.log("Received PATCH parameter values: ", sysex.values);
             }
-            dispatch({ type: 'setAll', target: sysex.target, values: sysex.values });
+            dispatch({ type: 'setAll', target: sysex.target, values: sysex.values, name: sysex.name });
         }
     }, [sysexData, dispatch]);
 
@@ -204,6 +204,7 @@ const parseSysex = data => {
     let sysex = Array.from(data);
 
     let parameters = [];
+    let name = "";
 
     if (sysex[0] === 240 && sysex[1] === 65) { // Filter for Roland sysex
 
@@ -223,23 +224,35 @@ const parseSysex = data => {
             if (sysex[5] === 0b00110000) {
                 for (let p = 7; p < (sysex.length - 1); p++) { // Start at 7th sysex byte for values
                     parameters.push(sysex[p]);
+                    // Set patch name using first 18 bytes
+                    if (p < (18 + 7)) {
+                        name += String.fromCharCode(sysex[p]);
+                    }
                 }
                 //console.log("All PATCH parameters (3.1.2)", parameters);
-                return { target: "PATCH", values: parameters };
+                return { target: "PATCH", values: parameters, name: name.trim() };
             } else if (sysex[5] === 0b00100000) {
                 if (sysex[6] === 1) {
                     for (let p = 7; p < (sysex.length - 1); p++) {
                         parameters.push(sysex[p]);
+                        // Set tone name using first 18 bytes
+                        if (p < (10 + 7)) {
+                            name += String.fromCharCode(sysex[p]);
+                        }
                     }
                     //console.log("All TONE parameters for TONE A (3.3.2)", parameters);
-                    return { target: "A", values: parameters };
+                    return { target: "A", values: parameters, name: name.trim() };
                 }
                 else if (sysex[6] === 2) {
                     for (let p = 7; p < (sysex.length - 1); p++) {
                         parameters.push(sysex[p]);
+                        // Set tone name using first 18 bytes
+                        if (p < (10 + 7)) {
+                            name += String.fromCharCode(sysex[p]);
+                        }
                     }
                     //console.log("All TONE parameters for TONE B (3.3.2)", parameters);
-                    return { target: "B", values: parameters };
+                    return { target: "B", values: parameters, name: name.trim() };
                 }
             }
         }
