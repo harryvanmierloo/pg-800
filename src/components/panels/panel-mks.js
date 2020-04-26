@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import * as styles from './panel.module.scss';
 import PanelPG800 from './panel-pg800.js'
+import PanelPatch from './panel-patch.js'
 
 const PanelMKS = (props) => {
 
-    const [tab, setTab] = useState("A");
+    const [tab, setTab] = useState("PATCH");
 
     const changeTab = (name) => event => {
         if (tab !== name) {
@@ -18,7 +19,7 @@ const PanelMKS = (props) => {
                 <li onClick={changeTab("A")} className={tab === "A" ? styles.active : null}>Channel A</li>
                 <li onClick={changeTab("B")} className={tab === "B" ? styles.active : null}>Channel B</li>
                 {/* <li onClick={changeTab("AB")} className={tab === "AB" ? styles.active : null}>Both</li> */}
-                {/* <li onClick={changeTab("Patch")} className={tab === "Patch" ? styles.active : null}>Patch Settings</li> */}
+                <li onClick={changeTab("PATCH")} className={tab === "PATCH" ? styles.active : null}>Patch Settings</li>
             </ul>
 
             {/* Need style hide/show to prevent that state is lost in hidden (unmounted) tabs */}
@@ -40,8 +41,8 @@ const PanelMKS = (props) => {
                     </div>
                 </React.Fragment>
             </div>
-            <div style={{ display: (tab === "Patch") ? null : 'none' }}>
-                <h2>Patch settings</h2>
+            <div style={{ display: (tab === "PATCH") ? null : 'none' }}>
+                <PanelPatch />
             </div>
         </div>
     )
