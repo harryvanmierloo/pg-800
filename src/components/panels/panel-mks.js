@@ -5,7 +5,7 @@ import PanelPatch from './panel-patch.js'
 
 const PanelMKS = (props) => {
 
-    const [tab, setTab] = useState("PATCH");
+    const [tab, setTab] = useState("A");
 
     const changeTab = (name) => event => {
         if (tab !== name) {

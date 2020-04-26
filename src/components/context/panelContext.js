@@ -16,28 +16,45 @@ const initialState = () => {
         let defaultValue = (MKS.parameters[q] && MKS.parameters[q].defaultValue) ? MKS.parameters[q].defaultValue : 0;
         defaultParameterValues.push(defaultValue);
     }
+    for (let r = 0; r < 100; r++) {
+        // Use defined default parameter value, otherwise 0 - Fill patch parameters
+        let defaultValue = (MKS.patch[r] && MKS.patch[r].defaultValue) ? MKS.patch[r].defaultValue : 0;
+        defaultParameterValues.push(defaultValue);
+    }
     return { values: defaultParameterValues };
 }
 
 function panelReducer(state, action) {
+    let offset = 0;
+    switch (action.target) {
+        case 'B': {
+            offset = 100;
+            break;
+        }
+        case 'PATCH': {
+            offset = 200;
+            break;
+        }
+        default: {
+            offset = 0;
+            break;
+        }
+    }
+
     switch (action.type) {
         case 'set': {
             let newValues = state.values;
-            
-            let offset = (action.tone === "B") ? 100 : 0;
             let arrayPosition = parseInt(action.parameter) + offset;
 
             newValues[arrayPosition] = parseInt(action.value);
-            //console.log("Set: ", action.tone, action.parameter, newValues[arrayPosition]);
+            //console.log("Set: ", action.target, action.parameter, newValues[arrayPosition]);
             
             return { values: newValues };
         }
         case 'setAll': {
             let newValues = state.values;
-            let offset = (action.tone === "B") ? 100 : 0;
-
             newValues.splice(offset, action.values.length, ...action.values);
-            //console.log("SetAll: ", action.tone, newValues);
+            //console.log("SetAll: ", action.target, newValues);
         
             return { values: newValues };
         }

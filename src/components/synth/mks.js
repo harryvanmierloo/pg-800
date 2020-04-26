@@ -412,36 +412,36 @@ const mks = {
         16: {},
         17: {},
         18: {
-            name: "U/L BALANCE",
-            label: "U/L",
+            name: "A/B BALANCE",
+            label: "A/B",
             defaultValue: 64,
             min: 0,
             max: 127
         },
         19: {
             name: "DUAL DETUNE",
-            label: "DUEL DETUNE",
-            defaultValue: 64,
+            label: "DETUNE",
+            defaultValue: 0,
             min: 0,
             max: 127
         },
         20: {
             name: "UPPER SPLIT POINT",
-            label: "UPPER SPLIT",
+            label: "A-SPLIT",
             defaultValue: 64,
             min: 21,
             max: 108
         },
         21: {
             name: "LOWER SPLIT POINT",
-            label: "LOWER SPLIT",
+            label: "B-SPLIT",
             defaultValue: 64,
             min: 21,
             max: 108
         },
         22: {
             name: "PORTAMENTO TIME",
-            label: "PORTAMENTO",
+            label: "PORTA",
             defaultValue: 0,
             min: 0,
             max: 127
@@ -456,68 +456,66 @@ const mks = {
                 { value: 0, label: "2" },
                 { value: 32, label: "3" },
                 { value: 64, label: "4" },
-                { value: 96, label: "7" },
-                { value: 128, label: "12" }
+                { value: 96, label: "7" }
             ]
         },
         24: { // Needs attention
             name: "KEY MODE",
-            label: "KEY MODE",
+            label: "KEY",
             min: 0,
             max: 3,
             defaultValue: 0,
             marks: [
                 { value: 0, label: "0" },
                 { value: 1, label: "1" },
-                { value: 2, label: "2" },
-                { value: 3, label: "3" }
+                { value: 2, label: "2" }
             ]
         },
         25: {
             name: "TOTAL VOLUME",
-            label: "TOTAL VOLUME",
+            label: "VOLUME",
             defaultValue: 100,
             min: 0,
             max: 127
         },
         26: {
             name: "AFTER TOUCH VIBRATO",
-            label: "AFTER TOUCH VIBRATO",
+            label: "VIBRATO",
             defaultValue: 64,
             min: 0,
             max: 127
         },
         27: {
             name: "AFTER TOUCH BRILLIANCE",
-            label: "AFTER TOUCH BRILLIANCE",
+            label: "BRIL",
             defaultValue: 64,
             min: 0,
             max: 127
         },
         28: {
             name: "AFTER TOUCH VOLUME",
-            label: "AFTER TOUCH VOLUME",
+            label: "VOLUME",
             defaultValue: 64,
             min: 0,
             max: 127
         },
         29: {
             name: "UPPER TONE NUMBER",
-            label: "UPPER TONE",
+            label: "TONE",
             defaultValue: 0,
             min: 0,
             max: 99
         },
         30: { // Needs attention
             name: "UPPER CHROMATIC SHIFT",
-            label: "UPPER CHROMATIC SHIFT",
+            label: "SHIFT",
             defaultValue: 64,
             min: 0,
             max: 127
         },
         31: { 
             name: "UPPER KEY ASSIGN",
-            label: "UPPER KEY ASSIGN",
+            label: "KEY",
             min: 0,
             max: 6,
             defaultValue: 0,
@@ -532,14 +530,14 @@ const mks = {
         },
         32: {
             name: "UPPER UNISON DETUNE",
-            label: "UPPER UNISON DETUNE",
+            label: "UNISON",
             defaultValue: 0,
             min: 0,
             max: 127
         },
         33: { 
             name: "UPPER HOLD",
-            label: "UPPER HOLD",
+            label: "HOLD",
             min: 0,
             max: 1,
             defaultValue: 0,
@@ -550,14 +548,14 @@ const mks = {
         },
         34: {
             name: "UPPER LFO MOD DEPTH",
-            label: "UPPER LFO MOD DEPTH",
+            label: "LFO",
             defaultValue: 0,
             min: 0,
             max: 127
         },
         35: { 
             name: "UPPER PORTAMENTO",
-            label: "UPPER PORTAMENTO",
+            label: "PORTA",
             min: 0,
             max: 1,
             defaultValue: 0,
@@ -568,7 +566,7 @@ const mks = {
         },
         36: { 
             name: "UPPER BENDER",
-            label: "UPPER BENDER",
+            label: "BENDER",
             min: 0,
             max: 1,
             defaultValue: 0,
@@ -580,21 +578,21 @@ const mks = {
         37: {},
         38: {
             name: "LOWER TONE NUMBER",
-            label: "LOWER TONE",
+            label: "TONE",
             defaultValue: 0,
             min: 0,
             max: 99
         },
         39: { // Needs attention
             name: "LOWER CHROMATIC SHIFT",
-            label: "LOWER CHROMATIC SHIFT",
+            label: "SHIFT",
             defaultValue: 64,
             min: 0,
             max: 127
         },
         40: { 
             name: "LOWER KEY ASSIGN",
-            label: "LOWER KEY ASSIGN",
+            label: "KEY",
             min: 0,
             max: 6,
             defaultValue: 0,
@@ -609,14 +607,14 @@ const mks = {
         },
         41: {
             name: "LOWER UNISON DETUNE",
-            label: "LOWER UNISON DETUNE",
+            label: "UNISON",
             defaultValue: 0,
             min: 0,
             max: 127
         },
         42: { 
             name: "LOWER HOLD",
-            label: "LOWER HOLD",
+            label: "HOLD",
             min: 0,
             max: 1,
             defaultValue: 0,
@@ -627,14 +625,14 @@ const mks = {
         },
         43: {
             name: "LOWER LFO MOD DEPTH",
-            label: "LOWER LFO MOD DEPTH",
+            label: "LFO",
             defaultValue: 0,
             min: 0,
             max: 127
         },
         44: { 
             name: "LOWER PORTAMENTO",
-            label: "LOWER PORTAMENTO",
+            label: "PORTA",
             min: 0,
             max: 1,
             defaultValue: 0,
@@ -645,7 +643,7 @@ const mks = {
         },
         45: { 
             name: "LOWER BENDER",
-            label: "LOWER BENDER",
+            label: "BENDER",
             min: 0,
             max: 1,
             defaultValue: 0,
@@ -657,33 +655,33 @@ const mks = {
         46: {},
         47: {
             name: "CHASE LEVEL",
-            label: "CHASE LEVEL",
+            label: "LEVEL",
             defaultValue: 0,
             min: 0,
             max: 127
         },
         48: { 
             name: "CHASE MODE",
-            label: "CHASE MODE",
+            label: "MODE",
             min: 0,
             max: 2,
             defaultValue: 0,
             marks: [
                 { value: 0, label: "A-B" },
-                { value: 1, label: "A-B-B-" },
-                { value: 2, label: "A-B-A-" }
+                { value: 1, label: "A-B-B" },
+                { value: 2, label: "A-B-A" }
             ]
         },
         49: {
             name: "CHASE TIME",
-            label: "CHASE TIME",
+            label: "TIME",
             defaultValue: 1,
             min: 1,
             max: 127
         },
         50: { 
             name: "CHASE PLAY",
-            label: "CHASE PLAY",
+            label: "PLAY",
             min: 0,
             max: 1,
             defaultValue: 0,

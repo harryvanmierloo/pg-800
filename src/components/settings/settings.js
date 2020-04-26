@@ -108,19 +108,24 @@ const Settings = (props) => {
     let sysexData = {
         valuesA: undefined,
         valuesB: undefined,
+        patch: undefined
     }
     const sysexHandler = useCallback((event) => {
         let sysex = parseSysex(event.data);
         if (sysex) {
-            if (sysex.tone === "A") {
+            if (sysex.target === "A") {
                 sysexData.valuesA = sysex.values;
-                console.log("Received TONE A parameter values: ", sysex.values);
+                // console.log("Received TONE A parameter values: ", sysex.values);
             }
-            if (sysex.tone === "B") {
+            if (sysex.target === "B") {
                 sysexData.valuesB = sysex.values;
-                console.log("Received TONE B parameter values: ", sysex.values);
+                // console.log("Received TONE B parameter values: ", sysex.values);
             }
-            dispatch({ type: 'setAll', tone: sysex.tone, values: sysex.values });
+            if (sysex.target === "PATCH") {
+                sysexData.patch = sysex.values;
+                // console.log("Received PATCH parameter values: ", sysex.values);
+            }
+            dispatch({ type: 'setAll', target: sysex.target, values: sysex.values });
         }
     }, [sysexData, dispatch]);
 
@@ -216,21 +221,25 @@ const parseSysex = data => {
         // All Patch Parameters (APR) - 00110101 - 53
         if (sysex[2] === 0b00110101) {
             if (sysex[5] === 0b00110000) {
-                //console.log("All PATCH parameters (3.1.2)", sysex);
+                for (let p = 7; p < (sysex.length - 1); p++) { // Start at 7th sysex byte for values
+                    parameters.push(sysex[p]);
+                }
+                //console.log("All PATCH parameters (3.1.2)", parameters);
+                return { target: "PATCH", values: parameters };
             } else if (sysex[5] === 0b00100000) {
                 if (sysex[6] === 1) {
                     for (let p = 7; p < (sysex.length - 1); p++) {
                         parameters.push(sysex[p]);
                     }
                     //console.log("All TONE parameters for TONE A (3.3.2)", parameters);
-                    return { tone: "A", values: parameters };
+                    return { target: "A", values: parameters };
                 }
                 else if (sysex[6] === 2) {
                     for (let p = 7; p < (sysex.length - 1); p++) {
                         parameters.push(sysex[p]);
                     }
                     //console.log("All TONE parameters for TONE B (3.3.2)", parameters);
-                    return { tone: "B", values: parameters };
+                    return { target: "B", values: parameters };
                 }
             }
         }
