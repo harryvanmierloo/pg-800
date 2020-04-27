@@ -38,15 +38,18 @@ const PanelMKS = (props) => {
             <div style={{ display: (tab === "ALL") ? null : 'none' }}>
                 <React.Fragment>
                     <div>
+                        <h3>Patch settings</h3>
                         <Title />
                         <PanelPatch />
                     </div>
                     <div>
                         <h3>Channel A</h3>
+                        <Title tone="A" />
                         <PanelPG800 tone="A" />
                     </div>
                     <div>
                         <h3>Channel B</h3>
+                        <Title tone="B" />
                         <PanelPG800 tone="B" />
                     </div>
                 </React.Fragment>

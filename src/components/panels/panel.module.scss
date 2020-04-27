@@ -2,6 +2,11 @@
 
 .panel {
 
+    h3 {
+        color: $gold;
+        font-weight: 300;
+    }
+
     .tabs {
         background: $panel;
         border-top: 1px solid $grey300;
