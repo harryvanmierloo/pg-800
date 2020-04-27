@@ -29,7 +29,7 @@ function App() {
                 <Settings />
 
                 <footer>
-                    Made with <span>♥</span> in The Hague<br />by <a href="mailto:harry@vanmierloo.nl">Harry van Mierloo</a>.
+                    Made with <span>♥</span> in The Hague<br />by <a href="mailto:harry@vanmierloo.nl">Harry van Mierloo</a>
                 </footer>
                 <div onClick={toggleSidebarVisibility} className={styles.collapseButton}>
                     <div className={styles.icon}>&larr;</div>
