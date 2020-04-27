@@ -188,9 +188,8 @@ const Settings = (props) => {
                 </select>
             </li>
             <li>
-                <label>Test</label>
                 <button onClick={playNote(["C5", "E5", "G5"], 1000, 0.5)}>
-                    Play chord
+                    Play test chord
                 </button>
             </li>
         </ul>

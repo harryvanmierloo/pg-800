@@ -10,7 +10,7 @@
         border-left: 1px solid $grey350;
         border-radius: $borderRadius;
         padding: 0;
-        margin: 0 0 1rem;
+        margin: 0 0 2rem;
 
         li {
             display: inline-block;
@@ -23,7 +23,8 @@
             }
 
             &.active {
-                background: $grey350;
+                color: $grey100;
+                background: $gold;
 
                 &:hover {
                     cursor: default;

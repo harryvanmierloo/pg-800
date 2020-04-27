@@ -5,6 +5,13 @@
 
     > li {
         list-style-type: none;
-        margin: 0 1.5rem 1rem 0;
+        margin: 0 0 1rem;
+    }
+
+    label {
+        font-size: .5rem;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        margin-bottom: .5rem;
     }
 }
