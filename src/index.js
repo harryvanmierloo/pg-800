@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import ReactDOM from 'react-dom';
 import WebMidi from "webmidi";
 import Settings from './components/settings/settings.js';
@@ -9,14 +9,21 @@ import PanelMKS from './components/panels/panel-mks.js';
 import { SettingsContext, SettingsProvider } from './components/context/settingsContext.js';
 import { PanelProvider } from './components/context/panelContext.js';
 import * as styles from './index.module.scss';
+import classNames from 'classnames';
 
 function App() {
     
     const [settings] = useContext(SettingsContext);
 
+    const [sidebarVisibility, setSidebarVisibility] = useState(true);
+
+    const toggleSidebarVisibility = event => {
+        setSidebarVisibility(!sidebarVisibility);
+    };
+
     return (
         <React.Fragment>
-            <div className={styles.sidebar}>
+            <div className={classNames(styles.sidebar, { [styles.collapsed]: !sidebarVisibility })}>
                 <h1>PG-800 Online</h1>
                 <p className={styles.subtitle}>v0.1 - Alpha</p>
                 <Settings />
@@ -24,6 +31,9 @@ function App() {
                 <footer>
                     Made with <span>♥</span> in The Hague<br />by <a href="mailto:harry@vanmierloo.nl">Harry van Mierloo</a>.
                 </footer>
+                <div onClick={toggleSidebarVisibility} className={styles.collapseButton}>
+                    <div className={styles.icon}>&larr;</div>
+                </div>
             </div>
 
             <main>
