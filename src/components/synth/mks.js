@@ -504,7 +504,7 @@ const mks = {
         29: {
             name: "UPPER TONE NUMBER",
             label: "TONE",
-            defaultValue: undefined,
+            defaultValue: 0,
             min: 0,
             max: 99
         },
@@ -581,7 +581,7 @@ const mks = {
         38: {
             name: "LOWER TONE NUMBER",
             label: "TONE",
-            defaultValue: undefined,
+            defaultValue: 0,
             min: 0,
             max: 99
         },
