@@ -21,7 +21,6 @@ const initialState = () => {
         let defaultValue = (MKS.patch[r] && MKS.patch[r].defaultValue) ? MKS.patch[r].defaultValue : 0;
         defaultParameterValues.push(defaultValue);
     }
-    console.log(defaultParameterValues);
     return { values: defaultParameterValues };
 }
 

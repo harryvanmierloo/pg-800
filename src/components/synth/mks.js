@@ -415,13 +415,14 @@ const mks = {
             name: "A/B BALANCE",
             label: "A/B",
             defaultValue: 64,
+            inverted: true,
             min: 0,
             max: 127
         },
         19: {
             name: "DUAL DETUNE",
             label: "DETUNE",
-            defaultValue: 0,
+            defaultValue: 64,
             min: 0,
             max: 127
         },
@@ -448,7 +449,7 @@ const mks = {
         },
         23: { // Needs attention
             name: "BEND RANGE",
-            label: "RANGE",
+            label: "BEND",
             min: 0,
             max: 96,
             defaultValue: 64,
@@ -461,14 +462,15 @@ const mks = {
         },
         24: { // Needs attention
             name: "KEY MODE",
-            label: "KEY",
+            label: "MODE",
             min: 0,
             max: 3,
             defaultValue: 0,
             marks: [
-                { value: 0, label: "0" },
-                { value: 1, label: "1" },
-                { value: 2, label: "2" }
+                { value: 0, label: "Dual" },
+                { value: 1, label: "Split" },
+                { value: 2, label: "Whole A" },
+                { value: 3, label: "Whole B" }
             ]
         },
         25: {
@@ -531,7 +533,7 @@ const mks = {
         32: {
             name: "UPPER UNISON DETUNE",
             label: "UNISON",
-            defaultValue: 0,
+            defaultValue: 64,
             min: 0,
             max: 127
         },
@@ -608,7 +610,7 @@ const mks = {
         41: {
             name: "LOWER UNISON DETUNE",
             label: "UNISON",
-            defaultValue: 0,
+            defaultValue: 64,
             min: 0,
             max: 127
         },

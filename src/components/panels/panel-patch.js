@@ -1,5 +1,6 @@
 import React from 'react';
 import Slider from '../slider/slider.js';
+import KnobControl from '../knob/knob.js';
 import * as styles from './panel.module.scss';
 
 const PanelPatch = (props) => {
@@ -10,8 +11,8 @@ const PanelPatch = (props) => {
                 <section>
                     <h2>General</h2>
                     <div className={styles.subSectionFull}>
-                        <Slider parameter="18" />
-                        <Slider parameter="19" />
+                        <KnobControl parameter="18" />
+                        <KnobControl parameter="19" />
                         <Slider parameter="20" />
                         <Slider parameter="21" />
                         <Slider parameter="22" />
@@ -45,7 +46,7 @@ const PanelPatch = (props) => {
                         <Slider parameter="29" />
                         <Slider parameter="30" />
                         <Slider parameter="31" />
-                        <Slider parameter="32" />
+                        <KnobControl parameter="32" />
                         <Slider parameter="33" />
                         <Slider parameter="34" />
                         <Slider parameter="35" />
@@ -58,7 +59,7 @@ const PanelPatch = (props) => {
                         <Slider parameter="38" />
                         <Slider parameter="39" />
                         <Slider parameter="40" />
-                        <Slider parameter="41" />
+                        <KnobControl parameter="41" />
                         <Slider parameter="42" />
                         <Slider parameter="43" />
                         <Slider parameter="44" />
