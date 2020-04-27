@@ -5,7 +5,6 @@ import { SettingsContext } from '../context/settingsContext.js';
 import { usePanelState } from '../context/panelContext.js';
 import knobSkin from './knobSkin';
 import * as styles from './knob.module.scss';
-import mks from '../synth/mks';
 
 const KnobControl = (props) => {
 

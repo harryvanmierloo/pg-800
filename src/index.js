@@ -16,28 +16,32 @@ function App() {
 
     return (
         <React.Fragment>
-            <h1>PG-800 Virtual Programmer <span>v0.1 - Alpha</span></h1>
-      
-            <Settings />
+            <div className={styles.sidebar}>
+                <h1>PG-800 Online</h1>
+                <p className={styles.subtitle}>v0.1 - Alpha</p>
+                <Settings />
 
-            {(settings.synth === "JX8P") &&
-                <PanelJX8P />
-            }
-            {(settings.synth === "JX10-VECOVEN3") &&
-                <PanelJX10 />
-            }
-            {(settings.synth === "MKS" || settings.synth === "MKS-VECOVEN3") &&
-                <PanelMKS />
-            }
-            {(settings.synth === "MKS-VECOVEN4") &&
-                <div className={styles.panel}>
-                    Panel for Vecoven firmware 4.x coming soon!
-                </div>
-            }
+                <footer>
+                    Made with <span>♥</span> in The Hague<br />by <a href="mailto:harry@vanmierloo.nl">Harry van Mierloo</a>.
+                </footer>
+            </div>
 
-            <footer>
-                Made with <span>♥</span> in The Hague by <a href="https://www.ontwerper.com">Harry van Mierloo</a>.
-            </footer>
+            <main>
+                {(settings.synth === "JX8P") &&
+                    <PanelJX8P />
+                }
+                {(settings.synth === "JX10-VECOVEN3") &&
+                    <PanelJX10 />
+                }
+                {(settings.synth === "MKS" || settings.synth === "MKS-VECOVEN3") &&
+                    <PanelMKS />
+                }
+                {(settings.synth === "MKS-VECOVEN4") &&
+                    <div className={styles.panel}>
+                        Panel for Vecoven firmware 4.x coming soon!
+                    </div>
+                }
+            </main>
         </React.Fragment>
     );
 }

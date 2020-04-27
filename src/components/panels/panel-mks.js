@@ -20,7 +20,7 @@ const PanelMKS = (props) => {
                 <li onClick={changeTab("PATCH")} className={tab === "PATCH" ? styles.active : null}>Patch</li>
                 <li onClick={changeTab("A")} className={tab === "A" ? styles.active : null}>Channel A</li>
                 <li onClick={changeTab("B")} className={tab === "B" ? styles.active : null}>Channel B</li>
-                {/* <li onClick={changeTab("AB")} className={tab === "AB" ? styles.active : null}>Both</li> */}
+                <li onClick={changeTab("ALL")} className={tab === "ALL" ? styles.active : null}>All</li>
             </ul>
 
             <div style={{ display: (tab === "PATCH") ? null : 'none' }}>
@@ -35,8 +35,12 @@ const PanelMKS = (props) => {
                 <Title tone="B" />
                 <PanelPG800 tone="B" />
             </div>
-            <div style={{ display: (tab === "AB") ? null : 'none' }}>
+            <div style={{ display: (tab === "ALL") ? null : 'none' }}>
                 <React.Fragment>
+                    <div>
+                        <Title />
+                        <PanelPatch />
+                    </div>
                     <div>
                         <h3>Channel A</h3>
                         <PanelPG800 tone="A" />
