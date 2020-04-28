@@ -1,7 +1,7 @@
 # A web-based PG-800 virtual programmer
 by Harry van Mierloo
 
-![alt text](https://raw.githubusercontent.com/harryvanmierloo/pg-800/master/screenshots/2020-04-27.png?token=AJNB6LZJUTSD6QNSA6TPMKS6VAHY6 "Logo Title Text 1")
+![alt text](https://github.com/harryvanmierloo/pg-800/blob/master/screenshots/2020-04-27.png?raw=true)
 
 ## Available Scripts
 
