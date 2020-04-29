@@ -24,21 +24,22 @@ const mks = {
                 { value: 96, label: "2" }
             ]
         },
-        12: {
+        12: { // Values are different from Roland manual spec (mistake in spec)
             name: "DCO-1 WAVEFORM",
             label: "WAVE",
             min: 0,
             max: 96,
             marks: [
                 { value: 0, label: "Noise" },
-                { value: 32, label: "Saw" },
+                { value: 32, label: "Square" },
                 { value: 64, label: "Pulse" },
-                { value: 96, label: "Square" }
+                { value: 96, label: "Saw" }
             ]
         },
         13: {
             name: "DCO-1 TUNE",
             label: "TUNE",
+            defaultValue: 64,
             min: 0,
             max: 127
         },
@@ -54,7 +55,7 @@ const mks = {
             min: 0,
             max: 127
         },
-        16: {
+        16: { // Values are different from Roland manual spec (mistake in spec)
             name: "DCO-2 RANGE",
             label: "RANGE",
             min: 0,
@@ -74,9 +75,9 @@ const mks = {
             max: 96,
             marks: [
                 { value: 0, label: "Noise" },
-                { value: 32, label: "Saw" },
+                { value: 32, label: "Square" },
                 { value: 64, label: "Pulse" },
-                { value: 96, label: "Square" }
+                { value: 96, label: "Saw" }
             ]
         },
         18: {
@@ -94,12 +95,14 @@ const mks = {
         19: {
             name: "DCO-2 TUNE",
             label: "TUNE",
+            defaultValue: 64,
             min: 0,
             max: 127
         },
         20: {
             name: "DCO-2 FINE TUNE",
             label: "FINE",
+            defaultValue: 64,
             min: 0,
             max: 127
         },
@@ -136,10 +139,10 @@ const mks = {
             min: 0,
             max: 96,
             marks: [
-                { value: 0, label: "ENV-2 INV" },
-                { value: 32, label: "ENV-2" },
-                { value: 64, label: "ENV-1 INV" },
-                { value: 96, label: "ENV-1" }
+                { value: 0, label: "ENV2-" },
+                { value: 32, label: "ENV2+" },
+                { value: 64, label: "ENV1-" },
+                { value: 96, label: "ENV1+" }
             ]
         },
         28: {
@@ -178,10 +181,10 @@ const mks = {
             min: 0,
             max: 96,
             marks: [
-                { value: 0, label: "ENV-2 INV" },
-                { value: 32, label: "ENV-2" },
-                { value: 64, label: "ENV-1 INV" },
-                { value: 96, label: "ENV-1" }
+                { value: 0, label: "ENV2-" },
+                { value: 32, label: "ENV2+" },
+                { value: 64, label: "ENV1-" },
+                { value: 96, label: "ENV1+" }
             ]
         },
         33: {
@@ -245,10 +248,10 @@ const mks = {
             min: 0,
             max: 96,
             marks: [
-                { value: 0, label: "ENV-2 INV" },
-                { value: 32, label: "ENV-2" },
-                { value: 64, label: "ENV-1 INV" },
-                { value: 96, label: "ENV-1" }
+                { value: 0, label: "ENV2-" },
+                { value: 32, label: "ENV2+" },
+                { value: 64, label: "ENV1-" },
+                { value: 96, label: "ENV1+" }
             ]
         },
         41: {
@@ -388,7 +391,308 @@ const mks = {
                 { value: 64, label: "ENV-2" }
             ]
         },
+    },
+    patch: {
+        0: {},
+        1: {},
+        2: {},
+        3: {},
+        4: {},
+        5: {},
+        6: {},
+        7: {},
+        8: {},
+        9: {},
+        10: {},
+        11: {},
+        12: {},
+        13: {},
+        14: {},
+        15: {},
+        16: {},
+        17: {},
+        18: {
+            name: "A/B BALANCE",
+            label: "A/B",
+            defaultValue: 64,
+            inverted: true,
+            min: 0,
+            max: 127
+        },
+        19: {
+            name: "DUAL DETUNE",
+            label: "DETUNE",
+            defaultValue: 64,
+            min: 0,
+            max: 127
+        },
+        20: {
+            name: "UPPER SPLIT POINT",
+            label: "A-SPLIT",
+            defaultValue: 64,
+            min: 21,
+            max: 108
+        },
+        21: {
+            name: "LOWER SPLIT POINT",
+            label: "B-SPLIT",
+            defaultValue: 64,
+            min: 21,
+            max: 108
+        },
+        22: {
+            name: "PORTAMENTO TIME",
+            label: "PORTA",
+            defaultValue: 0,
+            min: 0,
+            max: 127
+        },
+        23: { // Needs attention
+            name: "BEND RANGE",
+            label: "BEND",
+            min: 0,
+            max: 96,
+            defaultValue: 64,
+            marks: [
+                { value: 0, label: "2" },
+                { value: 32, label: "3" },
+                { value: 64, label: "4" },
+                { value: 96, label: "7" }
+            ]
+        },
+        24: { // Needs attention
+            name: "KEY MODE",
+            label: "MODE",
+            min: 0,
+            max: 3,
+            defaultValue: 0,
+            marks: [
+                { value: 0, label: "Dual" },
+                { value: 1, label: "Split" },
+                { value: 2, label: "Whole A" },
+                { value: 3, label: "Whole B" }
+            ]
+        },
+        25: {
+            name: "TOTAL VOLUME",
+            label: "VOLUME",
+            defaultValue: 100,
+            min: 0,
+            max: 127
+        },
+        26: {
+            name: "AFTER TOUCH VIBRATO",
+            label: "VIBRATO",
+            defaultValue: 64,
+            min: 0,
+            max: 127
+        },
+        27: {
+            name: "AFTER TOUCH BRILLIANCE",
+            label: "BRIL",
+            defaultValue: 64,
+            min: 0,
+            max: 127
+        },
+        28: {
+            name: "AFTER TOUCH VOLUME",
+            label: "VOLUME",
+            defaultValue: 64,
+            min: 0,
+            max: 127
+        },
+        29: {
+            name: "UPPER TONE NUMBER",
+            label: "TONE",
+            defaultValue: 0,
+            min: 0,
+            max: 99
+        },
+        30: { // Needs attention
+            name: "UPPER CHROMATIC SHIFT",
+            label: "SHIFT",
+            defaultValue: 64,
+            min: 0,
+            max: 127
+        },
+        31: { 
+            name: "UPPER KEY ASSIGN",
+            label: "KEY",
+            min: 0,
+            max: 6,
+            defaultValue: 0,
+            marks: [
+                { value: 0, label: "Poly-1" },
+                { value: 1, label: "Unison-1" },
+                { value: 2, label: "Mono-1" },
+                { value: 4, label: "Poly-2" },
+                { value: 5, label: "Unison-2" },
+                { value: 6, label: "Mono-2" }
+            ]
+        },
+        32: {
+            name: "UPPER UNISON DETUNE",
+            label: "UNISON",
+            defaultValue: 64,
+            min: 0,
+            max: 127
+        },
+        33: { 
+            name: "UPPER HOLD",
+            label: "HOLD",
+            min: 0,
+            max: 1,
+            defaultValue: 0,
+            marks: [
+                { value: 0, label: "OFF" },
+                { value: 1, label: "ON" }
+            ]
+        },
+        34: {
+            name: "UPPER LFO MOD DEPTH",
+            label: "LFO",
+            defaultValue: 0,
+            min: 0,
+            max: 127
+        },
+        35: { 
+            name: "UPPER PORTAMENTO",
+            label: "PORTA",
+            min: 0,
+            max: 1,
+            defaultValue: 0,
+            marks: [
+                { value: 0, label: "OFF" },
+                { value: 1, label: "ON" }
+            ]
+        },
+        36: { 
+            name: "UPPER BENDER",
+            label: "BENDER",
+            min: 0,
+            max: 1,
+            defaultValue: 0,
+            marks: [
+                { value: 0, label: "OFF" },
+                { value: 1, label: "ON" }
+            ]
+        },
+        37: {},
+        38: {
+            name: "LOWER TONE NUMBER",
+            label: "TONE",
+            defaultValue: 0,
+            min: 0,
+            max: 99
+        },
+        39: { // Needs attention
+            name: "LOWER CHROMATIC SHIFT",
+            label: "SHIFT",
+            defaultValue: 64,
+            min: 0,
+            max: 127
+        },
+        40: { 
+            name: "LOWER KEY ASSIGN",
+            label: "KEY",
+            min: 0,
+            max: 6,
+            defaultValue: 0,
+            marks: [
+                { value: 0, label: "Poly-1" },
+                { value: 1, label: "Unison-1" },
+                { value: 2, label: "Mono-1" },
+                { value: 4, label: "Poly-2" },
+                { value: 5, label: "Unison-2" },
+                { value: 6, label: "Mono-2" }
+            ]
+        },
+        41: {
+            name: "LOWER UNISON DETUNE",
+            label: "UNISON",
+            defaultValue: 64,
+            min: 0,
+            max: 127
+        },
+        42: { 
+            name: "LOWER HOLD",
+            label: "HOLD",
+            min: 0,
+            max: 1,
+            defaultValue: 0,
+            marks: [
+                { value: 0, label: "OFF" },
+                { value: 1, label: "ON" }
+            ]
+        },
+        43: {
+            name: "LOWER LFO MOD DEPTH",
+            label: "LFO",
+            defaultValue: 0,
+            min: 0,
+            max: 127
+        },
+        44: { 
+            name: "LOWER PORTAMENTO",
+            label: "PORTA",
+            min: 0,
+            max: 1,
+            defaultValue: 0,
+            marks: [
+                { value: 0, label: "OFF" },
+                { value: 1, label: "ON" }
+            ]
+        },
+        45: { 
+            name: "LOWER BENDER",
+            label: "BENDER",
+            min: 0,
+            max: 1,
+            defaultValue: 0,
+            marks: [
+                { value: 0, label: "OFF" },
+                { value: 1, label: "ON" }
+            ]
+        },
+        46: {},
+        47: {
+            name: "CHASE LEVEL",
+            label: "LEVEL",
+            defaultValue: 0,
+            min: 0,
+            max: 127
+        },
+        48: { 
+            name: "CHASE MODE",
+            label: "MODE",
+            min: 0,
+            max: 2,
+            defaultValue: 0,
+            marks: [
+                { value: 0, label: "A-B" },
+                { value: 1, label: "A-B-B" },
+                { value: 2, label: "A-B-A" }
+            ]
+        },
+        49: {
+            name: "CHASE TIME",
+            label: "TIME",
+            defaultValue: 1,
+            min: 1,
+            max: 127
+        },
+        50: { 
+            name: "CHASE PLAY",
+            label: "PLAY",
+            min: 0,
+            max: 1,
+            defaultValue: 0,
+            marks: [
+                { value: 0, label: "OFF" },
+                { value: 1, label: "ON" }
+            ]
+        },
     }
 }
 
-export default mks;
+export default mks-vecoven3;

@@ -24,16 +24,16 @@ const mks = {
                 { value: 96, label: "2" }
             ]
         },
-        12: {
+        12: { // Values are different from Roland manual spec (mistake in spec)
             name: "DCO-1 WAVEFORM",
             label: "WAVE",
             min: 0,
             max: 96,
             marks: [
                 { value: 0, label: "Noise" },
-                { value: 32, label: "Saw" },
+                { value: 32, label: "Square" },
                 { value: 64, label: "Pulse" },
-                { value: 96, label: "Square" }
+                { value: 96, label: "Saw" }
             ]
         },
         13: {
@@ -55,7 +55,7 @@ const mks = {
             min: 0,
             max: 127
         },
-        16: {
+        16: { // Values are different from Roland manual spec (mistake in spec)
             name: "DCO-2 RANGE",
             label: "RANGE",
             min: 0,
@@ -75,9 +75,9 @@ const mks = {
             max: 96,
             marks: [
                 { value: 0, label: "Noise" },
-                { value: 32, label: "Saw" },
+                { value: 32, label: "Square" },
                 { value: 64, label: "Pulse" },
-                { value: 96, label: "Square" }
+                { value: 96, label: "Saw" }
             ]
         },
         18: {
