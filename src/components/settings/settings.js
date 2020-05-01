@@ -169,23 +169,30 @@ const Settings = (props) => {
                     </select>
                 </li>
                 <li>
-                    <label htmlFor="select-midi-channel-a">Channel A</label>
+                    <label htmlFor="select-midi-channel-a">
+                        {(settings.synth === "JX8P") && "Midi Channel" }
+                        {(settings.synth !== "JX8P") && "Midi Channel B" }
+                    </label>
                     <select id="select-midi-channel-a" onChange={changeSettings('midiChannelA')} defaultValue={settings.midiChannelA}>
                         {createChannelOptions()}
                     </select>
                 </li>
-                <li>
-                    <label htmlFor="select-midi-channel-b">Channel B</label>
-                    <select id="select-midi-channel-b" onChange={changeSettings('midiChannelB')} defaultValue={settings.midiChannelB}>
-                        {createChannelOptions()}
-                    </select>
-                </li>
-                <li>
-                    <label htmlFor="select-midi-control-channel">Control Channel</label>
-                    <select id="select-midi-control-channel" onChange={changeSettings('midiControlChannel')} defaultValue={settings.midiControlChannel}>
-                        {createChannelOptions()}
-                    </select>
-                </li>
+                {(settings.synth !== "JX8P") &&
+                    <React.Fragment>
+                        <li>
+                            <label htmlFor="select-midi-channel-b">Midi Channel B</label>
+                            <select id="select-midi-channel-b" onChange={changeSettings('midiChannelB')} defaultValue={settings.midiChannelB}>
+                                {createChannelOptions()}
+                            </select>
+                        </li>
+                        <li>
+                            <label htmlFor="select-midi-control-channel">Midi Control Channel</label>
+                            <select id="select-midi-control-channel" onChange={changeSettings('midiControlChannel')} defaultValue={settings.midiControlChannel}>
+                                {createChannelOptions()}
+                            </select>
+                        </li>
+                    </React.Fragment>
+                }
                 <li>
                     <label htmlFor="select-midi-program">Patch</label>
                     <select id="select-midi-program" onChange={changeSettings('midiProgram')}>
@@ -193,9 +200,26 @@ const Settings = (props) => {
                     </select>
                 </li>
             </ul>
-            <button onClick={playNote(["C5", "E5", "G5"], 1000, 0.5)}>Play test chord</button>
-            <button onClick={initTone("A")}>Init Tone A </button>
-            <button onClick={initTone("B")}>Init Tone B </button>
+            {(settings.synth === "JX8P") && 
+                <React.Fragment>
+                    <button onClick={playNote(["C5", "E5", "G5"], 1000, 0.5)}>Play test chord</button>
+                    <button onClick={initTone("A")}>Init tone</button>
+                </React.Fragment>
+            }
+            {(settings.synth === "JX10-VECOVEN3") && 
+                <React.Fragment>
+                    <button onClick={playNote(["C5", "E5", "G5"], 1000, 0.5)}>Play test chord</button>
+                    <button onClick={initTone("A")}>Init upper tone</button>
+                    <button onClick={initTone("B")}>Init lower tone </button>
+                </React.Fragment>
+            }
+            {(settings.synth === "MKS" || settings.synth === "MKS-VECOVEN3") &&
+                <React.Fragment>
+                    <button onClick={playNote(["C5", "E5", "G5"], 1000, 0.5)}>Play test chord</button>
+                    <button onClick={initTone("A")}>Init Tone A</button>
+                    <button onClick={initTone("B")}>Init Tone B</button>
+                </React.Fragment>
+            }
         </React.Fragment>
     )
 }
