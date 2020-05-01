@@ -34,6 +34,17 @@ const initialState = (type) => {
     return { values: defaultParameterValues };
 }
 
+const randomState = () => {
+    let randomValues = [];
+    for (let i = 0; i < 59; i++) {
+        // Generate random parameter value, within limits of parameter
+        let randomValue = MKS.parameters[i].max ? Math.floor(Math.random() * Math.floor(MKS.parameters[i].max)) : 0;
+        //let randomValue = (MKS.parameters[i] && MKS.parameters[i].defaultValue) ? MKS.parameters[i].defaultValue : 0;
+        randomValues.push(randomValue);
+    }
+    return { values: randomValues };
+}
+
 function panelReducer(state, action) {
 
     let offset = 0;
@@ -94,6 +105,36 @@ function panelReducer(state, action) {
                     0b00100000, // f - Level = 1
                     formatGroup, // g - Group (01 = Tone A, 10 = Tone B)
                     initialValues, // h - Sequence of values (0-127)
+                ].flat()
+            );
+        
+            return { values: newValues };
+        }
+        case 'randomizeToneSysex': { // Initializes all parameters and send out sysex
+            let newValues = state.values;
+            let randomValues = randomState().values;
+
+            newValues.splice(offset, randomValues.length, ...randomValues);
+            //console.log("RandomToneSysex: ", action.target, newValues);
+
+            let formatType = 0b00100100; // JX-10
+            if (action.synth === "JX8P") {
+                formatType = 0b00100001;
+            }
+
+            // Use different group byte for Tone B, otherwise use default for Tone A and Patch
+            const formatGroup = (action.target === "B") ? 0b00000010 : 0b00000001
+
+            // Send sysex to synth
+            action.settings.midiOut.sendSysex(
+                0b01000001, // b - Roland ID
+                [
+                    0b00110101, // c - Operation code = APR (all parameters)
+                    action.settings.midiControlChannel-1, // d - Control Channel (Start at 0)
+                    formatType, // e - Format type (JX-10 or JX-8P)
+                    0b00100000, // f - Level = 1
+                    formatGroup, // g - Group (01 = Tone A, 10 = Tone B)
+                    randomValues, // h - Sequence of values (0-127)
                 ].flat()
             );
         

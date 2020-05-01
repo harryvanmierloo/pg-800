@@ -8,17 +8,22 @@ import * as styles from './panel.module.scss';
 const PanelPG800 = (props) => {
     const tone = (props.tone !== undefined) ? props.tone : "A";
 
-    const [settings, setSettings] = useContext(SettingsContext);
+    const [settings] = useContext(SettingsContext);
     const dispatch = usePanelDispatch();
 
     const initTone = useCallback((tone) => event => {
         dispatch({ type: 'initToneSysex', target: tone, settings: settings });
     }, [dispatch, settings]);
 
+    const randomizeTone = useCallback((tone) => event => {
+        dispatch({ type: 'randomizeToneSysex', target: tone, settings: settings });
+    }, [dispatch, settings]);
+
     return (
         <React.Fragment>
             <div className={styles.actions}>
                 <button onClick={initTone(tone)}>Initialize</button>
+                <button onClick={randomizeTone(tone)}>Randomize</button>
             </div>
             <div className={styles.sectionGroup}>
                 <section>
