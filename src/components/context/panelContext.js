@@ -48,7 +48,6 @@ const randomState = () => {
         }
         randomValues.push(randomValue);
     }
-    console.log(randomValues);
     return { values: randomValues };
 }
 
