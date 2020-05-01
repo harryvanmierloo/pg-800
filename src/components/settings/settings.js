@@ -8,7 +8,6 @@ import * as styles from './settings.module.scss';
 const Settings = (props) => {
 
     const [settings, setSettings] = useContext(SettingsContext);
-
     const dispatch = usePanelDispatch();
 
     const changeSettings = (name) => event => {
@@ -74,10 +73,6 @@ const Settings = (props) => {
         settings.midiOut.playNote(note, settings.midiChannelA, {duration: duration, velocity: velocity });
         console.log(note, "played!");
     }, [settings.midiOut, settings.midiChannelA]);
-
-    const initTone = useCallback((tone) => event => {
-        dispatch({ type: 'initToneSysex', target: tone, settings: settings });
-    }, [dispatch, settings]);
 
     const createChannelOptions = useCallback(() => {
         let options = []
@@ -200,26 +195,7 @@ const Settings = (props) => {
                     </select>
                 </li>
             </ul>
-            {(settings.synth === "JX8P") && 
-                <React.Fragment>
-                    <button onClick={playNote(["C5", "E5", "G5"], 1000, 0.5)}>Play test chord</button>
-                    <button onClick={initTone("A")}>Init tone</button>
-                </React.Fragment>
-            }
-            {(settings.synth === "JX10-VECOVEN3") && 
-                <React.Fragment>
-                    <button onClick={playNote(["C5", "E5", "G5"], 1000, 0.5)}>Play test chord</button>
-                    <button onClick={initTone("A")}>Init upper tone</button>
-                    <button onClick={initTone("B")}>Init lower tone </button>
-                </React.Fragment>
-            }
-            {(settings.synth === "MKS" || settings.synth === "MKS-VECOVEN3") &&
-                <React.Fragment>
-                    <button onClick={playNote(["C5", "E5", "G5"], 1000, 0.5)}>Play test chord</button>
-                    <button onClick={initTone("A")}>Init Tone A</button>
-                    <button onClick={initTone("B")}>Init Tone B</button>
-                </React.Fragment>
-            }
+            <button onClick={playNote(["C5", "E5", "G5"], 1000, 0.5)}>Play test chord</button>
         </React.Fragment>
     )
 }

@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useContext, useCallback } from 'react';
+import { SettingsContext } from '../context/settingsContext.js';
+import { usePanelDispatch } from '../context/panelContext.js';
 import Slider from '../slider/slider.js';
 import KnobControl from '../knob/knob.js';
 import * as styles from './panel.module.scss';
@@ -6,8 +8,18 @@ import * as styles from './panel.module.scss';
 const PanelPG800 = (props) => {
     const tone = (props.tone !== undefined) ? props.tone : "A";
 
+    const [settings, setSettings] = useContext(SettingsContext);
+    const dispatch = usePanelDispatch();
+
+    const initTone = useCallback((tone) => event => {
+        dispatch({ type: 'initToneSysex', target: tone, settings: settings });
+    }, [dispatch, settings]);
+
     return (
         <React.Fragment>
+            <div className={styles.actions}>
+                <button onClick={initTone(tone)}>Initialize</button>
+            </div>
             <div className={styles.sectionGroup}>
                 <section>
                     <h2>DCO-1</h2>
