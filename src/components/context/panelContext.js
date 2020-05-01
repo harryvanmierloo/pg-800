@@ -38,10 +38,17 @@ const randomState = () => {
     let randomValues = [];
     for (let i = 0; i < 59; i++) {
         // Generate random parameter value, within limits of parameter
-        let randomValue = MKS.parameters[i].max ? Math.floor(Math.random() * Math.floor(MKS.parameters[i].max)) : 0;
-        //let randomValue = (MKS.parameters[i] && MKS.parameters[i].defaultValue) ? MKS.parameters[i].defaultValue : 0;
+        let randomValue = 0;
+        if (MKS.parameters[i].marks) {
+            let marks = MKS.parameters[i].marks;
+            let roll = Math.floor(Math.random() * marks.length);
+            randomValue = marks[roll].value;
+        } else {
+            randomValue = MKS.parameters[i].max ? Math.floor(Math.random() * MKS.parameters[i].max) : 0;
+        }
         randomValues.push(randomValue);
     }
+    console.log(randomValues);
     return { values: randomValues };
 }
 
