@@ -94,7 +94,7 @@ function panelReducer(state, action) {
             //console.log("InitToneSysex: ", action.target, newValues);
 
             let formatType = 0b00100100; // JX-10
-            if (action.synth === "JX8P") {
+            if (action.settings.synth === "JX8P") {
                 formatType = 0b00100001;
             }
 
@@ -124,7 +124,7 @@ function panelReducer(state, action) {
             //console.log("RandomToneSysex: ", action.target, newValues);
 
             let formatType = 0b00100100; // JX-10
-            if (action.synth === "JX8P") {
+            if (action.settings.synth === "JX8P") {
                 formatType = 0b00100001;
             }
 
