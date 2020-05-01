@@ -27,6 +27,7 @@ const mks = {
         12: { // Values are different from Roland manual spec (mistake in spec)
             name: "DCO-1 WAVEFORM",
             label: "WAVE",
+            defaultValue: 96,
             min: 0,
             max: 96,
             marks: [
@@ -71,6 +72,7 @@ const mks = {
         17: {
             name: "DCO-2 WAVEFORM",
             label: "WAVE",
+            defaultValue: 96,
             min: 0,
             max: 96,
             marks: [
@@ -148,12 +150,14 @@ const mks = {
         28: {
             name: "MIXER DCO-1",
             label: "DCO-1",
+            defaultValue: 100,
             min: 0,
             max: 127
         },
         29: {
             name: "MIXER DCO-2",
             label: "DCO-2",
+            defaultValue: 100,
             min: 0,
             max: 127
         },
@@ -203,6 +207,7 @@ const mks = {
             id: 34,
             name: "VCF CUTOFF FREQ",
             label: "CUTOFF",
+            defaultValue: 127,
             min: 0,
             max: 127
         },
@@ -257,6 +262,7 @@ const mks = {
         41: {
             name: "VCA LEVEL",
             label: "LEVEL",
+            defaultValue: 100,
             min: 0,
             max: 127
         },
