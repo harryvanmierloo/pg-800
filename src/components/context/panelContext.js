@@ -8,7 +8,10 @@ const PanelDispatchContext = React.createContext();
 // Ugly hack to make sure init function is aware of current spec
 const retrievedData = JSON.parse(localStorage.getItem('PG-800'));
 // If Vecoven4-firmware then use the Vecoven4-spec, otherwise the normal Roland-spec
-let spec = (retrievedData.synth === "JX10-VECOVEN4" || retrievedData.synth === "MKS-VECOVEN4") ? mksVecoven4 : mks;
+let spec = mks;
+if (retrievedData) {
+    spec = (retrievedData.synth === "JX10-VECOVEN4" || retrievedData.synth === "MKS-VECOVEN4") ? mksVecoven4 : mks;
+}
 
 function initialState(type) {
 

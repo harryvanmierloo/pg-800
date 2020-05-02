@@ -7,7 +7,7 @@ import * as styles from './panel.module.scss';
 
 const PanelMKS = (props) => {
 
-    const [tab, setTab] = useState("PATCH");
+    const [tab, setTab] = useState("A");
     const [settings] = useContext(SettingsContext);
 
     const changeTab = (name) => event => {
