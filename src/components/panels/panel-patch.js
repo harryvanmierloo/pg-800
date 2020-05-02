@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useContext }from 'react';
 import Slider from '../slider/slider.js';
+import { SettingsContext } from '../context/settingsContext.js';
 import KnobControl from '../knob/knob.js';
 import * as styles from './panel.module.scss';
 
 const PanelPatch = (props) => {
+
+    const [settings] = useContext(SettingsContext);
 
     return (
         <React.Fragment>
@@ -41,7 +44,14 @@ const PanelPatch = (props) => {
             </div>
             <div className={styles.sectionGroup}>
                 <section>
-                    <h2>Channel A</h2>
+                    <h2>
+                        { (settings.synth === "MKS" || settings.synth === "MKS-VECOVEN3" || settings.synth === "MKS-VECOVEN4") && 
+                            "Channel A"
+                        }
+                        { (settings.synth === "JX10-VECOVEN3" || settings.synth === "JX10-VECOVEN4") && 
+                            "Upper"
+                        } 
+                    </h2>
                     <div className={styles.subSectionFull}>
                         <Slider parameter="29" />
                         <Slider parameter="30" />
@@ -54,7 +64,14 @@ const PanelPatch = (props) => {
                     </div>
                 </section>
                 <section>
-                    <h2>Channel B</h2>
+                    <h2>
+                        { (settings.synth === "MKS" || settings.synth === "MKS-VECOVEN3" || settings.synth === "MKS-VECOVEN4") && 
+                            "Channel B"
+                        }
+                        { (settings.synth === "JX10-VECOVEN3" || settings.synth === "JX10-VECOVEN4") && 
+                            "Lower"
+                        } 
+                    </h2>
                     <div className={styles.subSectionFull}>
                         <Slider parameter="38" />
                         <Slider parameter="39" />

@@ -140,11 +140,11 @@ const Settings = (props) => {
                     <label htmlFor="select-synth">Connected synth</label>
                     <select id="select-synth" onChange={changeSettings('synth')} defaultValue={settings.synth}>
                         <option key="synth-select1" value="JX8P">Roland JX-8P</option>
+                        <option key="synth-select5" value="JX10-VECOVEN3">Roland JX-10 - Vecoven firmware 3.x</option>
+                        <option key="synth-select6" value="JX10-VECOVEN4" disabled>Roland JX-10 - Vecoven firmware 4.x</option>
                         <option key="synth-select2" value="MKS">Roland MKS-70 - Original firmware</option>
                         <option key="synth-select3" value="MKS-VECOVEN3">Roland MKS-70 - Vecoven firmware 3.x</option>
                         <option key="synth-select4" value="MKS-VECOVEN4" disabled>Roland MKS-70 - Vecoven firmware 4.x</option>
-                        <option key="synth-select5" value="JX10-VECOVEN3">Roland JX-10 - Vecoven firmware 3.x</option>
-                        <option key="synth-select6" value="JX10-VECOVEN4" disabled>Roland JX-10 - Vecoven firmware 3.x</option>
                     </select>
                 </li>
                 <li>
@@ -166,7 +166,7 @@ const Settings = (props) => {
                 <li>
                     <label htmlFor="select-midi-channel-a">
                         {(settings.synth === "JX8P") && "Midi Channel" }
-                        {(settings.synth !== "JX8P") && "Midi Channel B" }
+                        {(settings.synth !== "JX8P") && "Midi Channel A" }
                     </label>
                     <select id="select-midi-channel-a" onChange={changeSettings('midiChannelA')} defaultValue={settings.midiChannelA}>
                         {createChannelOptions()}

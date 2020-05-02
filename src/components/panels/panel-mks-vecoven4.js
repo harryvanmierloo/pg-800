@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
+import PanelVecoven4 from './panel-vecoven4.js'
+import PanelPatch from './panel-patch.js'
+import Title from '../title/title.js';
 import * as styles from './panel.module.scss';
-import PanelPG800 from './panel-pg800.js'
 
-const PanelMKSVecoven3 = (props) => {
+const PanelMKSVecoven4 = (props) => {
 
-    const [tab, setTab] = useState("A");
-    
+    const [tab, setTab] = useState("PATCH");
+
     const changeTab = (name) => event => {
         if (tab !== name) {
             setTab(name);
@@ -15,21 +17,45 @@ const PanelMKSVecoven3 = (props) => {
     return (
         <div className={styles.panel}>
             <ul className={styles.tabs}>
-                <li onClick={changeTab("A")} className={tab === "A" ? styles.active : null}>Channel A</li>
-                <li onClick={changeTab("B")} className={tab === "B" ? styles.active : null}>Channel B</li>
-                {/* <li onClick={changeTab("Patch")} className={tab === "Patch" ? styles.active : null}>Patch Settings</li> */}
+                <li onClick={changeTab("PATCH")} className={tab === "PATCH" ? styles.active : null}>Patch</li>
+                <li onClick={changeTab("A")} className={tab === "A" ? styles.active : null}>Tone A</li>
+                <li onClick={changeTab("B")} className={tab === "B" ? styles.active : null}>Tone B</li>
+                <li onClick={changeTab("ALL")} className={tab === "ALL" ? styles.active : null}>All</li>
             </ul>
-            {(tab === "A") &&
-                <PanelPG800 tone="A" />
-            }
-            {(tab === "B") &&
-                <PanelPG800 tone="B" />
-            }
-            {(tab === "Patch") &&
-                <h2>Patch settings</h2>
-            }
+
+            <div style={{ display: (tab === "PATCH") ? null : 'none' }}>
+                <Title />
+                <PanelPatch />
+            </div>
+            <div style={{ display: (tab === "A") ? null : 'none' }}>
+                <Title tone="A" />
+                <PanelVecoven4 tone="A" />
+            </div>
+            <div style={{ display: (tab === "B") ? null : 'none' }}>
+                <Title tone="B" />
+                <PanelVecoven4 tone="B" />
+            </div>
+            <div style={{ display: (tab === "ALL") ? null : 'none' }}>
+                <React.Fragment>
+                    <div>
+                        <h3>Patch settings</h3>
+                        <Title />
+                        <PanelPatch />
+                    </div>
+                    <div>
+                        <h3>Tone A</h3>
+                        <Title tone="A" />
+                        <PanelVecoven4 tone="A" />
+                    </div>
+                    <div>
+                        <h3>Tone B</h3>
+                        <Title tone="B" />
+                        <PanelVecoven4 tone="B" />
+                    </div>
+                </React.Fragment>
+            </div>
         </div>
     )
 }
 
-export default React.memo(PanelMKSVecoven3);
+export default React.memo(PanelMKSVecoven4);
