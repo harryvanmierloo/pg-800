@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
-import MKS from '../synth/mks';
+import mks from '../synth/mks';
+import mksVecoven4 from '../synth/mks-vecoven4';
 import { Knob } from 'react-rotary-knob';
 import { SettingsContext } from '../context/settingsContext.js';
 import { usePanelState } from '../context/panelContext.js';
@@ -7,6 +8,13 @@ import knobSkin from './knobSkin';
 import * as styles from './knob.module.scss';
 
 const KnobControl = (props) => {
+
+    const state = usePanelState();
+    const [settings] = useContext(SettingsContext);
+    const [value, setValue] = useState(0);
+
+    // If Vecoven4-firmware then use the Vecoven4-spec, otherwise the normal Roland-spec
+    const spec = (settings.synth === "MKS-VECOVEN4" || settings.synth === "JX10-VECOVEN4") ? mksVecoven4 : mks;
 
     const tone = props.tone;
     // If no tone defined, assume it's a patch slider instead of tone slider
@@ -17,19 +25,16 @@ const KnobControl = (props) => {
     // Offset for parameterStateId --> Tone A: 0 / Tone B: 100 / Patch: 200
     let offset = 0;
     if (type === "TONE") {
-        offset = (tone === "B") ? 100 : 0;
+        offset = (tone === "B") ? 200 : 0;
     }
     else if (type === "PATCH") {
-        offset = 200;
+        offset = 400;
     }
     const parameterStateId = parameterId + offset;
 
     // If tone slider, then use tone parameter spec, otherwise use patch parameter spec
-    const parameter = (type === "TONE") ? MKS.parameters[parameterId]: MKS.patch[parameterId];
+    const parameter = (type === "TONE") ? spec.parameters[parameterId]: spec.patch[parameterId];
 
-    const state = usePanelState();
-    const [settings] = useContext(SettingsContext);
-    const [value, setValue] = useState(0);
     let loadValue = undefined;
 
     const label = (parameter.label !== undefined) ? parameter.label : parameter.name,
@@ -53,20 +58,23 @@ const KnobControl = (props) => {
                 formatType = 0b00100001;
             }
 
+            const operationCode = (settings.synth === "MKS-VECOVEN4" || settings.synth === "JX10-VECOVEN4") ? 0b00111001 : 0b001101100;
             const formatLevel = (type === "TONE") ? 0b00100000 : 0b00110000;
             // Use different group byte for Tone B, otherwise use default for Tone A and Patch
             const formatGroup = (tone === "B") ? 0b00000010 : 0b00000001
+            // If defined use the specific sysexId (needed for Vecoven4), otherwise use the default parameterId
+            const sysexId = parameter.sysex ? parameter.sysex : parameterId;
 
             // Send sysex to synth
             settings.midiOut.sendSysex(
                 0b01000001, // Roland ID
                 [
-                    0b00110110, // Operation code = IPR (individual parameter)
+                    operationCode, // Operation code = IPR (individual parameter)
                     settings.midiControlChannel-1, // Control Channel (Start at 0)
                     formatType, // Format type (JX-10 or JX-8P)
                     formatLevel, // Level = 1 Tone
                     formatGroup, // Group (01 = Tone A, 10 = Tone B)
-                    parameterId, // Parameter (0 - 58 for Tone, 0 - 51 for Patch) 
+                    sysexId, // Parameter (0 - 58 for Tone, 0 - 51 for Patch) 
                     newValue, // Value (0-127)
                 ]
             );

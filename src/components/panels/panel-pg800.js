@@ -35,7 +35,7 @@ const PanelPG800 = (props) => {
                     <div className={styles.subSection}>
                         <KnobControl parameter="13" tone={tone} />
                     </div>
-                    <div className={styles.subSectionFull}>
+                    <div className={styles.subSectionFill}>
                         <Slider parameter="14" tone={tone} />
                         <Slider parameter="15" tone={tone} />
                     </div>
@@ -64,11 +64,11 @@ const PanelPG800 = (props) => {
 
                 <section>
                     <h2>Mixer</h2>
-                    <div className={styles.subSectionFull}>
+                    <div className={styles.subSectionFill}>
                         <Slider parameter="28" tone={tone} />
                         <Slider parameter="29" tone={tone} />
                     </div>
-                    <div className={styles.subSectionFull}>
+                    <div className={styles.subSectionFill}>
                         <Slider parameter="30" tone={tone} />
                     </div>
                     <div className={styles.subSection}>
@@ -79,12 +79,12 @@ const PanelPG800 = (props) => {
                 
                 <section>
                     <h2>VCF</h2>
-                    <div className={styles.subSectionFull}>
+                    <div className={styles.subSectionFill}>
                         <Slider parameter="33" tone={tone} />
                         <Slider parameter="34" tone={tone} />
                         <Slider parameter="35" tone={tone} />
                     </div>
-                    <div className={styles.subSectionFull}>
+                    <div className={styles.subSectionFill}>
                         <Slider parameter="36" tone={tone} />
                         <Slider parameter="37" tone={tone} />
                         <Slider parameter="38" tone={tone} />
@@ -97,10 +97,10 @@ const PanelPG800 = (props) => {
 
                 <section>
                     <h2>VCA</h2>
-                    <div className={styles.subSectionFull}>
+                    <div className={styles.subSectionFill}>
                         <Slider parameter="41" tone={tone} />
                     </div>
-                    <div className={styles.subSectionFull}>
+                    <div className={styles.subSectionFill}>
                         <Slider parameter="58" tone={tone} />
                     </div>
                     <div className={styles.subSection}>
@@ -110,7 +110,7 @@ const PanelPG800 = (props) => {
             </div>
             <div className={styles.sectionGroup}>
                 <section>
-                    <div className={styles.subSectionFull}>
+                    <div className={styles.subSectionFill}>
                         <h2>LFO</h2>
                         <Slider parameter="44" tone={tone} />
                         <Slider parameter="45" tone={tone} />
@@ -118,7 +118,7 @@ const PanelPG800 = (props) => {
                     </div>
                 </section>
                 <section>
-                    <div className={styles.subSectionFull}>
+                    <div className={styles.subSectionFill}>
                         <h2>ENVELOPE-1</h2>
                         <Slider parameter="47" tone={tone} />
                         <Slider parameter="48" tone={tone} />
@@ -128,7 +128,7 @@ const PanelPG800 = (props) => {
                     </div>
                 </section>
                 <section>
-                    <div className={styles.subSectionFull}>
+                    <div className={styles.subSectionFill}>
                         <h2>ENVELOPE-2</h2>
                         <Slider parameter="52" tone={tone} />
                         <Slider parameter="53" tone={tone} />
@@ -138,7 +138,7 @@ const PanelPG800 = (props) => {
                     </div>
                 </section>
                 <section>
-                    <div className={styles.subSectionFull}>
+                    <div className={styles.subSectionFill}>
                         <h2>Chorus</h2>
                         <Slider parameter="43" tone={tone} />
                     </div>

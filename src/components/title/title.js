@@ -10,10 +10,10 @@ const Title = (props) => {
     // Offset for parameterStateId --> Tone A: 0 / Tone B: 100 / Patch: 200
     let offset = 0;
     if (type === "TONE") {
-        offset = (tone === "B") ? 100 : 0;
+        offset = (tone === "B") ? 200 : 0;
     }
     else if (type === "PATCH") {
-        offset = 200;
+        offset = 400;
     }
 
     const state = usePanelState();
@@ -25,7 +25,7 @@ const Title = (props) => {
 
         // Show tone number
         if (type === "TONE") {
-            const toneNumber = (tone === "A") ? 229 : 238;
+            const toneNumber = (tone === "A") ? 429 : 438;
             if (state.values[toneNumber] !== 0) {
                 _title += (state.values[toneNumber] + 1) + ": "; // Synth display number starts at 1
             }

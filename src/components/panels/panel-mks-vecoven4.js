@@ -6,7 +6,7 @@ import * as styles from './panel.module.scss';
 
 const PanelMKSVecoven4 = (props) => {
 
-    const [tab, setTab] = useState("PATCH");
+    const [tab, setTab] = useState("A");
 
     const changeTab = (name) => event => {
         if (tab !== name) {

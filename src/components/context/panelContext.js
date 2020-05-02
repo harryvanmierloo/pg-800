@@ -1,50 +1,58 @@
 import React from 'react'
-import MKS from '../synth/mks';
+import mks from '../synth/mks';
+import mksVecoven4 from '../synth/mks-vecoven4';
 
 const PanelStateContext = React.createContext();
 const PanelDispatchContext = React.createContext();
 
-const initialState = (type) => {
+// Ugly hack to make sure init function is aware of current spec
+const retrievedData = JSON.parse(localStorage.getItem('PG-800'));
+// If Vecoven4-firmware then use the Vecoven4-spec, otherwise the normal Roland-spec
+let spec = (retrievedData.synth === "JX10-VECOVEN4" || retrievedData.synth === "MKS-VECOVEN4") ? mksVecoven4 : mks;
+
+function initialState(type) {
+
     let defaultParameterValues = [];
+
     if (!type) {
-        for (let p = 0; p < 100; p++) {
+        for (let p = 0; p < 200; p++) {
             // Use defined default parameter value, otherwise 0 - Fill tone A parameters
-            let defaultValue = (MKS.parameters[p] && MKS.parameters[p].defaultValue) ? MKS.parameters[p].defaultValue : 0;
+            let defaultValue = (spec.parameters[p] && spec.parameters[p].defaultValue) ? spec.parameters[p].defaultValue : 0;
             defaultParameterValues.push(defaultValue);
         }
-        for (let q = 0; q < 100; q++) {
+        for (let q = 0; q < 200; q++) {
             // Use defined default parameter value, otherwise 0 - Fill tone B parameters
-            let defaultValue = (MKS.parameters[q] && MKS.parameters[q].defaultValue) ? MKS.parameters[q].defaultValue : 0;
+            let defaultValue = (spec.parameters[q] && spec.parameters[q].defaultValue) ? spec.parameters[q].defaultValue : 0;
             defaultParameterValues.push(defaultValue);
         }
         for (let r = 0; r < 100; r++) {
             // Use defined default parameter value, otherwise 0 - Fill patch parameters
-            let defaultValue = (MKS.patch[r] && MKS.patch[r].defaultValue) ? MKS.patch[r].defaultValue : 0;
+            let defaultValue = (spec.patch[r] && spec.patch[r].defaultValue) ? spec.patch[r].defaultValue : 0;
             defaultParameterValues.push(defaultValue);
         }
     }
     else if (type === "TONE") {
-        for (let t = 0; t < 59; t++) {
+        for (let t = 0; t < 200; t++) {
             // Use defined default parameter value, otherwise 0 - Fill tone A parameters
-            let defaultValue = (MKS.parameters[t] && MKS.parameters[t].defaultValue) ? MKS.parameters[t].defaultValue : 0;
+            let defaultValue = (spec.parameters[t] && spec.parameters[t].defaultValue) ? spec.parameters[t].defaultValue : 0;
             defaultParameterValues.push(defaultValue);
         }
     }
-    
+
     return { values: defaultParameterValues };
 }
 
 const randomState = () => {
     let randomValues = [];
-    for (let i = 0; i < 59; i++) {
+    for (let i = 0; i < 200; i++) {
         // Generate random parameter value, within limits of parameter
         let randomValue = 0;
-        if (MKS.parameters[i].marks) {
-            let marks = MKS.parameters[i].marks;
+        if (spec.parameters[i] && spec.parameters[i].marks) {
+            let marks = spec.parameters[i].marks;
             let roll = Math.floor(Math.random() * marks.length);
             randomValue = marks[roll].value;
-        } else {
-            randomValue = MKS.parameters[i].max ? Math.floor(Math.random() * MKS.parameters[i].max) : 0;
+        } else if (spec.parameters[i]) {
+            randomValue = spec.parameters[i].max ? Math.floor(Math.random() * spec.parameters[i].max) : 0;
         }
         randomValues.push(randomValue);
     }
@@ -56,11 +64,11 @@ function panelReducer(state, action) {
     let offset = 0;
     switch (action.target) {
         case 'B': {
-            offset = 100;
+            offset = 200;
             break;
         }
         case 'PATCH': {
-            offset = 200;
+            offset = 400;
             break;
         }
         default: {
@@ -85,6 +93,10 @@ function panelReducer(state, action) {
             //console.log("SetAll: ", action.target, newValues);
         
             return { values: newValues };
+        }
+        case 'init': {
+            spec = (action.synth === "JX10-VECOVEN4" || action.synth === "MKS-VECOVEN4") ? mksVecoven4 : mks;
+            return { values: initialState().values };
         }
         case 'initToneSysex': { // Initializes all parameters and send out sysex
             let newValues = state.values;
@@ -154,6 +166,7 @@ function panelReducer(state, action) {
 
 function PanelProvider({children}) {
     const [state, dispatch] = React.useReducer(panelReducer, initialState() );
+
     return (
         <PanelStateContext.Provider value={state}>
             <PanelDispatchContext.Provider value={dispatch}>

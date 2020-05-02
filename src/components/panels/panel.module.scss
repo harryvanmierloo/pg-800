@@ -44,7 +44,7 @@
     }
 
     .sectionGroup {
-        display: inline-block;
+        display: block;
     }
     
     section {
@@ -59,7 +59,7 @@
         padding: .5rem 1rem;
         text-align: center;
         vertical-align: top;
-        height: 30%;
+        min-height: 13rem;
         width: auto;
     
         > h2 {
@@ -68,17 +68,17 @@
     
         > .subSection {
             display: block;
-            height: 6rem;
+            height: 6.5rem;
         }
 
-        > .subSectionFull {
+        > .subSectionFill {
             display: block;
-            height: 12rem;
+            height: 13rem;
         }
 
         > .subSectionExtra {
             display: block;
-            height: 18rem;
+            height: 19.5rem;
         }
     }    
 }
