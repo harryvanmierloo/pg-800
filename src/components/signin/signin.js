@@ -29,45 +29,43 @@ const SignIn = () => {
 
   return (
     <div className={styles.signIn}>
-        <h1>Sign In</h1>
-        <div>
-            {error !== null && <div className={styles.error}>{error}</div>}
-            <form>
-                <label htmlFor="userEmail">
-                    Email:
-                </label>
-                <input autoFocus
-                    type="email"
-                    name="userEmail"
-                    value={email}
-                    id="userEmail"
-                    onChange={(event) => onChangeHandler(event)}
-                />
-                <label htmlFor="userPassword">
-                    Password:
-                </label>
-                <input
-                    type="password"
-                    name="userPassword"
-                    value={password}
-                    id="userPassword"
-                    onChange={(event) => onChangeHandler(event)}
-                />
-                <button onClick={(event) => {signInWithEmailAndPasswordHandler(event, email, password)}}>
-                    Sign in
-                </button>
-            </form>
-            <p>
-                Don't have an account?<br />
-                <Link to="signUp">
-                    Sign up here
-                </Link>{" "}
-                <br />{" "}
-                <Link to="passwordReset">
-                    Forgot Password?
-                </Link>
-            </p>
-        </div>
+        <h1>PG-800 Online</h1>
+        <form>
+            <label htmlFor="userEmail">
+                Email:
+            </label>
+            <input autoFocus
+                type="email"
+                name="userEmail"
+                value={email}
+                id="userEmail"
+                onChange={(event) => onChangeHandler(event)}
+            />
+            <label htmlFor="userPassword">
+                Password:
+            </label>
+            <input
+                type="password"
+                name="userPassword"
+                value={password}
+                id="userPassword"
+                onChange={(event) => onChangeHandler(event)}
+            />
+            <button onClick={(event) => {signInWithEmailAndPasswordHandler(event, email, password)}}>
+                Sign in
+            </button>
+        </form>
+        {error !== null && <div className={styles.error}>{error}</div>}
+        <p>
+            Don't have an account?<br />
+            <Link to="signUp">
+                Sign up here
+            </Link>{" "}
+            <br />{" "}
+            <Link to="passwordReset">
+                Forgot Password?
+            </Link>
+        </p>
     </div>
   );
 };

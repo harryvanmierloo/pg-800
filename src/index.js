@@ -38,7 +38,10 @@ function App() {
 
                 <footer>
                     <p>
-                        Logged in as {user.email}<br />
+                        Welcome back, {user.displayName}!
+                    </p>
+                    <p>
+                        You are logged in using<br />{user.email}<br />
                         <a href="/" onClick={() => {auth().signOut()}}>Sign out</a>
                     </p>
                     <p>Made with <span>♥</span> in The Hague<br />by <a href="mailto:harry@vanmierloo.nl">Harry van Mierloo</a></p>

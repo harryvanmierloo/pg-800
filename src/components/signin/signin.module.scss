@@ -2,24 +2,21 @@
 
 .signIn {
     background: $panel;
+    border-top: 1px solid $grey300;
+    border-right: 1px solid $grey50;
+    border-bottom: 1px solid $grey50;
+    border-left: 1px solid $grey350;
+    border-radius: $borderRadius;
     max-width: 320px;
     margin: 30vh auto;
     padding: 2rem;
-    border: $border;
 
     .error {
-        color: red;
+        color: $red300;
     }
 
     form {
         margin-bottom: 2rem;
-    }
-    
-    input {
-        box-sizing: border-box;
-        margin-bottom: 2rem;
-        padding: .5rem;
-        width: 100%;
     }
     
     button {

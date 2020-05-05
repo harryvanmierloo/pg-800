@@ -145,6 +145,37 @@ select {
     }
 }
 
+input[type=text],
+input[type=email],
+input[type=password]
+ {
+    box-sizing: border-box;
+    display: block;
+    background: #222222;
+    border-top: 1px solid $grey50;
+    border-right: 1px solid $grey50;
+    border-bottom: 1px solid $grey350;
+    border-left: 1px solid $grey300;
+    border-radius: $borderRadius;
+    color: $gold;
+    padding: .5rem;
+    margin-bottom: 2rem;
+    width: 100%;
+
+    &:hover {
+        background: $grey100;
+        cursor: pointer;
+    }
+
+    // Override browser auto-fill
+    &:-webkit-autofill,
+    :-webkit-autofill:hover, 
+    :-webkit-autofill:focus {
+        -webkit-box-shadow: 0 0 0 50px #222222 inset;
+        -webkit-text-fill-color: $gold;
+    }
+}
+
 button {
     background: $grey350;
     color: $panelText;
