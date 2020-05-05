@@ -1,0 +1,41 @@
+@import '../../scss/variables';
+
+.signIn {
+    background: $panel;
+    max-width: 320px;
+    margin: 30vh auto;
+    padding: 2rem;
+    border: $border;
+
+    .error {
+        color: red;
+    }
+
+    form {
+        margin-bottom: 2rem;
+    }
+    
+    input {
+        box-sizing: border-box;
+        margin-bottom: 2rem;
+        padding: .5rem;
+        width: 100%;
+    }
+    
+    button {
+        display: block;
+        width: 100%;
+    }
+
+    p {
+        line-height: 1.5;
+    }
+
+    a { 
+        color: white;
+
+        &:hover {
+            color: $gold;
+        }
+    }
+}
