@@ -32,26 +32,24 @@ const SignIn = () => {
         <h1>Sign In</h1>
         <div>
             {error !== null && <div className={styles.error}>{error}</div>}
-            <form className="">
-                <label htmlFor="userEmail" className="block">
+            <form>
+                <label htmlFor="userEmail">
                     Email:
                 </label>
-                <input
+                <input autoFocus
                     type="email"
                     name="userEmail"
                     value={email}
-                    placeholder="E.g: faruq123@gmail.com"
                     id="userEmail"
                     onChange={(event) => onChangeHandler(event)}
                 />
-                <label htmlFor="userPassword" className="block">
+                <label htmlFor="userPassword">
                     Password:
                 </label>
                 <input
                     type="password"
                     name="userPassword"
                     value={password}
-                    placeholder="Your Password"
                     id="userPassword"
                     onChange={(event) => onChangeHandler(event)}
                 />
