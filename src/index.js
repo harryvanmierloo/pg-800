@@ -1,16 +1,22 @@
 import React, { useState, useContext } from 'react';
 import ReactDOM from 'react-dom';
 import WebMidi from "webmidi";
+import { Router } from "@reach/router";
+import SignIn from "./components/signin/signin.js";
 import Settings from './components/settings/settings.js';
 import PanelJX8P from './components/panels/panel-jx8p.js';
 import PanelMKS from './components/panels/panel-mks.js';
 import PanelMKSVecoven4 from './components/panels/panel-mks-vecoven4.js';
 import { SettingsContext, SettingsProvider } from './components/context/settingsContext.js';
+import UserProvider, { UserContext } from "./components/context/userContext.js";
 import { PanelProvider } from './components/context/panelContext.js';
 import * as styles from './index.module.scss';
 import classNames from 'classnames';
+import { auth } from "firebase/app";
 
 function App() {
+
+    const user = useContext(UserContext);
     
     const [settings] = useContext(SettingsContext);
 
@@ -21,6 +27,9 @@ function App() {
     };
 
     return (
+
+        user ?
+
         <React.Fragment>
             <div className={classNames(styles.sidebar, { [styles.collapsed]: !sidebarVisibility })}>
                 <h1>PG-800 Online</h1>
@@ -28,7 +37,11 @@ function App() {
                 <Settings />
 
                 <footer>
-                    Made with <span>♥</span> in The Hague<br />by <a href="mailto:harry@vanmierloo.nl">Harry van Mierloo</a>
+                    <p>
+                        Logged in as {user.email}<br />
+                        <a href="/" onClick={() => {auth().signOut()}}>Sign out</a>
+                    </p>
+                    <p>Made with <span>♥</span> in The Hague<br />by <a href="mailto:harry@vanmierloo.nl">Harry van Mierloo</a></p>
                 </footer>
                 <div onClick={toggleSidebarVisibility} className={styles.collapseButton}>
                     <div className={styles.icon}>&larr;</div>
@@ -47,6 +60,13 @@ function App() {
                 }
             </main>
         </React.Fragment>
+
+        :
+
+        <Router>
+            <SignIn path="/" />
+        </Router>
+
     );
 }
 
@@ -63,11 +83,13 @@ WebMidi.enable(function (err) {
         }
         else {
             ReactDOM.render(
-                <PanelProvider>
-                    <SettingsProvider>
-                        <App />
-                    </SettingsProvider>
-                </PanelProvider>,
+                <UserProvider>
+                    <PanelProvider>
+                        <SettingsProvider>
+                            <App />
+                        </SettingsProvider>
+                    </PanelProvider>
+                </UserProvider>,
                 document.getElementById('root')
             );
             console.log ("App initialized!");

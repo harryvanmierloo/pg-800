@@ -101,15 +101,16 @@ h2 {
         width: 100%;
         font-size: 80%;
     
-        > span {
+        span {
             color: red;
         }
     
-        > a {
+        a {
             color: $grey350;
     
             &:hover {
                 color: $gold;
+                cursor: pointer;
             }
         }
     }   
