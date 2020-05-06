@@ -16,11 +16,11 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 export const auth = firebase.auth();
-export const firestore = firebase.firestore();
+export const db = firebase.firestore();
 
 export const generateUserDocument = async (user, additionalData) => {
     if (!user) return;
-    const userRef = firestore.doc(`users/${user.uid}`);
+    const userRef = db.doc(`users/${user.uid}`);
     const snapshot = await userRef.get();
     if (!snapshot.exists) {
         const { email, displayName, photoURL } = user;
@@ -36,11 +36,12 @@ export const generateUserDocument = async (user, additionalData) => {
         }
     }
     return getUserDocument(user.uid);
-  };
-  const getUserDocument = async uid => {
+};
+
+const getUserDocument = async uid => {
     if (!uid) return null;
     try {
-        const userDocument = await firestore.doc(`users/${uid}`).get();
+        const userDocument = await db.doc(`users/${uid}`).get();
         return {
             uid,
             ...userDocument.data()
@@ -48,4 +49,25 @@ export const generateUserDocument = async (user, additionalData) => {
     } catch (error) {
         console.error("Error fetching user", error);
     }
+};
+
+export const getLibrary = libraryId => {
+    return db.collection('libraries')
+        .doc(libraryId)
+        .get();
+};
+
+export const getPatches = libraryId => {
+    return db.collection('libraries')
+        .doc(libraryId)
+        .collection('patches')
+        .get();
+};
+
+export const getPatch = (libraryId, patchId) => {
+    return db.collection('libraries')
+        .doc(libraryId)
+        .collection('patches')
+        .doc(patchId)
+        .get();
 };

@@ -1,8 +1,9 @@
 import React, { useState, useContext } from 'react';
 import ReactDOM from 'react-dom';
 import WebMidi from "webmidi";
-import { Router } from "@reach/router";
+import { Router, Link } from "@reach/router";
 import SignIn from "./components/signin/signin.js";
+import Library from "./components/library/library.js";
 import Settings from './components/settings/settings.js';
 import PanelJX8P from './components/panels/panel-jx8p.js';
 import PanelMKS from './components/panels/panel-mks.js';
@@ -35,6 +36,8 @@ function App() {
                 <h1>PG-800 Online</h1>
                 <p className={styles.subtitle}>v0.2 - Alpha</p>
                 <Settings />
+
+                <Library />
 
                 <footer>
                     <p>
