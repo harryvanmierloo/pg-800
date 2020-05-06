@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import ReactDOM from 'react-dom';
 import WebMidi from "webmidi";
-import { Router, Link } from "@reach/router";
+import { Router } from "@reach/router";
 import SignIn from "./components/signin/signin.js";
 import Library from "./components/library/library.js";
 import Settings from './components/settings/settings.js';

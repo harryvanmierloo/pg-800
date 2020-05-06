@@ -1,9 +1,7 @@
-import React, {useState, useContext, useEffect} from "react";
-import UserContext from "../context/userContext.js";
-import { getLibrary, getPatches } from "../../firebase";
+import React, {useState, useEffect} from "react";
+import { getPatches } from "../../firebase";
 
 const SignIn = () => {
-    const user = useContext(UserContext);
     const [patchList, setPatchList] = useState([]);
 
     // Use an effect to authenticate and load the grocery list from the database
