@@ -71,3 +71,15 @@ export const getPatch = (libraryId, patchId) => {
         .doc(patchId)
         .get();
 };
+
+export const addSysexPatch = (libraryId, values) => {
+    return db.collection('libraries')
+        .doc(libraryId)
+        .collection('patches')
+        .add({
+            name: "Test",
+            sysex: Uint8Array.from(values)
+        });
+};
+
+
