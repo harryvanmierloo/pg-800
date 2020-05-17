@@ -72,14 +72,22 @@ export const getPatch = (libraryId, patchId) => {
         .get();
 };
 
-export const addSysexPatch = (libraryId, values) => {
+export const addSysexBlob = (libraryId, values) => {
+    const blob = firebase.firestore.Blob.fromUint8Array(new Uint8Array(values));
     return db.collection('libraries')
         .doc(libraryId)
         .collection('patches')
         .add({
             name: "Test",
-            sysex: Uint8Array.from(values)
+            date: Date.now(),
+            values: blob
         });
 };
+
+export const decodeBlob = blob => {
+    let parsedData = blob ? blob.toUint8Array() : null;
+    console.log(parsedData);
+    return parsedData;
+}
 
 

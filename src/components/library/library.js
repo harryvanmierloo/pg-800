@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import { getPatches, addSysexPatch } from "../../firebase";
+import { getPatches, addSysexBlob, decodeBlob } from "../../firebase";
 import { usePanelState } from '../context/panelContext.js';
 
 const SignIn = () => {
@@ -12,18 +12,24 @@ const SignIn = () => {
             let receivedPatchList = [];
             patches.forEach(patch => {
                 // console.log(patch.data().name);
-                receivedPatchList.push(patch.data().name);
-            })    
+                receivedPatchList.push(patch.data());
+            });
             setPatchList(receivedPatchList);
         });
     }, [setPatchList]);
 
     const renderedPatchList = patchList.map((item, key) =>
-        <li key={key}>{item}</li>
+        <li key={key}>
+            <strong>{item.name}</strong><br />
+            {item.values ? decodeBlob(item.values)[12] : null}
+        </li>
     );
 
     const storeSysex = () => {
-        addSysexPatch("QJ3VyT1PhedsCY7CtjGW", state.values);
+        let sysex = state.values;
+        console.log(sysex);
+        // Add blob to MKS-70 collection
+        addSysexBlob("QJ3VyT1PhedsCY7CtjGW", sysex);
     };
 
     return (
@@ -43,3 +49,10 @@ const SignIn = () => {
     );
 };
 export default SignIn;
+
+// Generates a string with hex bytes from an array
+function toHexString(byteArray) {
+    return Array.from(byteArray, function(byte) {
+        return ('0' + (byte & 0xFF).toString(16)).slice(-2) + ' ';
+    }).join('')
+}

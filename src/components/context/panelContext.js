@@ -86,7 +86,7 @@ function panelReducer(state, action) {
             let arrayPosition = parseInt(action.parameter) + offset;
 
             newValues[arrayPosition] = parseInt(action.value);
-            //console.log("Set: ", action.target, action.parameter, newValues[arrayPosition]);
+            console.log("Set: ", action.target, action.parameter, newValues[arrayPosition]);
             
             return { values: newValues };
         }

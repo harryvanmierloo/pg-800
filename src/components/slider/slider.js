@@ -2,13 +2,14 @@ import React, { useState, useEffect, useContext } from 'react';
 import mks from '../synth/mks';
 import mksVecoven4 from '../synth/mks-vecoven4.js';
 import { SettingsContext } from '../context/settingsContext.js';
-import { usePanelState } from '../context/panelContext.js';
+import { usePanelState, usePanelDispatch } from '../context/panelContext.js';
 import classNames from 'classnames';
 import * as styles from './slider.module.scss';
 
 const Slider = (props) => {
 
     const state = usePanelState();
+    const dispatch = usePanelDispatch();
     const [settings] = useContext(SettingsContext);
 
     // If Vecoven4-firmware then use the Vecoven4-spec, otherwise the normal Roland-spec
@@ -49,6 +50,9 @@ const Slider = (props) => {
 
             // Set new value
             setValue(newValue);
+
+            // CAUSES SERIOUS HICKUPS!
+            dispatch({ type: 'set', target: tone, parameter: parameterId, value: newValue });
 
             let formatType = 0b00100100; // JX-10
             if (settings.synth === "JX8P") {
