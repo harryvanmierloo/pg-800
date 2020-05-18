@@ -1,0 +1,81 @@
+@import '../../scss/variables';
+
+.sidebar {
+    background: $panel;
+    position: fixed;
+    height: 100vh;
+    left: 0;
+    width: 240px;
+    padding: 1rem 2rem;
+    border-right: 1px solid $grey50;
+    transition: .15s ease-out;
+
+    .subtitle {
+        color: $grey350;
+        font-size: 1rem;
+        padding: 0 0 .3rem;
+        border-bottom: $border;
+    }
+
+    button {
+        display: inline-block;
+        margin-bottom: 1rem;
+        width: 100%;
+    }
+
+    .collapseButton {
+        position: absolute;
+        color: $grey350;
+        right: 0;
+        top: 0;
+        height: 100vh;
+        padding: 6.9rem .25rem .25rem;
+
+        .icon {
+            transition: .15s ease-out;
+            transform: rotate(0deg);
+        }
+
+        &:hover {
+            background: $grey300;
+            color: $gold;
+            cursor: pointer;
+        }
+    }
+
+    &.collapsed {
+        left: -280px;
+
+        ~ main {
+            margin-left: 2rem;
+        }
+
+        .collapseButton .icon {
+            transform: rotate(180deg);
+        }
+    }
+
+    footer {
+        color: $grey350;
+        text-align: center;
+        position: absolute;
+        bottom: 4rem;
+        left: 0;
+        line-height: 1.5;
+        width: 100%;
+        font-size: 80%;
+    
+        span {
+            color: red;
+        }
+    
+        a {
+            color: $grey350;
+    
+            &:hover {
+                color: $gold;
+                cursor: pointer;
+            }
+        }
+    }   
+}

@@ -1,10 +1,13 @@
-import React, {useState, useEffect} from "react";
+import React, {useContext, useState, useEffect} from "react";
 import { getPatches, addSysexBlob, decodeBlob } from "../../firebase";
 import { usePanelState } from '../context/panelContext.js';
+import { UserContext } from "../context/userContext.js";
 
 const SignIn = () => {
     const [patchList, setPatchList] = useState([]);
     const state = usePanelState();
+
+    const user = useContext(UserContext);
 
     // Use an effect to authenticate and load the grocery list from the database
     useEffect(() => {
@@ -33,7 +36,7 @@ const SignIn = () => {
     };
 
     return (
-        patchList ?
+        (patchList && user) ?
 
         <React.Fragment>
             <ul>
