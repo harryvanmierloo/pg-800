@@ -7,6 +7,7 @@ let sysexData = {
     patch: undefined
 }
 
+// Custom hook for handling incoming sysex
 const useHandleSysex = () => {
     const dispatch = usePanelDispatch();
 
