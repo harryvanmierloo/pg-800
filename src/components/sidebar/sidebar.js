@@ -44,6 +44,9 @@ const Sidebar = (props) => {
                                 You are logged in using<br />{user.email}<br />
                                 <Link to="/signin" onClick={() => {auth().signOut()}}>Sign out</Link>
                             </p>
+                            <p>
+                                UUID: {user.uid}
+                            </p>
                         </React.Fragment>
                     }
                     <p>Made with <span>♥</span> in The Hague<br />by <a href="mailto:harry@vanmierloo.nl">Harry van Mierloo</a></p>

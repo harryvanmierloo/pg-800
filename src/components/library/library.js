@@ -1,7 +1,8 @@
-import React, {useContext, useState, useEffect} from "react";
+import React, {useCallback, useContext, useState, useEffect} from "react";
 import { getPatches, addSysexBlob, decodeBlob } from "../../firebase";
 import { usePanelState } from '../context/panelContext.js';
 import { UserContext } from "../context/userContext.js";
+import Patch from "../patch/patch.js";
 
 const SignIn = () => {
     const [patchList, setPatchList] = useState([]);
@@ -21,12 +22,9 @@ const SignIn = () => {
         });
     }, [setPatchList]);
 
-    const renderedPatchList = patchList.map((item, key) =>
-        <li key={key}>
-            <strong>{item.name}</strong><br />
-            {item.values ? decodeBlob(item.values)[12] : null}
-        </li>
-    );
+    const renderedPatchList = useCallback(patchList.map((item, key) =>  
+        <Patch key={key} patch={item} />
+    ));
 
     const storeSysex = () => {
         let sysex = state.values;
@@ -39,10 +37,16 @@ const SignIn = () => {
         (patchList && user) ?
 
         <React.Fragment>
-            <ul>
-                {renderedPatchList}
-            </ul>
 
+            <h1>Received</h1>
+
+            <h1>Firebase</h1>
+            <table>
+                <tbody>
+                    {renderedPatchList}
+                </tbody>
+            </table>
+            <hr />
             <button onClick={storeSysex}>Store sysex</button>
         </React.Fragment>
 

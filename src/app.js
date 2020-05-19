@@ -1,10 +1,13 @@
-import React, { useContext } from 'react';
+import React, { useContext, useCallback, useEffect } from 'react';
 import { BrowserRouter, Switch, Redirect, Route } from 'react-router-dom';
 import Editor from "./components/editor/editor.js";
 import SignIn from "./components/signin/signin.js";
 import Library from "./components/library/library.js";
 import Settings from './components/settings/settings.js';
+import { SettingsContext } from './components/context/settingsContext.js';
 import { UserContext } from "./components/context/userContext.js";
+import { usePanelDispatch } from './components/context/panelContext.js';
+import useHandleSysex, { parseSysex } from "./helpers/sysex.js";
 import Sidebar from './components/sidebar/sidebar.js';
 
 const PrivateRoute = ({children, ...rest}) => {
@@ -23,6 +26,14 @@ const PrivateRoute = ({children, ...rest}) => {
 };
 
 const App = (props) => {
+
+    const [settings] = useContext(SettingsContext);
+    const { sysexValues, handleSysex } = useHandleSysex();
+
+    useEffect((event) => {
+        // Listen for incoming sysex
+        settings.midiIn.addListener("sysex", "all", handleSysex);
+    }, [handleSysex, settings.midiIn]);
 
     return (
         <BrowserRouter>
