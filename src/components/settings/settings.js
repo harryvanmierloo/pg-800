@@ -109,68 +109,70 @@ const Settings = (props) => {
 
     return (
         <div className={styles.settings}>
-            <h2>Settings</h2>
-            <ul>
-                <li>
-                    <label htmlFor="select-synth">Connected synth</label>
-                    <select id="select-synth" onChange={changeSettings('synth')} defaultValue={settings.synth}>
-                        <option key="synth-select1" value="JX8P">Roland JX-8P</option>
-                        <option key="synth-select5" value="JX10-VECOVEN3">Roland JX-10 - Vecoven firmware 3.x</option>
-                        <option key="synth-select6" value="JX10-VECOVEN4">Roland JX-10 - Vecoven firmware 4.x</option>
-                        <option key="synth-select2" value="MKS">Roland MKS-70 - Original firmware</option>
-                        <option key="synth-select3" value="MKS-VECOVEN3">Roland MKS-70 - Vecoven firmware 3.x</option>
-                        <option key="synth-select4" value="MKS-VECOVEN4">Roland MKS-70 - Vecoven firmware 4.x</option>
-                    </select>
-                </li>
-                <li>
-                    <label htmlFor="select-midi-in">Midi from synth</label>
-                    <select id="select-midi-in" onChange={changeSettings('midiIn')} defaultValue={settings.midiIn.id}>
-                        {WebMidi.inputs.map((e, key) => {
-                            return <option key={key} value={e.id}>{e.name}</option>;
-                        })}
-                    </select>
-                </li>
-                <li>
-                    <label htmlFor="select-midi-out">Midi to synth</label>
-                    <select id="select-midi-out" onChange={changeSettings('midiOut')} defaultValue={settings.midiOut.id}>
-                        {WebMidi.outputs.map((e, key) => {
-                            return <option key={key} value={e.id}>{e.name}</option>;
-                        })}
-                    </select>
-                </li>
-                <li>
-                    <label htmlFor="select-midi-channel-a">
-                        {(settings.synth === "JX8P") && "Midi Channel" }
-                        {(settings.synth !== "JX8P") && "Midi Channel A" }
-                    </label>
-                    <select id="select-midi-channel-a" onChange={changeSettings('midiChannelA')} defaultValue={settings.midiChannelA}>
-                        {createChannelOptions()}
-                    </select>
-                </li>
-                {(settings.synth !== "JX8P") &&
-                    <React.Fragment>
-                        <li>
-                            <label htmlFor="select-midi-channel-b">Midi Channel B</label>
-                            <select id="select-midi-channel-b" onChange={changeSettings('midiChannelB')} defaultValue={settings.midiChannelB}>
-                                {createChannelOptions()}
-                            </select>
-                        </li>
-                        <li>
-                            <label htmlFor="select-midi-control-channel">Midi Control Channel</label>
-                            <select id="select-midi-control-channel" onChange={changeSettings('midiControlChannel')} defaultValue={settings.midiControlChannel}>
-                                {createChannelOptions()}
-                            </select>
-                        </li>
-                    </React.Fragment>
-                }
-                <li>
-                    <label htmlFor="select-midi-program">Patch</label>
-                    <select id="select-midi-program" onChange={changeSettings('midiProgram')}>
-                        {createProgramOptions()}
-                    </select>
-                </li>
-            </ul>
-            <button onClick={playNote(["C5", "E5", "G5"], 1000, 0.5)}>Play test chord</button>
+            <h3>Settings</h3>
+            <div className={styles.panel}>
+                <ul>
+                    <li>
+                        <label htmlFor="select-synth">Connected synth</label>
+                        <select id="select-synth" onChange={changeSettings('synth')} defaultValue={settings.synth}>
+                            <option key="synth-select1" value="JX8P">Roland JX-8P</option>
+                            <option key="synth-select5" value="JX10-VECOVEN3">Roland JX-10 - Vecoven firmware 3.x</option>
+                            <option key="synth-select6" value="JX10-VECOVEN4">Roland JX-10 - Vecoven firmware 4.x</option>
+                            <option key="synth-select2" value="MKS">Roland MKS-70 - Original firmware</option>
+                            <option key="synth-select3" value="MKS-VECOVEN3">Roland MKS-70 - Vecoven firmware 3.x</option>
+                            <option key="synth-select4" value="MKS-VECOVEN4">Roland MKS-70 - Vecoven firmware 4.x</option>
+                        </select>
+                    </li>
+                    <li>
+                        <label htmlFor="select-midi-in">Midi from synth</label>
+                        <select id="select-midi-in" onChange={changeSettings('midiIn')} defaultValue={settings.midiIn.id}>
+                            {WebMidi.inputs.map((e, key) => {
+                                return <option key={key} value={e.id}>{e.name}</option>;
+                            })}
+                        </select>
+                    </li>
+                    <li>
+                        <label htmlFor="select-midi-out">Midi to synth</label>
+                        <select id="select-midi-out" onChange={changeSettings('midiOut')} defaultValue={settings.midiOut.id}>
+                            {WebMidi.outputs.map((e, key) => {
+                                return <option key={key} value={e.id}>{e.name}</option>;
+                            })}
+                        </select>
+                    </li>
+                    <li>
+                        <label htmlFor="select-midi-channel-a">
+                            {(settings.synth === "JX8P") && "Midi Channel" }
+                            {(settings.synth !== "JX8P") && "Midi Channel A" }
+                        </label>
+                        <select id="select-midi-channel-a" onChange={changeSettings('midiChannelA')} defaultValue={settings.midiChannelA}>
+                            {createChannelOptions()}
+                        </select>
+                    </li>
+                    {(settings.synth !== "JX8P") &&
+                        <React.Fragment>
+                            <li>
+                                <label htmlFor="select-midi-channel-b">Midi Channel B</label>
+                                <select id="select-midi-channel-b" onChange={changeSettings('midiChannelB')} defaultValue={settings.midiChannelB}>
+                                    {createChannelOptions()}
+                                </select>
+                            </li>
+                            <li>
+                                <label htmlFor="select-midi-control-channel">Midi Control Channel</label>
+                                <select id="select-midi-control-channel" onChange={changeSettings('midiControlChannel')} defaultValue={settings.midiControlChannel}>
+                                    {createChannelOptions()}
+                                </select>
+                            </li>
+                        </React.Fragment>
+                    }
+                    <li>
+                        <label htmlFor="select-midi-program">Patch</label>
+                        <select id="select-midi-program" onChange={changeSettings('midiProgram')}>
+                            {createProgramOptions()}
+                        </select>
+                    </li>
+                </ul>
+                <button onClick={playNote(["C5", "E5", "G5"], 1000, 0.5)}>Play test chord</button>
+            </div>
         </div>
     )
 }
