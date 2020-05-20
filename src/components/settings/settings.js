@@ -108,8 +108,9 @@ const Settings = (props) => {
     }, []);
 
     return (
-        <React.Fragment>
-            <ul className={styles.settings}>
+        <div className={styles.settings}>
+            <h2>Settings</h2>
+            <ul>
                 <li>
                     <label htmlFor="select-synth">Connected synth</label>
                     <select id="select-synth" onChange={changeSettings('synth')} defaultValue={settings.synth}>
@@ -170,7 +171,7 @@ const Settings = (props) => {
                 </li>
             </ul>
             <button onClick={playNote(["C5", "E5", "G5"], 1000, 0.5)}>Play test chord</button>
-        </React.Fragment>
+        </div>
     )
 }
 

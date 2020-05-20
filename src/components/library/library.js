@@ -38,9 +38,9 @@ const SignIn = () => {
 
         <React.Fragment>
 
-            <h1>Received</h1>
+            <h2>Received</h2>
 
-            <h1>Firebase</h1>
+            <h2>Firebase</h2>
             <table>
                 <tbody>
                     {renderedPatchList}

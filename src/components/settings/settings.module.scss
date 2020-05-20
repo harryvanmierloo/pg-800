@@ -1,11 +1,26 @@
 @import '../../scss/variables';
 
 .settings {
-    padding: 1rem 0;
 
-    > li {
+    background: $panel;
+    border-top: 1px solid $grey300;
+    border-right: 1px solid $grey50;
+    border-bottom: 1px solid $grey50;
+    border-left: 1px solid $grey350;
+    border-radius: $borderRadius;
+    display: inline-block;
+    margin-bottom: 1rem;
+    padding: 2rem 1rem;
+    width: 100%;
+
+    ul {
+        padding: 0 0 .5rem;
+    }
+
+    li {
         list-style-type: none;
         margin: 0 0 1rem;
+        list-style-type: none;
     }
 
     label {
