@@ -32,7 +32,7 @@ const Sidebar = (props) => {
         <React.Fragment>
             <div className={classNames(styles.sidebar, { [styles.collapsed]: !sidebarVisibility })}>
                 <h1>PG-800 Online</h1>
-                <p className={styles.subtitle}>v0.2 - Alpha</p>
+                <p className={styles.subtitle}>v0.3 - Alpha</p>
 
                 <div className={styles.tabs}>
                     <Link onClick={changeTab("LIBRARY")} className={tab === "LIBRARY" ? styles.active : null} to="/library">Library</Link>
