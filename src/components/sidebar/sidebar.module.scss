@@ -17,6 +17,41 @@
         border-bottom: $border;
     }
 
+    .tabs {
+        background: $panel;
+        border-top: 1px solid $grey300;
+        border-right: 1px solid $grey50;
+        border-bottom: 1px solid $grey50;
+        border-left: 1px solid $grey350;
+        border-radius: $borderRadius;
+        padding: 0;
+        margin: 0 0 2rem;
+
+        a {
+            display: block;
+            list-style-type: none;
+            padding: 1rem;
+            color: $panelText;
+            text-decoration: none;
+
+            &:hover {
+                background: $grey300;
+                cursor: pointer;
+            }
+
+            &.active {
+                color: $grey100;
+                background: $gold;
+
+                &:hover {
+                    cursor: default;
+                }
+            }
+        }
+
+    }
+
+
     button {
         display: inline-block;
         margin-bottom: 1rem;
