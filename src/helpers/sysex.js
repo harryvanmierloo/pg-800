@@ -1,4 +1,5 @@
-import React, {useState, useCallback} from 'react';
+import {useState, useCallback} from 'react';
+import { addSysexBlob } from "../firebase";
 import { usePanelDispatch } from '../components/context/panelContext.js';
 
 let sysexData = {
@@ -30,9 +31,10 @@ const useHandleSysex = () => {
                 // console.log("Received PATCH parameter values: ", sysex.values);
             }
             dispatch({ type: 'setAll', target: sysex.target, values: sysex.values, name: sysex.name });
+            storeSysex(sysex.target, sysex.name, sysex.values);
         }
         setSysexValues(sysex);
-    }, []);
+    }, [dispatch]);
 
     return { sysexValues, handleSysex };
 };
@@ -78,7 +80,7 @@ const parseSysex = data => {
                             name += String.fromCharCode(sysex[p]);
                         }
                     }
-                    //console.log("All TONE parameters for TONE A (3.3.2)", parameters);
+                    console.log("All TONE parameters for TONE A (3.3.2)", parameters);
                     return { target: "A", values: parameters, name: name.trim() };
                 }
                 else if (sysex[6] === 2) {
@@ -106,5 +108,15 @@ const parseSysex = data => {
     return;
 }
 
+const storeSysex = (target, name, values) => {
+    let type = target;
+    if (target === "A" || type === "B") {
+        type = "TONE";
+    }
+    // Add blob to MKS-70 collection
+    addSysexBlob("QJ3VyT1PhedsCY7CtjGW", type, name, values);
+};
+
+
 export default useHandleSysex;
-export { parseSysex };
+export { parseSysex, storeSysex };

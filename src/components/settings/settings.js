@@ -1,4 +1,4 @@
-import React, { useContext, useCallback, useEffect } from 'react';
+import React, { useContext, useCallback } from 'react';
 import update from 'immutability-helper';
 import WebMidi from "webmidi";
 import { SettingsContext } from '../context/settingsContext.js';
@@ -9,7 +9,7 @@ import * as styles from './settings.module.scss';
 const Settings = (props) => {
 
     const [settings, setSettings] = useContext(SettingsContext);
-    const { sysexValues, handleSysex } = useHandleSysex();
+    const { handleSysex } = useHandleSysex();
     const dispatch = usePanelDispatch();
 
     const changeSettings = (name) => event => {

@@ -14,7 +14,7 @@ const Editor = (props) => {
                 <PanelJX8P />
             }
             {(settings.synth === "JX10-VECOVEN3" || settings.synth === "MKS" || settings.synth === "MKS-VECOVEN3") &&
-                <PanelMKS />
+                <PanelMKS/>
             }
             {(settings.synth === "JX10-VECOVEN4" || settings.synth === "MKS-VECOVEN4") &&
                 <PanelMKSVecoven4 />

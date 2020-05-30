@@ -1,5 +1,5 @@
 import React, {useCallback, useContext, useState, useEffect} from "react";
-import { getPatches, addSysexBlob, decodeBlob } from "../../firebase";
+import { getPatches, addSysexBlob } from "../../firebase";
 import { usePanelState } from '../context/panelContext.js';
 import { UserContext } from "../context/userContext.js";
 import Patch from "../patch/patch.js";
@@ -58,8 +58,8 @@ const SignIn = () => {
 export default SignIn;
 
 // Generates a string with hex bytes from an array
-function toHexString(byteArray) {
-    return Array.from(byteArray, function(byte) {
-        return ('0' + (byte & 0xFF).toString(16)).slice(-2) + ' ';
-    }).join('')
-}
+// function toHexString(byteArray) {
+//     return Array.from(byteArray, function(byte) {
+//         return ('0' + (byte & 0xFF).toString(16)).slice(-2) + ' ';
+//     }).join('')
+// }

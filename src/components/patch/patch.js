@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import { getPatches, addSysexBlob, decodeBlob } from "../../firebase";
+import React from 'react';
+import { decodeBlob } from "../../firebase";
 
 const types = {
     PATCH: 'PATCH',
@@ -17,6 +17,7 @@ const Patch = (data) => {
 
     return (
         <tr>
+            <td>{type}</td>
             <td>{name}</td>
             <td>{date}</td>
             <td>{values}</td>
