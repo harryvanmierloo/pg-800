@@ -47,6 +47,8 @@
     ]
   },
   "devDependencies": {
-    "@types/node-sass": "^4.11.1"
+    "@types/node-sass": "^4.11.1",
+    "awesome-typescript-loader": "^5.2.1",
+    "typings-for-css-modules-loader": "^1.7.0"
   }
 }

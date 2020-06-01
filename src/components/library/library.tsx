@@ -5,6 +5,7 @@ import { UserContext } from "../context/userContext";
 import { LibraryContext } from "../context/libraryContext";
 import { decodeBlob } from "../../firebase";
 import Patch, { PatchRow } from "../patch/patch";
+import './library.scss';
 
 interface Bank {
     name: string;
@@ -28,7 +29,7 @@ const Library = () => {
     const { rating, setRating, price, setPrice, reset } = useContext(LibraryContext);
 
     const renderedPatchList = bank.patches.map((item, key) =>  
-        <PatchRow key={key} synth={item.synth} name={item.name} date={item.date} values={item.values} />
+        <PatchRow key={key} synth={item.synth} type={item.type} name={item.name} date={item.date} values={item.values} />
     );
 
     const storeSysex = () => {
@@ -44,11 +45,13 @@ const Library = () => {
             let receivedPatches = [];
             patches.forEach(patch => {
                 //console.log(patch.data());
+                let data = patch.data();
                 receivedPatches.push({
                     synth: 'MKS70',
-                    name: patch.data().name,
-                    date: new Date(patch.data().date).toLocaleString(),
-                    values: decodeBlob(patch.data().values)
+                    name: data.name,
+                    date: new Date(data.date).toLocaleString(),
+                    type: data.type,
+                    values: decodeBlob(data.values)
                 });
             });
             console.log(receivedPatches);
@@ -62,7 +65,7 @@ const Library = () => {
     return (
         (bank && user) ?
 
-        <React.Fragment>
+        <div className="library">
 
             <h3>From synth:</h3>
             <ul>
@@ -78,7 +81,7 @@ const Library = () => {
             </table>
             <hr />
             <button onClick={storeSysex}>Store sysex</button>
-        </React.Fragment>
+        </div>
 
         :
 
