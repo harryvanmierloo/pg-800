@@ -9,10 +9,6 @@ import { UserContext } from "./components/context/userContext";
 import useHandleSysex from "./helpers/sysex";
 import Sidebar from './components/sidebar/sidebar';
 
-// interface IProps {
-//     children: ReactNode;
-// }
-
 const PrivateRoute = ({children, ...rest}) => {
     const user = useContext(UserContext);
 

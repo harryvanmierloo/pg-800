@@ -5,16 +5,16 @@ import { UserContext } from "../context/userContext";
 import Patch from "../patch/patch";
 import { LibraryContext } from "../context/libraryContext";
 
-// interface IPatch {
-//     synth: String;
-//     name: String;
-//     values: Uint8Array;
-// }
+interface IPatch {
+    synth: string;
+    name: string;
+    values: number[];
+}
 
-// interface IBank {
-//     name: String;
-//     patches: IPatch[];
-// }
+interface IBank {
+    name: string;
+    patches: IPatch[];
+}
 
 const initialBankData = {
     name: "My Default Bank",
@@ -28,7 +28,7 @@ const initialBankData = {
 const Library = () => {
     const [patchList, setPatchList] = useState([]);
 
-    //const [bank, setBank] = useState<IBank | null>(initialBankData);
+    const [bank, setBank] = useState<IBank | null>(initialBankData);
 
     const state = usePanelState();
 
@@ -47,9 +47,17 @@ const Library = () => {
         });
     }, [setPatchList]);
 
-    const renderedPatchList = useCallback(patchList.map((item, key) =>  
+    const renderedLibrary = bank.patches.map((item, key) =>  
+        <li key={key}>
+            <span>{item.synth} | </span>
+            <span>{item.name} | </span>
+            <span>{item.values}</span>
+        </li>
+    );
+
+    const renderedPatchList = patchList.map((item, key) =>  
         <Patch key={key} patch={item} />
-    ));
+    );
 
     const storeSysex = () => {
         let sysex = state.values;
@@ -63,6 +71,11 @@ const Library = () => {
 
         <React.Fragment>
 
+            <h3>{bank.name}</h3>
+            <ul>
+                {renderedLibrary}
+            </ul>
+            
             <h3>Received</h3>
             <ul>
                 <li>Rating: {rating}</li>
