@@ -1,10 +1,19 @@
 import React, { useContext, useCallback } from 'react';
 import update from 'immutability-helper';
 import WebMidi from "webmidi";
-import { SettingsContext } from '../context/settingsContext.js';
-import { usePanelDispatch } from '../context/panelContext.js';
-import useHandleSysex from '../../helpers/sysex.js';
+import { SettingsContext } from '../context/settingsContext';
+import { usePanelDispatch } from '../context/panelContext';
+import useHandleSysex from '../../helpers/sysex';
 import * as styles from './settings.module.scss';
+
+// interface ISettings {
+//     synth: String;
+//     midiIn: String;
+//     midiOut: String;
+//     midiChannelA: Number;
+//     midiChannelB: Number;
+//     midiControlChannel: Number;
+// };
 
 const Settings = (props) => {
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { usePanelState } from '../context/panelContext.js';
+import { usePanelState } from '../context/panelContext';
 
 const Title = (props) => {
 

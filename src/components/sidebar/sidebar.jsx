@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { UserContext } from "../context/userContext.js";
+import { UserContext } from "../context/userContext";
 import * as styles from './sidebar.module.scss';
 import classNames from 'classnames';
 import { auth } from "firebase/app";

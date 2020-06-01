@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Redirect, Link, useLocation } from "react-router-dom";
 import { auth } from "../../firebase";
-import { UserContext } from "../context/userContext.js";
+import { UserContext } from "../context/userContext";
 import * as styles from './signin.module.scss';
 
 const SignIn = (props) => {

@@ -1,6 +1,6 @@
 import {useState, useCallback} from 'react';
 import { addSysexBlob } from "../firebase";
-import { usePanelDispatch } from '../components/context/panelContext.js';
+import { usePanelDispatch } from '../components/context/panelContext';
 
 let sysexData = {
     valuesA: undefined,

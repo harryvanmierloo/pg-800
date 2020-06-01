@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
-import PanelJX8P from '../panels/panel-jx8p.js';
-import PanelMKS from '../panels/panel-mks.js';
-import PanelMKSVecoven4 from '../panels/panel-mks-vecoven4.js';
-import { SettingsContext } from '../context/settingsContext.js';
+import PanelJX8P from '../panels/panel-jx8p';
+import PanelMKS from '../panels/panel-mks';
+import PanelMKSVecoven4 from '../panels/panel-mks-vecoven4';
+import { SettingsContext } from '../context/settingsContext';
 
 const Editor = (props) => {
     

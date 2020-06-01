@@ -1,8 +1,8 @@
 import React, { useContext, useCallback } from 'react';
-import { SettingsContext } from '../context/settingsContext.js';
-import { usePanelDispatch } from '../context/panelContext.js';
-import Slider from '../slider/slider.js';
-import KnobControl from '../knob/knob.js';
+import { SettingsContext } from '../context/settingsContext';
+import { usePanelDispatch } from '../context/panelContext';
+import Slider from '../slider/slider';
+import KnobControl from '../knob/knob';
 import * as styles from './panel.module.scss';
 
 const PanelPG800 = (props) => {

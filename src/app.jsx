@@ -1,13 +1,17 @@
-import React, { useContext, useEffect } from 'react';
+import React, { ReactNode, useContext, useEffect } from 'react';
 import { BrowserRouter, Switch, Redirect, Route } from 'react-router-dom';
-import Editor from "./components/editor/editor.js";
-import SignIn from "./components/signin/signin.js";
-import Library from "./components/library/library.js";
-import Settings from './components/settings/settings.js';
-import { SettingsContext } from './components/context/settingsContext.js';
-import { UserContext } from "./components/context/userContext.js";
-import useHandleSysex from "./helpers/sysex.js";
-import Sidebar from './components/sidebar/sidebar.js';
+import Editor from "./components/editor/editor";
+import SignIn from "./components/signin/signin";
+import Library from "./components/library/library";
+import Settings from './components/settings/settings';
+import { SettingsContext } from './components/context/settingsContext';
+import { UserContext } from "./components/context/userContext";
+import useHandleSysex from "./helpers/sysex";
+import Sidebar from './components/sidebar/sidebar';
+
+// interface IProps {
+//     children: ReactNode;
+// }
 
 const PrivateRoute = ({children, ...rest}) => {
     const user = useContext(UserContext);
@@ -29,7 +33,7 @@ const App = (props) => {
     const [settings] = useContext(SettingsContext);
     const { handleSysex } = useHandleSysex();
 
-    useEffect((event) => {
+useEffect(() => {
         // Listen for incoming sysex
         console.log("Sysex listener enabled!");
         settings.midiIn.addListener("sysex", "all", handleSysex);

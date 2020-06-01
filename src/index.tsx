@@ -1,11 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import WebMidi from "webmidi";
-import App from "./app.js";
-import { SettingsProvider } from './components/context/settingsContext.js';
-import UserProvider from "./components/context/userContext.js";
-import { PanelProvider } from './components/context/panelContext.js';
-import * as styles from './index.module.scss';
+import App from "./app";
+import { SettingsProvider } from './components/context/settingsContext';
+import { LibraryProvider } from './components/context/libraryContext';
+import UserProvider from "./components/context/userContext";
+import { PanelProvider } from './components/context/panelContext';
+import './index.module.scss';
 
 WebMidi.enable(function (err) {
     if (err) {
@@ -20,11 +21,13 @@ WebMidi.enable(function (err) {
         else {
             ReactDOM.render(
                 <UserProvider>
-                    <PanelProvider>
-                        <SettingsProvider>
-                            <App />
-                        </SettingsProvider>
-                    </PanelProvider>
+                    <LibraryProvider>
+                        <PanelProvider>
+                            <SettingsProvider>
+                                <App />
+                            </SettingsProvider>
+                        </PanelProvider>
+                    </LibraryProvider>
                 </UserProvider>,
                 document.getElementById('root')
             );

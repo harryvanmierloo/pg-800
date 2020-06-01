@@ -1,14 +1,39 @@
 import React, {useCallback, useContext, useState, useEffect} from "react";
 import { getPatches, addSysexBlob } from "../../firebase";
-import { usePanelState } from '../context/panelContext.js';
-import { UserContext } from "../context/userContext.js";
-import Patch from "../patch/patch.js";
+import { usePanelState } from '../context/panelContext';
+import { UserContext } from "../context/userContext";
+import Patch from "../patch/patch";
+import { LibraryContext } from "../context/libraryContext";
 
-const SignIn = () => {
+// interface IPatch {
+//     synth: String;
+//     name: String;
+//     values: Uint8Array;
+// }
+
+// interface IBank {
+//     name: String;
+//     patches: IPatch[];
+// }
+
+const initialBankData = {
+    name: "My Default Bank",
+    patches: [
+        { synth: 'JX8P', name: 'Patch 1', values: [] },
+        { synth: 'JX8P', name: 'Patch 2', values: [] },
+        { synth: 'MKS70', name: 'Patch 1', values: [] }
+    ]
+}
+
+const Library = () => {
     const [patchList, setPatchList] = useState([]);
+
+    //const [bank, setBank] = useState<IBank | null>(initialBankData);
+
     const state = usePanelState();
 
     const user = useContext(UserContext);
+    const { rating, setRating, price, setPrice, reset } = useContext(LibraryContext);
 
     // Use an effect to authenticate and load the grocery list from the database
     useEffect(() => {
@@ -39,6 +64,10 @@ const SignIn = () => {
         <React.Fragment>
 
             <h3>Received</h3>
+            <ul>
+                <li>Rating: {rating}</li>
+                <li>Price: {price}</li>
+            </ul>
 
             <h3>Firebase</h3>
             <table>
@@ -55,7 +84,7 @@ const SignIn = () => {
         null
     );
 };
-export default SignIn;
+export default Library;
 
 // Generates a string with hex bytes from an array
 // function toHexString(byteArray) {

@@ -1,7 +1,7 @@
 import React, { useContext }from 'react';
-import Slider from '../slider/slider.js';
-import { SettingsContext } from '../context/settingsContext.js';
-import KnobControl from '../knob/knob.js';
+import Slider from '../slider/slider';
+import { SettingsContext } from '../context/settingsContext';
+import KnobControl from '../knob/knob';
 import * as styles from './panel.module.scss';
 
 const PanelPatch = (props) => {
