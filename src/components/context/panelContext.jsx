@@ -161,6 +161,35 @@ function panelReducer(state, action) {
         
             return { values: newValues };
         }
+        case 'setToneSysex': { // Initializes all parameters and send out sysex
+
+            console.log(action);
+            let newValues = state.values;
+            newValues.splice(offset, action.values.length, ...action.values);
+
+            let formatType = 0b00100100; // JX-10
+            if (action.settings.synth === "JX8P") {
+                formatType = 0b00100001;
+            }
+
+            // Use different group byte for Tone B, otherwise use default for Tone A and Patch
+            const formatGroup = (action.target === "B") ? 0b00000010 : 0b00000001
+
+            // Send sysex to synth
+            action.settings.midiOut.sendSysex(
+                0b01000001, // b - Roland ID
+                [
+                    0b00110101, // c - Operation code = APR (all parameters)
+                    action.settings.midiControlChannel-1, // d - Control Channel (Start at 0)
+                    formatType, // e - Format type (JX-10 or JX-8P)
+                    0b00100000, // f - Level = 1
+                    formatGroup, // g - Group (01 = Tone A, 10 = Tone B)
+                    newValues, // h - Sequence of values (0-127)
+                ].flat()
+            );
+        
+            return { values: newValues };
+        }
         default: {
             throw new Error(`Unhandled action type: ${action.type}`)
         }

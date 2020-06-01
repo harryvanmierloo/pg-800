@@ -1,4 +1,7 @@
-import React from 'react';
+import React, { useContext, useCallback } from 'react';
+import { usePanelDispatch } from '../context/panelContext';
+import { SettingsContext } from '../context/settingsContext';
+import './patch.scss';
 
 const types = {
     PATCH: 'PATCH',
@@ -15,16 +18,25 @@ export default interface Patch {
 
 export const PatchRow = (props:Patch) => {
 
-    console.log(props);
+    const [settings] = useContext(SettingsContext);
+    const dispatch = usePanelDispatch();
 
-    //const parsedDate = props.date ? new Date(props.date).toLocaleDateString() : null;
+    const setTone = useCallback((type) => event => {
+
+        // If type is Tone, then assign to Channel A (for now). If type is Patch, then assign to Patch data.
+        let receivedType = "PATCH" ? type : "A";
+
+        // Convert Uint8Array to normal array
+        let newValues = Array.from(props.values);
+        dispatch({ type: 'setToneSysex', target: receivedType, values: newValues, settings: settings });
+    }, [settings]);
 
     return (
-        <tr>
+        <tr className='patch' onClick={setTone(props.type)}>
             <td>{props.type}</td>
             <td>{props.name}</td>
             <td>{props.date}</td>
-            <td>{props.values}</td>
+            <td className="patch__values">{props.values}</td>
         </tr>
     )
 };

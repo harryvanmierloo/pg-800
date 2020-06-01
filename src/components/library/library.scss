@@ -1,24 +1,8 @@
 @import '../../scss/variables';
 
 .library {
-
     table {
         display: block;
         overflow: hidden;
-    }
-
-    td {
-        white-space: nowrap;
-        padding-right: 1rem;
-        width: 20%;
-    }
-
-    td:last-child {
-        color: $grey300;
-        display: block;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        width: 30%;
     }
 }

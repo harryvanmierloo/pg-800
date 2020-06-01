@@ -1,0 +1,23 @@
+@import '../../scss/variables';
+
+.patch {
+
+    &:hover {
+        color: $grey100;
+        background: $gold;
+        cursor: pointer;
+    }
+
+    td {
+        white-space: nowrap;
+        padding-right: 1rem;
+        width: 20%;
+    }
+
+    .patch__values {
+        color: $grey300;
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}

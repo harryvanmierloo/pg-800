@@ -54,7 +54,6 @@ const Library = () => {
                     values: decodeBlob(data.values)
                 });
             });
-            console.log(receivedPatches);
             setBank({
                 name: bankId,
                 patches: receivedPatches
