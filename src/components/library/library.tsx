@@ -2,7 +2,6 @@ import React, {useContext, useState, useEffect} from "react";
 import { getPatches, addSysexBlob } from "../../firebase";
 import { usePanelState } from '../context/panelContext';
 import { UserContext } from "../context/userContext";
-import { LibraryContext } from "../context/libraryContext";
 import { decodeBlob } from "../../firebase";
 import Patch, { PatchRow } from "../patch/patch";
 import './library.scss';
@@ -26,7 +25,6 @@ const Library = () => {
     const state = usePanelState();
 
     const user = useContext(UserContext);
-    const { rating, setRating, price, setPrice, reset } = useContext(LibraryContext);
 
     const renderedPatchList = bank.patches.map((item, key) =>  
         <PatchRow key={key} synth={item.synth} type={item.type} name={item.name} date={item.date} values={item.values} />
@@ -68,8 +66,6 @@ const Library = () => {
 
             <h3>From synth:</h3>
             <ul>
-                <li>Rating: {rating}</li>
-                <li>Price: {price}</li>
             </ul>
 
             <h3>Firebase: {bank.name}</h3>

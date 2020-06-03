@@ -3,11 +3,6 @@ import { usePanelDispatch } from '../context/panelContext';
 import { SettingsContext } from '../context/settingsContext';
 import './patch.scss';
 
-const types = {
-    PATCH: 'PATCH',
-    TONE: 'TONE,'
-}
-
 export default interface Patch {
     synth: string;
     name: string;
@@ -29,7 +24,7 @@ export const PatchRow = (props:Patch) => {
         // Convert Uint8Array to normal array
         let newValues = Array.from(props.values);
         dispatch({ type: 'setToneSysex', target: receivedType, values: newValues, settings: settings });
-    }, [settings]);
+    }, [settings, dispatch, props.values]);
 
     return (
         <tr className='patch' onClick={setTone(props.type)}>

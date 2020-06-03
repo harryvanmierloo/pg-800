@@ -1,4 +1,4 @@
-import React, { ReactNode, useContext, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { BrowserRouter, Switch, Redirect, Route } from 'react-router-dom';
 import Editor from "./components/editor/editor";
 import SignIn from "./components/signin/signin";
