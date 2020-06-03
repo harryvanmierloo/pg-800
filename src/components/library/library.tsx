@@ -65,8 +65,7 @@ const Library = () => {
         <div className="library">
 
             <h3>From synth:</h3>
-            <ul>
-            </ul>
+            <p>Todo</p>
 
             <h3>Firebase: {bank.name}</h3>
             <table>
