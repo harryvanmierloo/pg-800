@@ -56,6 +56,7 @@ const Slider = (props) => {
             }
 
             const operationCode = (settings.synth === "MKS-VECOVEN4" || settings.synth === "JX10-VECOVEN4") ? 0b00111001 : 0b00110110;
+            const channel = (settings.synth === "JX8P") ? settings.midiChannelA-1 : settings.midiControlChannel-1;
             const formatLevel = (type === "TONE") ? 0b00100000 : 0b00110000;
             // Use different group byte for Tone B, otherwise use default for Tone A and Patch
             const formatGroup = (tone === "B") ? 0b00000010 : 0b00000001
@@ -67,7 +68,7 @@ const Slider = (props) => {
                 0b01000001, // Roland ID
                 [
                     operationCode, // Operation code = IPR (individual parameter)
-                    settings.midiControlChannel-1, // Control Channel (Start at 0)
+                    channel, // Control Channel (Start at 0)
                     formatType, // Format type (JX-10 or JX-8P)
                     formatLevel, // Level = 1 Tone
                     formatGroup, // Group (01 = Tone A, 10 = Tone B)
