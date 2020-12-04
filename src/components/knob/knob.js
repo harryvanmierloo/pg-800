@@ -58,7 +58,7 @@ const KnobControl = (props) => {
                 formatType = 0b00100001;
             }
 
-            const operationCode = (settings.synth === "MKS-VECOVEN4" || settings.synth === "JX10-VECOVEN4") ? 0b00111001 : 0b001101100;
+            const operationCode = (settings.synth === "MKS-VECOVEN4" || settings.synth === "JX10-VECOVEN4") ? 0b00111001 : 0b00110110;
             const formatLevel = (type === "TONE") ? 0b00100000 : 0b00110000;
             const channel = (settings.synth === "JX8P") ? settings.midiChannelA-1 : settings.midiControlChannel-1;
             // Use different group byte for Tone B, otherwise use default for Tone A and Patch
