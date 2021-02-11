@@ -53,7 +53,7 @@ const PanelPatch = (props) => {
                         } 
                     </h2>
                     <div className={styles.subSectionFull}>
-                        <Slider parameter="29" />
+                        <Slider parameter="29" labelOffset="1"/>
                         <Slider parameter="30" />
                         <Slider parameter="31" />
                         <KnobControl parameter="32" />
@@ -73,7 +73,7 @@ const PanelPatch = (props) => {
                         } 
                     </h2>
                     <div className={styles.subSectionFull}>
-                        <Slider parameter="38" />
+                        <Slider parameter="38" labelOffset="1"/>
                         <Slider parameter="39" />
                         <Slider parameter="40" />
                         <KnobControl parameter="41" />

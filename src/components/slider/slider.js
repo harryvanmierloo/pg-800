@@ -17,6 +17,7 @@ const Slider = (props) => {
     const tone = props.tone;
     // If no tone defined, assume it's a patch slider instead of tone slider
     const type = (tone === undefined) ? "PATCH" : "TONE";
+    const labelOffset = props.labelOffset ? props.labelOffset : 0;
 
     const parameterId = parseInt(props.parameter);
 
@@ -87,7 +88,8 @@ const Slider = (props) => {
             // return marks[mark].label;
         }
         else {
-            return value;
+            let outputLabel = parseInt(value) + parseInt(labelOffset);
+            return outputLabel;
         }
     };
 
