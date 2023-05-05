@@ -3,7 +3,7 @@ import PanelPG800 from './panel-pg800.js'
 import PanelPatch from './panel-patch.js'
 import { SettingsContext } from '../context/settingsContext.js';
 import Title from '../title/title.js';
-import * as styles from './panel.module.scss';
+import styles from './panel.module.scss';
 
 const PanelMKS = (props) => {
 

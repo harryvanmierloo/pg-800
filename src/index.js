@@ -7,7 +7,7 @@ import PanelMKS from './components/panels/panel-mks.js';
 import PanelMKSVecoven4 from './components/panels/panel-mks-vecoven4.js';
 import { SettingsContext, SettingsProvider } from './components/context/settingsContext.js';
 import { PanelProvider } from './components/context/panelContext.js';
-import * as styles from './index.module.scss';
+import styles from './index.module.scss';
 import classNames from 'classnames';
 
 function App() {

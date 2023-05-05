@@ -5,7 +5,7 @@ import { Knob } from 'react-rotary-knob';
 import { SettingsContext } from '../context/settingsContext.js';
 import { usePanelState } from '../context/panelContext.js';
 import knobSkin from './knobSkin';
-import * as styles from './knob.module.scss';
+import styles from './knob.module.scss';
 
 const KnobControl = (props) => {
 

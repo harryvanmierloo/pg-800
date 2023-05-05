@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import update from 'immutability-helper';
 import MKS from '../MKS-70/MKS-70';
 import { Context } from '../context/context.js';
-import * as styles from './multitoggle.module.scss';
+import styles from './multitoggle.module.scss';
 
 const MultiToggle = (props) => {
 

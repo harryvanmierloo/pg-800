@@ -4,7 +4,7 @@ import mksVecoven4 from '../synth/mks-vecoven4.js';
 import { SettingsContext } from '../context/settingsContext.js';
 import { usePanelState } from '../context/panelContext.js';
 import classNames from 'classnames';
-import * as styles from './slider.module.scss';
+import styles from './slider.module.scss';
 
 const Slider = (props) => {
 

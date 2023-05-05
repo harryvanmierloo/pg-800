@@ -3,7 +3,7 @@ import { SettingsContext } from '../context/settingsContext.js';
 import { usePanelDispatch } from '../context/panelContext.js';
 import Slider from '../slider/slider.js';
 import KnobControl from '../knob/knob.js';
-import * as styles from './panel.module.scss';
+import styles from './panel.module.scss';
 
 const PanelVecoven4 = (props) => {
     const tone = (props.tone !== undefined) ? props.tone : "A";

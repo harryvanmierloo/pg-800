@@ -140,6 +140,7 @@ const mks = {
             label: "MODE",
             min: 0,
             max: 96,
+            defaultValue: 96,
             marks: [
                 { value: 0, label: "ENV2-" },
                 { value: 32, label: "ENV2+" },
@@ -184,6 +185,7 @@ const mks = {
             label: "MODE",
             min: 0,
             max: 96,
+            defaultValue: 32,
             marks: [
                 { value: 0, label: "ENV2-" },
                 { value: 32, label: "ENV2+" },
@@ -252,6 +254,7 @@ const mks = {
             label: "MODE",
             min: 0,
             max: 96,
+            defaultValue: 96,
             marks: [
                 { value: 0, label: "ENV2-" },
                 { value: 32, label: "ENV2+" },
@@ -327,6 +330,7 @@ const mks = {
         49: {
             name: "ENV-1 SUSTAIN LEVEL",
             label: "SUSTAIN",
+            defaultValue: 127,
             min: 0,
             max: 127
         },
@@ -363,6 +367,7 @@ const mks = {
         54: {
             name: "ENV-2 SUSTAIN LEVEL",
             label: "SUSTAIN",
+            defaultValue: 127,
             min: 0,
             max: 127
         },
@@ -392,6 +397,7 @@ const mks = {
             label: "MODE",
             min: 0,
             max: 64,
+            defaultValue: 64,
             marks: [
                 { value: 0, label: "Gate" },
                 { value: 64, label: "ENV-2" }

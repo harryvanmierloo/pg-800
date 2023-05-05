@@ -3,7 +3,7 @@ import update from 'immutability-helper';
 import WebMidi from "webmidi";
 import { SettingsContext } from '../context/settingsContext.js';
 import { usePanelDispatch } from '../context/panelContext.js';
-import * as styles from './settings.module.scss';
+import styles from './settings.module.scss';
 
 const Settings = (props) => {
 
